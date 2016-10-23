@@ -20,10 +20,10 @@ def get_valid_input(max_choice):
 
     return user_choice
 
-def get_battle_choice():
+def get_battle_choice(player, enemy):
     print("------");
     print("\t# " + enemy.name + " appears! #\n");
-    print("\tYour HP is: " + playerHealth)
+    print("\tYour HP is: " + player.health)
     print("\t" + enemy.name + "'s HP: " + enemy.health)
     print("\n\tWhat would you like to do?")
     print("\t1. Attack")
@@ -44,12 +44,31 @@ def get_idle_choice():
 
     return get_valid_input(4)
 
+def fight_common_enemy(player):
+    current_enemy = enemies[random.randint(len(enemies))]
+
+    while (fighting && current_enemy.is_alive() && player.is_alive()):
+        battle_choice = get_battle_choice(player, current_enemy)
+        if (battle_choice == 1):
+            damage_dealt = random.randint(player.strength)
+            damage_taken = random.randint(current_enemy.strength)
+            current_enemy.health -= damage_dealt
+            player.health -= damage_taken
+            print("\t> You strike the " + current_enemy.name + " for " + str(damage_dealt) + " damage.")
+            print("\t> You receive " + str(damage_taken) + " in retaliation!")
+        # if (battle_choice == 2):
+        #     if (player.)
+
+
+
+
 def run_game():
     player = Character("The player", 100, 30, 20, [])
     enemies = init_enemies()
     while True:
-        if (get_idle_choice() == 1):
-
+        idle_choice = get_idle_choice()
+        if (idle_choice == 1):
+            fight_common_enemy(player)
 
 
 if __name__ == "__main__":

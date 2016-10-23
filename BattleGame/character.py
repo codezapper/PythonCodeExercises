@@ -10,5 +10,10 @@ class Character:
         self.inventory = inventory
         self.max_random_damage = max_random_damage
 
+    def is_alive(self):
+        if self.health > 1:
+            return True
+        return False
+
     def base_attack(self):
         return self.strength + random.randint(0, self.max_random_damage)
