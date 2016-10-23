@@ -14,7 +14,7 @@ def init_enemies():
 
 def get_valid_input(max_choice):
     user_choice = raw_input()
-    while (user_choice < 1) && (user_choice > max_choice):
+    while (user_choice < 1) and (user_choice > max_choice):
         print "Invalid choice"
         user_choice = raw_input()
 
@@ -32,32 +32,40 @@ def get_battle_choice(player, enemy):
     print("\t4. Run!")
     print("------")
 
-    return get_valid_input(4)
+    return int(get_valid_input(4))
 
 def get_idle_choice():
-    print("------")
+    print("------------------------------")
     print("\t1. Fight")
     print("\t2. Visit the shop")
     print("\t3. Sacrifice Illbane...")
     print("\t4. Exit dungeon")
-    print("------")
+    print("------------------------------")
 
-    return get_valid_input(4)
+    return int(get_valid_input(4))
 
-def fight_common_enemy(player):
-    current_enemy = enemies[random.randint(len(enemies))]
+def fight_common_enemy(player, enemy=None):
+    if (enemy == None):
+        enemy = enemies[random.randint(len(enemies))]
 
-    while (fighting && current_enemy.is_alive() && player.is_alive()):
-        battle_choice = get_battle_choice(player, current_enemy)
+    fighting = True
+    print enemy.is_alive()
+    print player.is_alive()
+
+    while (fighting and enemy.is_alive() and player.is_alive()):
+        battle_choice = get_battle_choice(player, enemy)
         if (battle_choice == 1):
             damage_dealt = random.randint(player.strength)
-            damage_taken = random.randint(current_enemy.strength)
-            current_enemy.health -= damage_dealt
+            damage_taken = random.randint(enemy.strength)
+            enemy.health -= damage_dealt
             player.health -= damage_taken
-            print("\t> You strike the " + current_enemy.name + " for " + str(damage_dealt) + " damage.")
+            print("\t> You strike the " + enemy.name + " for " + str(damage_dealt) + " damage.")
             print("\t> You receive " + str(damage_taken) + " in retaliation!")
-        # if (battle_choice == 2):
-        #     if (player.)
+        if (battle_choice == 4):
+            print("------")
+            print("\tYou run away from the " + enemy.name + "!");
+            print("------")
+            fighting = false
 
 
 
