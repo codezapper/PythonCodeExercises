@@ -1,5 +1,7 @@
 import random
 
+## Randomize gold if not specified
+
 class Character:
     def __init__(self, name, initial_health, initial_strength, max_random_damage, inventory):
         self.name = name
@@ -9,6 +11,7 @@ class Character:
         self.strength = initial_strength
         self.inventory = inventory
         self.max_random_damage = max_random_damage
+        self.gold = 10
 
     def is_alive(self):
         if self.health > 1:
