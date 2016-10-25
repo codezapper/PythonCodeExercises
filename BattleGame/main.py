@@ -98,11 +98,15 @@ def fight_common_enemy(player, enemy=None):
                 if (player.health > player.initial_health):
                     player.health = player.initial_health
                 player.inventory.remove(potion_types[0])
+            else:
+                print("\tYou don't have any health potions!")
         if (battle_choice == 3):
             if (potion_types[1] in player.inventory):
                 player.strength *= potion_types[1].strength_bonus
                 print("You drink a strength potion. Your strength is now " + str(player.strength))
                 player.inventory.remove(potion_types[1])
+            else:
+                print("\tYou don't have any strength potions!")
         if (battle_choice == 4):
             print("------")
             print("\tYou run away from the " + enemy.name + "!");
@@ -123,11 +127,10 @@ def fight_common_enemy(player, enemy=None):
 def run_game():
     global enemies, shop_items, potion_types
 
-    player = Character("The player", 100, 30, 20, [])
-    player.gold = 1000
     enemies = init_enemies()
     shop_items = init_shop()
-    player.inventory.append(potion_types[0])
+    player = Character("The player", 100, 30, 20, [potion_types[0]])
+    player.gold = 1000
 
     must_quit = False
     while player.is_alive() and not must_quit:
