@@ -3,6 +3,7 @@
 
 import random
 from character import Character
+from player import Player
 from shopitem import ShopItem
 from potion import Potion
 
@@ -36,6 +37,7 @@ def init_shop():
         ShopItem("Steel Gauntlets", 250, 7, 0, 0),
         ShopItem("Illbane", 2500, 0, 0, 1),
     ]
+
     potion_types = [
         Potion("Health Potion", 100, 30, 0, 50),
         Potion("Strength Potion", 500, 0, 2, 50)
@@ -47,20 +49,20 @@ def get_valid_input(max_choice):
         print "Invalid choice"
         user_choice = raw_input()
 
-    return user_choice
+    return int(user_choice)
 
 def get_battle_choice(player, enemy):
     print("------");
     print("\tYour HP is: " + str(player.health))
+    print("\tYour strength is: " + str(player.strength))
     print("\t" + enemy.name + "'s HP: " + str(enemy.health))
     print("\n\tWhat would you like to do?")
     print("\t1. Attack")
-    print("\t2. Drink health potion")
-    print("\t3. Drink strength potion")
-    print("\t4. Run!")
+    print("\t2. Drink potion")
+    print("\t3. Run!")
     print("------")
 
-    return int(get_valid_input(4))
+    return get_valid_input(3)
 
 def get_idle_choice():
     print("------------------------------")
@@ -70,7 +72,33 @@ def get_idle_choice():
     print("\t4. Exit dungeon")
     print("------------------------------")
 
-    return int(get_valid_input(4))
+    return get_valid_input(4)
+
+def get_potion_choice():
+    index = 0
+
+    print("------------------------------")
+    for potion in potion_types:
+        index += 1
+        print("\t" + str(index) + ". " + potion.name)
+    print("------------------------------")
+
+    return potion_types[get_valid_input(index)-1]
+
+
+def get_shop_choice();
+    print("------------------------------")
+    print("What would you like to buy?")
+    for shopitem in shop_items:
+        index += 1
+        print("\t" + str(index) + ". " + shopitem.name)
+
+    print("------------------------------")
+
+    return shop_items[get_valid_input(index)-1]
+
+def visit_shop(player):
+
 
 def fight_common_enemy(player, enemy=None):
     global enemies, potion_types
@@ -92,21 +120,11 @@ def fight_common_enemy(player, enemy=None):
             print("\t> You strike the " + enemy.name + " for " + str(damage_dealt) + " damage.")
             print("\t> You receive " + str(damage_taken) + " in retaliation!")
         if (battle_choice == 2):
-            if (potion_types[0] in player.inventory):
-                player.health += potion_types[0].health_bonus
-                print("You drink a health potion. You recover " + str(potion_types[0].health_bonus))
-                if (player.health > player.initial_health):
-                    player.health = player.initial_health
-                player.inventory.remove(potion_types[0])
+            potion = get_potion_choice()
+            if (potion in player.inventory):
+                player.drink(potion)
             else:
-                print("\tYou don't have any health potions!")
-        if (battle_choice == 3):
-            if (potion_types[1] in player.inventory):
-                player.strength *= potion_types[1].strength_bonus
-                print("You drink a strength potion. Your strength is now " + str(player.strength))
-                player.inventory.remove(potion_types[1])
-            else:
-                print("\tYou don't have any strength potions!")
+                print("\tYou don't have any " + potion.name + "!")
         if (battle_choice == 4):
             print("------")
             print("\tYou run away from the " + enemy.name + "!");
@@ -129,7 +147,7 @@ def run_game():
 
     enemies = init_enemies()
     shop_items = init_shop()
-    player = Character("The player", 100, 30, 20, [potion_types[0]])
+    player = Player("The player", 100, 30, 20, [potion_types[0]])
     player.gold = 1000
 
     must_quit = False
@@ -137,6 +155,8 @@ def run_game():
         idle_choice = get_idle_choice()
         if (idle_choice == 1):
             fight_common_enemy(player)
+        if (idle_choice == 2):
+            visit_shop(player)
         if (idle_choice == 4):
             must_quit = True
 
