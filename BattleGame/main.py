@@ -1,5 +1,5 @@
-## Check difference between randint and randrange
-## Move "enemies" variable so it's not global
+# Check difference between randint and randrange
+# Move "enemies" variable so it's not global
 
 import random
 from character import Character
@@ -11,15 +11,21 @@ enemies = []
 shop_items = []
 potion_types = []
 
+
 def init_enemies():
     enemy_list = [
-        Character("Kobold", random.randint(50, 150), 25, 10, random.randint(0, 1000), []),
-        Character("Kobold Warrior", random.randint(70, 220), 30, 20, random.randint(0, 1000), []),
-        Character("Kobold Archer", random.randint(90, 290), 40, 30, random.randint(0, 1000), []),
-        Character("Kobold Overseer", random.randint(150, 400), 50, 40, random.randint(0, 1000), [])
+        Character("Kobold", random.randint(50, 150),
+                  25, 10, random.randint(0, 1000), []),
+        Character("Kobold Warrior", random.randint(70, 220),
+                  30, 20, random.randint(0, 1000), []),
+        Character("Kobold Archer", random.randint(90, 290),
+                  40, 30, random.randint(0, 1000), []),
+        Character("Kobold Overseer", random.randint(
+            150, 400), 50, 40, random.randint(0, 1000), [])
     ]
 
     return enemy_list
+
 
 def init_shop():
     global shop_items, potion_types
@@ -39,20 +45,21 @@ def init_shop():
     ]
 
     potion_types = [
-        Potion("Health Potion", 100, 30, 0, 50),
+        Potion("Health Potion", 100, 30, 1, 50),
         Potion("Strength Potion", 500, 0, 2, 50)
     ]
+
 
 def get_valid_input(max_choice):
     user_choice = raw_input()
     while (user_choice < 1) and (user_choice > max_choice):
         print "Invalid choice"
         user_choice = raw_input()
-
     return int(user_choice)
 
+
 def get_battle_choice(player, enemy):
-    print("------");
+    print("------")
     print("\tYour HP is: " + str(player.health))
     print("\tYour strength is: " + str(player.strength))
     print("\t" + enemy.name + "'s HP: " + str(enemy.health))
@@ -64,6 +71,7 @@ def get_battle_choice(player, enemy):
 
     return get_valid_input(3)
 
+
 def get_idle_choice():
     print("------------------------------")
     print("\t1. Fight")
@@ -74,41 +82,63 @@ def get_idle_choice():
 
     return get_valid_input(4)
 
-def get_potion_choice():
-    index = 0
 
+def get_potion_choice():
     print("------------------------------")
+    index = 0
     for potion in potion_types:
         index += 1
         print("\t" + str(index) + ". " + potion.name)
     print("------------------------------")
 
-    return potion_types[get_valid_input(index)-1]
+    return potion_types[get_valid_input(index) - 1]
 
 
 def get_shop_choice():
+    global shop_items
+
     print("------------------------------")
     print("What would you like to buy?")
+    index = 0
     for shopitem in shop_items:
         index += 1
         print("\t" + str(index) + ". " + shopitem.name)
-
+    print("\t" + str(index + 1) + ". Exit shop")
     print("------------------------------")
 
-    return shop_items[get_valid_input(index)-1]
+    user_choice = get_valid_input(index + 1)
+    if user_choice <= len(shop_items):
+        return shop_items[user_choice - 1]
+
+    return None
+
 
 def visit_shop(player):
-    if (get_shop_choice() == len(shop_items)):
-        print("Goodbye")
-    else:
+    staying_in_shop = True
+
+    while (staying_in_shop):
+        chosen_item = get_shop_choice()
+        if (chosen_item == None):
+            print("Goodbye")
+            staying_in_shop = False
+        else:
+            if (player.gold >= chosen_item.cost):
+                player.gold -= chosen_item.cost
+                player.inventory.append(chosen_item)
+                player.initial_strength += chosen_item.strength_bonus
+                staying_in_shop = False
+                print("You got " + chosen_item.name)
+            else:
+                print("You don't have enough gold!")
+
 
 def fight_common_enemy(player, enemy=None):
     global enemies, potion_types
 
     if (enemy == None):
-        enemy = enemies[random.randint(0, len(enemies)-1)]
+        enemy = enemies[random.randint(0, len(enemies) - 1)]
 
-    print("\t# " + enemy.name + " appears! #\n");
+    print("\t# " + enemy.name + " appears! #\n")
 
     fighting = True
 
@@ -119,7 +149,8 @@ def fight_common_enemy(player, enemy=None):
             damage_taken = random.randint(0, enemy.strength - 1)
             enemy.health -= damage_dealt
             player.health -= damage_taken
-            print("\t> You strike the " + enemy.name + " for " + str(damage_dealt) + " damage.")
+            print("\t> You strike the " + enemy.name +
+                  " for " + str(damage_dealt) + " damage.")
             print("\t> You receive " + str(damage_taken) + " in retaliation!")
         if (battle_choice == 2):
             potion = get_potion_choice()
@@ -127,9 +158,9 @@ def fight_common_enemy(player, enemy=None):
                 player.drink(potion)
             else:
                 print("\tYou don't have any " + potion.name + "!")
-        if (battle_choice == 4):
+        if (battle_choice == 3):
             print("------")
-            print("\tYou run away from the " + enemy.name + "!");
+            print("\tYou run away from the " + enemy.name + "!")
             print("------")
             fighting = False
 
@@ -139,8 +170,9 @@ def fight_common_enemy(player, enemy=None):
 
     if (not enemy.is_alive()):
         print("------")
-        print("\t" + enemy.name + " has been defeated!");
-        print("\tYou find " + str(enemy.gold) + " gold on the " + enemy.name + "!");
+        print("\t" + enemy.name + " has been defeated!")
+        print("\tYou find " + str(enemy.gold) +
+              " gold on the " + enemy.name + "!")
         player.gold += enemy.gold
         print("------")
 
@@ -149,9 +181,8 @@ def run_game():
     global enemies, shop_items, potion_types
 
     enemies = init_enemies()
-    shop_items = init_shop()
-    player = Player("The player", 100, 30, 20, [potion_types[0]])
-    player.gold = 1000
+    init_shop()
+    player = Player("The player", 100, 30, 20, 1000, [potion_types[0]])
 
     must_quit = False
     while player.is_alive() and not must_quit:

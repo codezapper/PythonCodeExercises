@@ -12,6 +12,7 @@ class Character:
         self.inventory = inventory
         self.max_random_damage = max_random_damage
         self.gold = gold
+        self.armor = 0
 
     def is_alive(self):
         if self.health > 1:
