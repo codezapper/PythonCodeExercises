@@ -13,10 +13,10 @@ potion_types = []
 
 def init_enemies():
     enemy_list = [
-        Character("Kobold", random.randint(50, 150), 25, 10, []),
-        Character("Kobold Warrior", random.randint(70, 220), 30, 20, []),
-        Character("Kobold Archer", random.randint(90, 290), 40, 30, []),
-        Character("Kobold Overseer", random.randint(150, 400), 50, 40, [])
+        Character("Kobold", random.randint(50, 150), 25, 10, random.randint(0, 1000), []),
+        Character("Kobold Warrior", random.randint(70, 220), 30, 20, random.randint(0, 1000), []),
+        Character("Kobold Archer", random.randint(90, 290), 40, 30, random.randint(0, 1000), []),
+        Character("Kobold Overseer", random.randint(150, 400), 50, 40, random.randint(0, 1000), [])
     ]
 
     return enemy_list
@@ -86,7 +86,7 @@ def get_potion_choice():
     return potion_types[get_valid_input(index)-1]
 
 
-def get_shop_choice();
+def get_shop_choice():
     print("------------------------------")
     print("What would you like to buy?")
     for shopitem in shop_items:
@@ -98,7 +98,9 @@ def get_shop_choice();
     return shop_items[get_valid_input(index)-1]
 
 def visit_shop(player):
-
+    if (get_shop_choice() == len(shop_items)):
+        print("Goodbye")
+    else:
 
 def fight_common_enemy(player, enemy=None):
     global enemies, potion_types
@@ -139,6 +141,7 @@ def fight_common_enemy(player, enemy=None):
         print("------")
         print("\t" + enemy.name + " has been defeated!");
         print("\tYou find " + str(enemy.gold) + " gold on the " + enemy.name + "!");
+        player.gold += enemy.gold
         print("------")
 
 
