@@ -1,4 +1,5 @@
 import random
+from potion import Potion
 
 ## Randomize gold if not specified
 
@@ -13,6 +14,7 @@ class Character:
         self.max_random_damage = max_random_damage
         self.gold = gold
         self.armor = 0
+        self.illbane = 1
 
     def is_alive(self):
         if self.health > 1:
@@ -20,4 +22,10 @@ class Character:
         return False
 
     def do_attack(self):
-        return random.randint(self.strength, self.max_random_damage)
+        return random.randint(0, self.max_random_damage)
+
+    def get_dropped_object(self):
+        chance = random.randint(0, 2)
+        if (chance >= 1):
+            return Potion("Health Potion", 100, 30, 1, 50)
+        return None
