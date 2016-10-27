@@ -157,7 +157,7 @@ def fight_common_enemy(player, enemy=None):
         battle_choice = get_battle_choice(player, enemy)
         if (battle_choice == 1):
             damage_dealt = random.randint(0, player.strength - 1)
-            damage_taken = random.randint(0, enemy.strength - 1)
+            damage_taken = enemy.do_attack()
             enemy.health -= damage_dealt
             player.health -= damage_taken
             print("\t> You strike the " + enemy.name +

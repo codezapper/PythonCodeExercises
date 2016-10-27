@@ -19,5 +19,5 @@ class Character:
             return True
         return False
 
-    def base_attack(self):
-        return self.strength + random.randint(0, self.max_random_damage)
+    def do_attack(self):
+        return random.randint(self.strength, self.max_random_damage)
