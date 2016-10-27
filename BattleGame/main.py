@@ -99,10 +99,11 @@ def get_shop_choice():
 
     print("------------------------------")
     print("What would you like to buy?")
+    print("\t  . {:20}| {:>5}|{:>5}|".format("Item", "Armor", "Strength"))
     index = 0
     for shopitem in shop_items:
         index += 1
-        print("\t" + str(index) + ". " + shopitem.name)
+        print("\t{:02}. {:20}| {:>5}|{:>5}|".format(index, shopitem.name, shopitem.armor_bonus, shopitem.strength_bonus))
     print("\t" + str(index + 1) + ". Exit shop")
     print("------------------------------")
 
@@ -122,12 +123,17 @@ def visit_shop(player):
             print("Goodbye")
             staying_in_shop = False
         else:
+            if (chosen_item in player.inventory):
+                print("You already have " + chosen_item.name + "!")
+                continue
+
             if (player.gold >= chosen_item.cost):
                 player.gold -= chosen_item.cost
                 player.inventory.append(chosen_item)
-                player.initial_strength += chosen_item.strength_bonus
+                player.base_strength += chosen_item.strength_bonus
+                player.base_health += chosen_item.armor_bonus / 2
                 staying_in_shop = False
-                print("You got " + chosen_item.name)
+                print("You got " + chosen_item.name + "!")
             else:
                 print("You don't have enough gold!")
 

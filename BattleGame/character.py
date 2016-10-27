@@ -3,12 +3,12 @@ import random
 ## Randomize gold if not specified
 
 class Character:
-    def __init__(self, name, initial_health, initial_strength, max_random_damage, gold, inventory):
+    def __init__(self, name, base_health, base_strength, max_random_damage, gold, inventory):
         self.name = name
-        self.initial_health = initial_health
-        self.health = initial_health
-        self.initial_strength = initial_strength
-        self.strength = initial_strength
+        self.base_health = base_health
+        self.health = base_health
+        self.base_strength = base_strength
+        self.strength = base_strength
         self.inventory = inventory
         self.max_random_damage = max_random_damage
         self.gold = gold
