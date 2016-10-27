@@ -99,11 +99,11 @@ def get_shop_choice():
 
     print("------------------------------")
     print("What would you like to buy?")
-    print("\t  . {:20}| {:>5}|{:>5}|".format("Item", "Armor", "Strength"))
+    print("\t  . {:20}| {:>8}|{:>8}|".format("Item", "Armor", "Strength"))
     index = 0
     for shopitem in shop_items:
         index += 1
-        print("\t{:02}. {:20}| {:>5}|{:>5}|".format(index, shopitem.name, shopitem.armor_bonus, shopitem.strength_bonus))
+        print("\t{:02}. {:20}| {:>8}|{:>8}|".format(index, shopitem.name, shopitem.armor_bonus, shopitem.strength_bonus))
     print("\t" + str(index + 1) + ". Exit shop")
     print("------------------------------")
 
@@ -116,11 +116,11 @@ def get_shop_choice():
 
 def visit_shop(player):
     staying_in_shop = True
+    staying_in_potion_shop = True
 
     while (staying_in_shop):
         chosen_item = get_shop_choice()
         if (chosen_item == None):
-            print("Goodbye")
             staying_in_shop = False
         else:
             if (chosen_item in player.inventory):
@@ -136,6 +136,11 @@ def visit_shop(player):
                 print("You got " + chosen_item.name + "!")
             else:
                 print("You don't have enough gold!")
+
+    while (staying_in_potion_shop):
+        if (chosen_potion == None):
+            staying_in_potion_shop = False
+            print("Goodbye")
 
 
 def fight_common_enemy(player, enemy=None):
