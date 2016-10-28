@@ -95,21 +95,24 @@ def get_potion_choice():
 
 
 def get_shop_choice():
-    global shop_items
+    global shop_items, potion_types
+
+    all_items = shop_items + potion_types
 
     print("------------------------------")
     print("What would you like to buy?")
-    print("\t  . {:20}| {:>8}|{:>8}|".format("Item", "Armor", "Strength"))
+    print("\t  . {:20}| {:>8}|{:>8}|".format("Item", "Health", "Strength"))
     index = 0
-    for shopitem in shop_items:
+    for shopitem in all_items:
         index += 1
-        print("\t{:2}. {:20}| {:>8}|{:>8}|".format(index, shopitem.name, shopitem.armor_bonus, shopitem.strength_bonus))
+        print("\t{:2}. {:20}| {:>8}|{:>8}|".format(
+            index, shopitem.name, shopitem.health_bonus, shopitem.strength_bonus))
     print("\t" + str(index + 1) + ". Exit shop")
     print("------------------------------")
 
     user_choice = get_valid_input(index + 1)
-    if user_choice <= len(shop_items):
-        return shop_items[user_choice - 1]
+    if user_choice <= len(all_items):
+        return all_items[user_choice - 1]
 
     return None
 
@@ -123,25 +126,22 @@ def visit_shop(player):
         if (chosen_item == None):
             staying_in_shop = False
         else:
-            if (chosen_item in player.inventory):
+            if (chosen_item.is_wearable) and (chosen_item in player.inventory):
                 print("You already have " + chosen_item.name + "!")
                 continue
 
             if (player.gold >= chosen_item.cost):
                 player.gold -= chosen_item.cost
                 player.inventory.append(chosen_item)
-                player.base_strength += chosen_item.strength_bonus
-                player.base_health += chosen_item.armor_bonus / 2
+                if (chosen_item.is_wearable):
+                    player.base_strength += chosen_item.strength_bonus
+                    player.base_health += chosen_item.health_bonus / 2
                 staying_in_shop = False
                 print("You got " + chosen_item.name + "!")
             else:
                 print("You don't have enough gold!")
 
-    while (staying_in_potion_shop):
-        chosen_potion = get_potion_choice()
-        if (chosen_potion == None):
-            staying_in_potion_shop = False
-            print("Goodbye")
+    print("Goodbye")
 
 
 def fight_common_enemy(player, enemy=None):
