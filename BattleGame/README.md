@@ -1,6 +1,5 @@
 ### General description
 ======
-
 This is a very simple text game to make practice with Python classes.
 The basic idea of the game is to have a character (the "player") move from
 battle to battle, with breaks in-between to visit a shop that allows to buy
@@ -13,7 +12,6 @@ The goal of the game is to survive as long as possible to get the highest score.
 
 ### Functional specifications
 ======
-
 - The player starts with 100 HP, 30 strength, 20 as the maximum random damage,
 1000 gold and an health potion.
 - Initially the player can:
@@ -25,7 +23,6 @@ enough illbane for this to happen.
 
 ### Battle system
 ======
-
 - During the fight the player can:
   - Attack the enemy. This means that the enemy will also attack the player.
 The player attack damage is subtracted from the enemy's health and the enemy's
@@ -40,3 +37,14 @@ based on the enemy value.
     - Strength potion. This increases the player's attack allowing to do more damage.
   - Run from the battle. This ends the current battle and sends the player back to
   the main actions choice.
+
+### Shop system
+======
+- In the shop the player can buy either an item or a potion.
+- Every item has a specific cost, armor bonus and strength bonus. These are added
+to the player stats when they're bought.
+- Every potion has a specific value for how much health it will recover, or how much
+strength it will increase. The effect of strength potion is canceled when a fight is
+terminated, either by winning or by running away.
+- Internally, to determine if the bonus should be added immediately or only on consumption,
+the item has a "wearable" attribute that determines the kind of item.
