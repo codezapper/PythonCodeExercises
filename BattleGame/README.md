@@ -1,7 +1,7 @@
+### General description
+======
+
 This is a very simple text game to make practice with Python classes.
-
-General description
-
 The basic idea of the game is to have a character (the "player") move from
 battle to battle, with breaks in-between to visit a shop that allows to buy
 a single random wearable item and some potions.
@@ -11,16 +11,21 @@ The player can obtain "illbane" by eniemes that drop it when defeated, or
 save money to buy it in the shop.
 The goal of the game is to survive as long as possible to get the highest score.
 
-Functional specifications
+### Functional specifications
+======
 
 - The player starts with 100 HP, 30 strength, 20 as the maximum random damage,
 1000 gold and an health potion.
 - Initially the player can:
-  - Start a fight. This triggers the battle choices menu.
+  - Start a fight. This triggers the battle choices menu. The enemy will be randomly chosen.
   - Visit the shop. This triggers the shop choices menu. Both items and potions
 are available.
-  - Sacrifice illbale. This triggers a hard battle. The player needs to have
+  - Sacrifice illbane. This triggers a hard battle. The player needs to have
 enough illbane for this to happen.
+
+### Battle system
+======
+
 - During the fight the player can:
   - Attack the enemy. This means that the enemy will also attack the player.
 The player attack damage is subtracted from the enemy's health and the enemy's
