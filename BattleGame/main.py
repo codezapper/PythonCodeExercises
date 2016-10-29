@@ -4,8 +4,7 @@
 import random
 from character import Character
 from player import Player
-from shopitem import ShopItem
-from potion import Potion
+from item import Item
 
 enemies = []
 shop_items = []
@@ -31,22 +30,22 @@ def init_shop():
     global shop_items, potion_types
 
     shop_items = [
-        ShopItem("Silver Sword", 1000, 0, 100, 0),
-        ShopItem("Steel Sword", 250, 0, 25, 0),
-        ShopItem("Iron Helmet", 150, 10, 0, 0),
-        ShopItem("Iron Chestplate", 200, 18, 0, 0),
-        ShopItem("Iron Boots", 100, 8, 0, 0),
-        ShopItem("Iron Gauntlets", 75, 5, 0, 0),
-        ShopItem("Steel Helmet", 400, 5, 0, 0),
-        ShopItem("Steel Chestplate", 600, 10, 10, 0),
-        ShopItem("Steel Boots", 300, 10, 0, 0),
-        ShopItem("Steel Gauntlets", 250, 7, 0, 0),
-        ShopItem("Illbane", 2500, 0, 0, 1),
+        Item("Silver Sword",  1000, 0, 100, True, 0),
+        Item("Steel Sword", 250, 0, 25, True, 0),
+        Item("Iron Helmet", 150, 10, 0, True, 0),
+        Item("Iron Chestplate", 200, 18, 0, True, 0),
+        Item("Iron Boots", 100, 8, 0, True, 0),
+        Item("Iron Gauntlets", 75, 5, 0, True, 0),
+        Item("Steel Helmet", 400, 5, 0, True, 0),
+        Item("Steel Chestplate", 600, 10, 10, True, 0),
+        Item("Steel Boots", 300, 10, 0, True, 0),
+        Item("Steel Gauntlets", 250, 7, 0, True, 0),
+        Item("Illbane", 2500, 0, 0, False, 1),
     ]
 
     potion_types = [
-        Potion("Health Potion", 100, 30, 1, 50),
-        Potion("Strength Potion", 500, 0, 2, 50)
+        Item("Health Potion", 100, 30, 1, False, 0),
+        Item("Strength Potion", 500, 0, 2, False, 0)
     ]
 
 
@@ -60,24 +59,25 @@ def get_valid_input(max_choice):
 
 def get_battle_choice(player, enemy):
     print("------")
-    print("\tYour HP is: " + str(player.health))
-    print("\tYour strength is: " + str(player.strength))
-    print("\t" + enemy.name + "'s HP: " + str(enemy.health))
-    print("\n\tWhat would you like to do?")
-    print("\t1. Attack")
-    print("\t2. Drink potion")
-    print("\t3. Run!")
+    print(" Your HP is: " + str(player.health))
+    print(" Your strength is: " + str(player.strength))
+    print(" " + enemy.name + "'s HP: " + str(enemy.health))
+    print("\n What would you like to do?")
+    print(" 1. Attack")
+    print(" 2. Drink potion")
+    print(" 3. Run!")
     print("------")
 
     return get_valid_input(3)
 
 
-def get_idle_choice():
+def get_idle_choice(player):
+    display_status(player)
     print("------------------------------")
-    print("\t1. Fight")
-    print("\t2. Visit the shop")
-    print("\t3. Sacrifice Illbane...")
-    print("\t4. Exit dungeon")
+    print(" 1. Fight")
+    print(" 2. Visit the shop")
+    print(" 3. Sacrifice Illbane...")
+    print(" 4. Exit dungeon")
     print("------------------------------")
 
     return get_valid_input(4)
@@ -88,7 +88,7 @@ def get_potion_choice():
     index = 0
     for potion in potion_types:
         index += 1
-        print("\t" + str(index) + ". " + potion.name)
+        print(" " + str(index) + ". " + potion.name)
     print("------------------------------")
 
     return potion_types[get_valid_input(index) - 1]
@@ -117,6 +117,15 @@ def get_shop_choice():
     return None
 
 
+def display_status(player):
+    print('{s:{c}^{n}}'.format(s='', n=20, c='#'))
+    print('# {:16} #'.format('Health: ' + str(player.health)))
+    print('# {:16} #'.format('Strength: ' + str(player.strength)))
+    print('# {:16} #'.format('Illbane: ' + str(player.illbane)))
+    print('# {:16} #'.format('Gold: ' + str(player.gold)))
+    print('{s:{c}^{n}}'.format(s='', n=20, c='#'))
+
+
 def visit_shop(player):
     staying_in_shop = True
     staying_in_potion_shop = True
@@ -133,6 +142,7 @@ def visit_shop(player):
             if (player.gold >= chosen_item.cost):
                 player.gold -= chosen_item.cost
                 player.inventory.append(chosen_item)
+                player.illbane += chosen_item.illbane
                 if (chosen_item.is_wearable):
                     player.base_strength += chosen_item.strength_bonus
                     player.base_health += chosen_item.health_bonus / 2
@@ -155,6 +165,7 @@ def fight_common_enemy(player, enemy=None):
     fighting = True
 
     while (fighting and enemy.is_alive() and player.is_alive()):
+        display_status(player)
         battle_choice = get_battle_choice(player, enemy)
         if (battle_choice == 1):
             damage_dealt = random.randint(0, player.strength - 1)
@@ -181,16 +192,19 @@ def fight_common_enemy(player, enemy=None):
         return
 
     if (not enemy.is_alive()):
+        dropped_illbane = random.randint(1, 3)
+        player.illbane += dropped_illbane
         print("------")
         print("\t" + enemy.name + " has been defeated!")
         print("\tYou find " + str(enemy.gold) +
               " gold on the " + enemy.name + "!")
+        print("\tYou collect " + str(dropped_illbane) +
+              " from " + enemy.name + "!")
         player.gold += enemy.gold
         item = enemy.get_dropped_object()
         if item != None:
             print("\t" + enemy.name + " has dropped " + item.name + "!")
             player.inventory.append(item)
-        player.illbane += 1
         print("------")
 
 
@@ -203,11 +217,13 @@ def run_game():
 
     must_quit = False
     while player.is_alive() and not must_quit:
-        idle_choice = get_idle_choice()
+        idle_choice = get_idle_choice(player)
         if (idle_choice == 1):
             fight_common_enemy(player)
         if (idle_choice == 2):
             visit_shop(player)
+        if (idle_choice == 3):
+            sacrifice_illbane(player)
         if (idle_choice == 4):
             must_quit = True
 
