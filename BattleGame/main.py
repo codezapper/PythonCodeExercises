@@ -1,17 +1,33 @@
 # Check difference between randint and randrange
-# Move "enemies" variable so it's not global
+# Move "common_enemies" variable so it's not global
 
 import random
 from character import Character
 from player import Player
 from item import Item
 
-enemies = []
+bosses = []
+common_enemies = []
 shop_items = []
 potion_types = []
 
 
-def init_enemies():
+def init_bosses():
+    bosses_list = [
+        Character("White Dragon", random.randint(150, 250),
+                  40, 15, random.randint(0, 10000), []),
+        Character("Blue Dragon", random.randint(160, 230),
+                  45, 25, random.randint(0, 10000), []),
+        Character("Red Dragon", random.randint(170, 220),
+                  50, 35, random.randint(0, 10000), []),
+        Character("Black Dragon", random.randint(200, 250),
+                  60, 50, random.randint(0, 10000), [])
+    ]
+
+    return bosses_list
+
+
+def init_common_enemies():
     enemy_list = [
         Character("Kobold", random.randint(50, 150),
                   25, 10, random.randint(0, 1000), []),
@@ -51,8 +67,8 @@ def init_shop():
 
 def get_valid_input(max_choice):
     user_choice = raw_input()
-    while (user_choice < 1) and (user_choice > max_choice):
-        print "Invalid choice"
+    while (user_choice == '') or ((user_choice < 1) and (user_choice > max_choice)):
+        print "Invalid choice\n"
         user_choice = raw_input()
     return int(user_choice)
 
@@ -154,11 +170,11 @@ def visit_shop(player):
     print("Goodbye")
 
 
-def fight_common_enemy(player, enemy=None):
-    global enemies, potion_types
+def start_battle(player, enemy=None):
+    global common_enemies, potion_types
 
     if (enemy == None):
-        enemy = enemies[random.randint(0, len(enemies) - 1)]
+        enemy = common_enemies[random.randint(0, len(common_enemies) - 1)]
 
     print("\t# " + enemy.name + " appears! #\n")
 
@@ -208,18 +224,30 @@ def fight_common_enemy(player, enemy=None):
         print("------")
 
 
-def run_game():
-    global enemies, shop_items, potion_types
+def sacrifice_illbane(player):
+    global bosses
 
-    enemies = init_enemies()
+    if player.illbane >= 4:
+        player.illbane -= 4
+        start_battle(player, bosses[random.randint(0, len(bosses) - 1)])
+    else:
+        print("\nYou do not have enough illbane!\n")
+
+
+def run_game():
+    global bosses, common_enemies, shop_items, potion_types
+
+    common_enemies = init_common_enemies()
+    bosses = init_bosses()
     init_shop()
     player = Player("The player", 100, 30, 20, 1000, [potion_types[0]])
+    player.illbane = 10
 
     must_quit = False
     while player.is_alive() and not must_quit:
         idle_choice = get_idle_choice(player)
         if (idle_choice == 1):
-            fight_common_enemy(player)
+            start_battle(player)
         if (idle_choice == 2):
             visit_shop(player)
         if (idle_choice == 3):
