@@ -133,13 +133,27 @@ def get_shop_choice():
     return None
 
 
-def display_status(player):
-    print('{s:{c}^{n}}'.format(s='', n=20, c='#'))
-    print('# {:16} #'.format('Health: ' + str(player.health)))
-    print('# {:16} #'.format('Strength: ' + str(player.strength)))
-    print('# {:16} #'.format('Illbane: ' + str(player.illbane)))
-    print('# {:16} #'.format('Gold: ' + str(player.gold)))
-    print('{s:{c}^{n}}'.format(s='', n=20, c='#'))
+def display_status(player, enemy=None):
+    if (enemy == None):
+        print('{s:{c}^{n}}'.format(s='', n=20, c='#'))
+        print('# {:16} #'.format('Health: ' + str(player.health)))
+        print('# {:16} #'.format('Strength: ' + str(player.strength)))
+        print('# {:16} #'.format('Illbane: ' + str(player.illbane)))
+        print('# {:16} #'.format('Gold: ' + str(player.gold)))
+        print('{s:{c}^{n}}'.format(s='', n=20, c='#'))
+    else:
+        print('{s:{c}^{n}}'.format(s='', n=20, c='#') +
+              '{s:{c}^{n}}'.format(s='', n=20, c='#'))
+        print('# {:16} #'.format('Health: ' + str(player.health)) +
+              '# {:16} #'.format('Health: ' + str(enemy.health)))
+        print('# {:16} #'.format('Strength: ' + str(player.strength)) +
+              '# {:16} #'.format('Strength: ' + str(enemy.strength)))
+        print('# {:16} #'.format('Illbane: ' + str(player.illbane)) +
+              '# {:16} #'.format('Illbane: ' + str(enemy.illbane)))
+        print('# {:16} #'.format('Gold: ' + str(player.gold)) +
+              '# {:16} #'.format('Gold: ' + str(enemy.gold)))
+        print('{s:{c}^{n}}'.format(s='', n=20, c='#') +
+              '{s:{c}^{n}}'.format(s='', n=20, c='#'))
 
 
 def visit_shop(player):
@@ -181,7 +195,7 @@ def start_battle(player, enemy=None):
     fighting = True
 
     while (fighting and enemy.is_alive() and player.is_alive()):
-        display_status(player)
+        display_status(player, enemy)
         battle_choice = get_battle_choice(player, enemy)
         if (battle_choice == 1):
             damage_dealt = random.randint(0, player.strength - 1)
