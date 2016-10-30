@@ -74,48 +74,44 @@ def get_valid_input(max_choice):
 
 
 def get_battle_choice(player, enemy):
-    print("------")
-    print(" Your HP is: " + str(player.health))
-    print(" Your strength is: " + str(player.strength))
-    print(" " + enemy.name + "'s HP: " + str(enemy.health))
-    print("\n What would you like to do?")
+    print("####################")
+    print("What would you like to do?")
     print(" 1. Attack")
     print(" 2. Drink potion")
     print(" 3. Run!")
-    print("------")
+    print("####################")
 
     return get_valid_input(3)
 
 
 def get_idle_choice(player):
     display_status(player)
-    print("------------------------------")
     print(" 1. Fight")
     print(" 2. Visit the shop")
     print(" 3. Sacrifice Illbane...")
     print(" 4. Exit dungeon")
-    print("------------------------------")
+    print("####################")
 
     return get_valid_input(4)
 
 
 def get_potion_choice():
-    print("------------------------------")
+    print("####################")
     index = 0
     for potion in potion_types:
         index += 1
         print(" " + str(index) + ". " + potion.name)
-    print("------------------------------")
+    print("####################")
 
     return potion_types[get_valid_input(index) - 1]
 
 
-def get_shop_choice():
+def get_shop_choice(player):
     global shop_items, potion_types
 
     all_items = shop_items + potion_types
 
-    print("------------------------------")
+    display_status(player)
     print("What would you like to buy?")
     print("\t  . {:20}| {:>8}|{:>8}|".format("Item", "Health", "Strength"))
     index = 0
@@ -124,7 +120,7 @@ def get_shop_choice():
         print("\t{:2}. {:20}| {:>8}|{:>8}|".format(
             index, shopitem.name, shopitem.health_bonus, shopitem.strength_bonus))
     print("\t" + str(index + 1) + ". Exit shop")
-    print("------------------------------")
+    print("####################")
 
     user_choice = get_valid_input(index + 1)
     if user_choice <= len(all_items):
@@ -136,24 +132,30 @@ def get_shop_choice():
 def display_status(player, enemy=None):
     if (enemy == None):
         print('{s:{c}^{n}}'.format(s='', n=20, c='#'))
-        print('# {:16} #'.format('Health: ' + str(player.health)))
-        print('# {:16} #'.format('Strength: ' + str(player.strength)))
-        print('# {:16} #'.format('Illbane: ' + str(player.illbane)))
-        print('# {:16} #'.format('Gold: ' + str(player.gold)))
+        print('# {:>10}'.format('Health: ') +
+              '{:6} #'.format(str(player.health)))
+        print('# {:>10}'.format('Strength: ') +
+              '{:6} #'.format(str(player.strength)))
+        print('# {:>10}'.format('Illbane: ') +
+              '{:6} #'.format(str(player.illbane)))
+        print('# {:>10}'.format('Gold: ') +
+              '{:6} #'.format(str(player.gold)))
         print('{s:{c}^{n}}'.format(s='', n=20, c='#'))
     else:
-        print('{s:{c}^{n}}'.format(s='', n=20, c='#') +
-              '{s:{c}^{n}}'.format(s='', n=20, c='#'))
-        print('# {:16} #'.format('Health: ' + str(player.health)) +
-              '# {:16} #'.format('Health: ' + str(enemy.health)))
-        print('# {:16} #'.format('Strength: ' + str(player.strength)) +
-              '# {:16} #'.format('Strength: ' + str(enemy.strength)))
-        print('# {:16} #'.format('Illbane: ' + str(player.illbane)) +
-              '# {:16} #'.format('Illbane: ' + str(enemy.illbane)))
-        print('# {:16} #'.format('Gold: ' + str(player.gold)) +
-              '# {:16} #'.format('Gold: ' + str(enemy.gold)))
-        print('{s:{c}^{n}}'.format(s='', n=20, c='#') +
-              '{s:{c}^{n}}'.format(s='', n=20, c='#'))
+        print('{s:{c}^{n}}'.format(s='', n=40, c='#'))
+        print('# {:>10}'.format('Health: ') +
+              '{:6} #'.format(str(player.health)) + '# {:>10}'.format('Health: ') +
+              '{:6} #'.format(str(enemy.health)))
+        print('# {:>10}'.format('Strength: ') +
+              '{:6} #'.format(str(player.strength)) + '# {:>10}'.format('Strength: ') +
+              '{:6} #'.format(str(enemy.strength)))
+        print('# {:>10}'.format('Illbane: ') +
+              '{:6} #'.format(str(player.illbane)) + '# {:>10}'.format('Illbane: ') +
+              '{:6} #'.format(str(enemy.illbane)))
+        print('# {:>10}'.format('Gold: ') +
+              '{:6} #'.format(str(player.gold)) + '# {:>10}'.format('Gold: ') +
+              '{:6} #'.format(str(enemy.gold)))
+        print('{s:{c}^{n}}'.format(s='', n=40, c='#'))
 
 
 def visit_shop(player):
@@ -161,7 +163,7 @@ def visit_shop(player):
     staying_in_potion_shop = True
 
     while (staying_in_shop):
-        chosen_item = get_shop_choice()
+        chosen_item = get_shop_choice(player)
         if (chosen_item == None):
             staying_in_shop = False
         else:
