@@ -267,7 +267,7 @@ def run_game():
     bosses = init_bosses()
     init_shop()
     player = Player("The player", 100, 30, 20, 1000, [potion_types[0]])
-    player.illbane = 10
+    player.illbane = 1
 
     must_quit = False
     while player.is_alive() and not must_quit:

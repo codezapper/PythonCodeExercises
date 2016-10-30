@@ -1,9 +1,9 @@
 import random
 from potion import Potion
 
-## Randomize gold if not specified
 
 class Character:
+
     def __init__(self, name, base_health, base_strength, max_random_damage, gold, inventory):
         self.name = name
         self.base_health = base_health
