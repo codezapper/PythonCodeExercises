@@ -113,14 +113,15 @@ def get_shop_choice(player):
 
     display_status(player)
     print("What would you like to buy?")
-    print("\t  . {:20}| {:>8}|{:>8}|".format("Item", "Health", "Strength"))
+    print('{s:{c}^{n}}'.format(s='', n=45, c='#'))
+    print("     {:20}| {:>8}|{:>8}|".format("Item", "Health", "Strength"))
     index = 0
     for shopitem in all_items:
         index += 1
-        print("\t{:2}. {:20}| {:>8}|{:>8}|".format(
+        print(" {:2}. {:20}| {:>8}|{:>8}|".format(
             index, shopitem.name, shopitem.health_bonus, shopitem.strength_bonus))
-    print("\t" + str(index + 1) + ". Exit shop")
-    print("####################")
+    print(" " + str(index + 1) + ". Exit shop")
+    print('{s:{c}^{n}}'.format(s='', n=45, c='#'))
 
     user_choice = get_valid_input(index + 1)
     if user_choice <= len(all_items):
@@ -171,18 +172,26 @@ def visit_shop(player):
                 print("You already have " + chosen_item.name + "!")
                 continue
 
-            if (player.gold >= chosen_item.cost):
-                player.gold -= chosen_item.cost
-                player.inventory.append(chosen_item)
-                player.illbane += chosen_item.illbane
-                if (chosen_item.is_wearable):
+            if (chosen_item.is_wearable):
+                if (player.gold >= chosen_item.cost):
+                    player.gold -= chosen_item.cost
+                    player.illbane += chosen_item.illbane
                     player.base_strength += chosen_item.strength_bonus
                     player.base_health += chosen_item.health_bonus / 2
-                staying_in_shop = False
-                print("You got " + chosen_item.name + "!")
+                    player.inventory.append(chosen_item)
+                else:
+                    print("You don't have enough gold!")
             else:
-                print("You don't have enough gold!")
-
+                print('How many ' + chosen_item.name + '?')
+                amount = get_valid_input(10)
+                if (player.gold >= amount * chosen_item.cost):
+                    staying_in_shop = False
+                    print("You got " + chosen_item.name + "!")
+                    player.gold -= amount * chosen_item.cost
+                    for i in range(amount):
+                        player.inventory.append(chosen_item)
+                else:
+                    print("You don't have enough gold!")
     print("Goodbye")
 
 
@@ -231,7 +240,7 @@ def start_battle(player, enemy=None):
         print("\tYou find " + str(enemy.gold) +
               " gold on the " + enemy.name + "!")
         print("\tYou collect " + str(dropped_illbane) +
-              " from " + enemy.name + "!")
+              " illbane from " + enemy.name + "!")
         player.gold += enemy.gold
         item = enemy.get_dropped_object()
         if item != None:

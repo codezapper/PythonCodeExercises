@@ -8,6 +8,10 @@ enough "illbane" to summon a stronger enemy.
 The player can obtain "illbane" by eniemes that drop it when defeated, or
 save money to buy it in the shop.
 The goal of the game is to survive as long as possible to get the highest score.
+The original game was a simple Java implementation for which someone asked a
+review on stackexchange. I started the review, but I noticed that I had almost
+entirely re-written the code. I decided to use this as an opportunity to improve
+my Python knowledge.
 
 ### Functional specifications
 - The player starts with 100 HP, 30 strength, 20 as the maximum random damage,
