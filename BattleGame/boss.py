@@ -10,7 +10,7 @@ class Boss(Character):
         return random.randint(self.strength, self.strength + self.max_random_damage)
 
     def do_attack(self):
-        self.special_attack_chance += 100 -
+        self.special_attack_chance += 100 - \
             (self.health / self.base_health) * 100
         chance = random.randint(0, 100)
         if (chance < self.special_attack_chance):

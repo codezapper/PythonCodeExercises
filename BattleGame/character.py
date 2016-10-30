@@ -1,5 +1,4 @@
 import random
-from potion import Potion
 
 
 class Character:

@@ -6,41 +6,12 @@ from boss import Boss
 from character import Character
 from player import Player
 from item import Item
+import utils
 
 bosses = []
 common_enemies = []
 shop_items = []
 potion_types = []
-
-
-def init_bosses():
-    bosses_list = [
-        Boss("White Dragon", random.randint(150, 250),
-             40, 15, random.randint(0, 10000), []),
-        Boss("Blue Dragon", random.randint(160, 230),
-             45, 25, random.randint(0, 10000), []),
-        Boss("Red Dragon", random.randint(170, 220),
-             50, 35, random.randint(0, 10000), []),
-        Boss("Black Dragon", random.randint(200, 250),
-             60, 50, random.randint(0, 10000), [])
-    ]
-
-    return bosses_list
-
-
-def init_common_enemies():
-    enemy_list = [
-        Character("Kobold", random.randint(50, 150),
-                  25, 10, random.randint(0, 1000), []),
-        Character("Kobold Warrior", random.randint(70, 220),
-                  30, 20, random.randint(0, 1000), []),
-        Character("Kobold Archer", random.randint(90, 290),
-                  40, 30, random.randint(0, 1000), []),
-        Character("Kobold Overseer", random.randint(
-            150, 400), 50, 40, random.randint(0, 1000), [])
-    ]
-
-    return enemy_list
 
 
 def init_shop():
@@ -66,53 +37,12 @@ def init_shop():
     ]
 
 
-def get_valid_input(max_choice):
-    user_choice = raw_input()
-    while (user_choice == '') or ((user_choice < 1) and (user_choice > max_choice)):
-        print "Invalid choice\n"
-        user_choice = raw_input()
-    return int(user_choice)
-
-
-def get_battle_choice(player, enemy):
-    print("####################")
-    print("What would you like to do?")
-    print(" 1. Attack")
-    print(" 2. Drink potion")
-    print(" 3. Run!")
-    print("####################")
-
-    return get_valid_input(3)
-
-
-def get_idle_choice(player):
-    display_status(player)
-    print(" 1. Fight")
-    print(" 2. Visit the shop")
-    print(" 3. Sacrifice Illbane...")
-    print(" 4. Exit dungeon")
-    print("####################")
-
-    return get_valid_input(4)
-
-
-def get_potion_choice():
-    print("####################")
-    index = 0
-    for potion in potion_types:
-        index += 1
-        print(" " + str(index) + ". " + potion.name)
-    print("####################")
-
-    return potion_types[get_valid_input(index) - 1]
-
-
 def get_shop_choice(player):
     global shop_items, potion_types
 
     all_items = shop_items + potion_types
 
-    display_status(player)
+    utils.display_status(player)
     print("What would you like to buy?")
     print('{s:{c}^{n}}'.format(s='', n=45, c='#'))
     print("     {:20}| {:>8}|{:>8}|".format("Item", "Health", "Strength"))
@@ -124,40 +54,22 @@ def get_shop_choice(player):
     print(" " + str(index + 1) + ". Exit shop")
     print('{s:{c}^{n}}'.format(s='', n=45, c='#'))
 
-    user_choice = get_valid_input(index + 1)
+    user_choice = utils.get_valid_input(index + 1)
     if user_choice <= len(all_items):
         return all_items[user_choice - 1]
 
     return None
 
 
-def display_status(player, enemy=None):
-    if (enemy == None):
-        print('{s:{c}^{n}}'.format(s='', n=20, c='#'))
-        print('# {:>10}'.format('Health: ') +
-              '{:6} #'.format(str(player.health)))
-        print('# {:>10}'.format('Strength: ') +
-              '{:6} #'.format(str(player.strength)))
-        print('# {:>10}'.format('Illbane: ') +
-              '{:6} #'.format(str(player.illbane)))
-        print('# {:>10}'.format('Gold: ') +
-              '{:6} #'.format(str(player.gold)))
-        print('{s:{c}^{n}}'.format(s='', n=20, c='#'))
-    else:
-        print('{s:{c}^{n}}'.format(s='', n=40, c='#'))
-        print('# {:>10}'.format('Health: ') +
-              '{:6} #'.format(str(player.health)) + '# {:>10}'.format('Health: ') +
-              '{:6} #'.format(str(enemy.health)))
-        print('# {:>10}'.format('Strength: ') +
-              '{:6} #'.format(str(player.strength)) + '# {:>10}'.format('Strength: ') +
-              '{:6} #'.format(str(enemy.strength)))
-        print('# {:>10}'.format('Illbane: ') +
-              '{:6} #'.format(str(player.illbane)) + '# {:>10}'.format('Illbane: ') +
-              '{:6} #'.format(str(enemy.illbane)))
-        print('# {:>10}'.format('Gold: ') +
-              '{:6} #'.format(str(player.gold)) + '# {:>10}'.format('Gold: ') +
-              '{:6} #'.format(str(enemy.gold)))
-        print('{s:{c}^{n}}'.format(s='', n=40, c='#'))
+def get_potion_choice():
+    print("####################")
+    index = 0
+    for potion in potion_types:
+        index += 1
+        print(" " + str(index) + ". " + potion.name)
+    print("####################")
+
+    return potion_types[get_valid_input(index) - 1]
 
 
 def visit_shop(player):
@@ -184,7 +96,7 @@ def visit_shop(player):
                     print("You don't have enough gold!")
             else:
                 print('How many ' + chosen_item.name + '?')
-                amount = get_valid_input(10)
+                amount = utils.get_valid_input(10)
                 if (player.gold >= amount * chosen_item.cost):
                     staying_in_shop = False
                     print("You got " + chosen_item.name + "!")
@@ -207,8 +119,8 @@ def start_battle(player, enemy=None):
     fighting = True
 
     while (fighting and enemy.is_alive() and player.is_alive()):
-        display_status(player, enemy)
-        battle_choice = get_battle_choice(player, enemy)
+        utils.display_status(player, enemy)
+        battle_choice = utils.get_battle_choice(player, enemy)
         if (battle_choice == 1):
             damage_dealt = random.randint(0, player.strength - 1)
             damage_taken = enemy.do_attack()
@@ -263,15 +175,15 @@ def sacrifice_illbane(player):
 def run_game():
     global bosses, common_enemies, shop_items, potion_types
 
-    common_enemies = init_common_enemies()
-    bosses = init_bosses()
+    common_enemies = utils.init_common_enemies()
+    bosses = utils.init_bosses()
     init_shop()
     player = Player("The player", 100, 30, 20, 1000, [potion_types[0]])
     player.illbane = 1
 
     must_quit = False
     while player.is_alive() and not must_quit:
-        idle_choice = get_idle_choice(player)
+        idle_choice = utils.get_idle_choice(player)
         if (idle_choice == 1):
             start_battle(player)
         if (idle_choice == 2):
