@@ -2,6 +2,7 @@
 # Move "common_enemies" variable so it's not global
 
 import random
+from boss import Boss
 from character import Character
 from player import Player
 from item import Item
@@ -14,14 +15,14 @@ potion_types = []
 
 def init_bosses():
     bosses_list = [
-        Character("White Dragon", random.randint(150, 250),
-                  40, 15, random.randint(0, 10000), []),
-        Character("Blue Dragon", random.randint(160, 230),
-                  45, 25, random.randint(0, 10000), []),
-        Character("Red Dragon", random.randint(170, 220),
-                  50, 35, random.randint(0, 10000), []),
-        Character("Black Dragon", random.randint(200, 250),
-                  60, 50, random.randint(0, 10000), [])
+        Boss("White Dragon", random.randint(150, 250),
+             40, 15, random.randint(0, 10000), []),
+        Boss("Blue Dragon", random.randint(160, 230),
+             45, 25, random.randint(0, 10000), []),
+        Boss("Red Dragon", random.randint(170, 220),
+             50, 35, random.randint(0, 10000), []),
+        Boss("Black Dragon", random.randint(200, 250),
+             60, 50, random.randint(0, 10000), [])
     ]
 
     return bosses_list
