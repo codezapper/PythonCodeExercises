@@ -40,6 +40,12 @@ def get_valid_input(max_choice):
     while (user_choice == '') or ((user_choice < 1) and (user_choice > max_choice)):
         print "Invalid choice\n"
         user_choice = raw_input()
+        try:
+            user_choice_int = int(user_choice)
+            return user_choice_int
+        except Exception:
+            print('ValueError')
+            user_choice = ''
     return int(user_choice)
 
 
@@ -63,6 +69,24 @@ def get_idle_choice(player):
     print("####################")
 
     return get_valid_input(4)
+
+
+def get_all_potions():
+    return [
+        Item("Health Potion", 100, 30, 1, False, 0),
+        Item("Strength Potion", 500, 0, 2, False, 0)
+    ]
+
+
+def get_potion_choice(potions):
+    print("####################")
+    index = 0
+    for potion in potions:
+        index += 1
+        print(" " + str(index) + ". " + potion.name)
+    print("####################")
+
+    return potions[get_valid_input(index) - 1]
 
 
 def display_status(player, enemy=None):
