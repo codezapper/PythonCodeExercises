@@ -13,6 +13,7 @@ bosses = []
 common_enemies = []
 shop_items = []
 potion_types = []
+all_potions = []
 
 
 def start_battle(player, enemy=None):
@@ -84,8 +85,8 @@ def run_game():
 
     common_enemies = utils.init_common_enemies()
     bosses = utils.init_bosses()
-    shop = Shop()
     all_potions = utils.get_all_potions()
+    shop = Shop(all_potions)
     player = Player("The player", 100, 30, 20, 1000,
                     [all_potions[0]])
     player.illbane = 1

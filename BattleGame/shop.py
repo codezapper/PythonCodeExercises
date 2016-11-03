@@ -4,7 +4,7 @@ from item import Item
 
 class Shop:
 
-    def __init__(self):
+    def __init__(self, potions):
         self.items = [
             Item("Silver Sword",  1000, 0, 100, True, 0),
             Item("Steel Sword", 250, 0, 25, True, 0),
@@ -19,7 +19,7 @@ class Shop:
             Item("Illbane", 2500, 0, 0, False, 1),
         ]
 
-        self.potions = utils.get_all_potions()
+        self.potions = potions
 
     def get_item_choice(self, player):
         all_items = self.items + self.potions
