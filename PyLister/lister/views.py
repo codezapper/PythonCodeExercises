@@ -2,11 +2,12 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import loader
 from .models import Song
+import utils
 
 
 def index(request):
     songs_list = [song
-                  for song in Song.objects.order_by('-year')[:5]]
+                  for song in Song.objects.order_by('-year')]
     template = loader.get_template('lister/index.html')
     context = {'songs_list': songs_list, }
     return HttpResponse(template.render(context, request))
