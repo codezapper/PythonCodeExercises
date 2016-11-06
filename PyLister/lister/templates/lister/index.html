@@ -1,0 +1,9 @@
+{% if songs_list %}
+    <ul>
+    {% for song in songs_list %}
+        <li><a href="/lister/detail/{{ song.id }}/">{{ song.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No songs are available.</p>
+{% endif %}
