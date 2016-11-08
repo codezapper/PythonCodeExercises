@@ -1,0 +1,103 @@
+    <head></head>
+
+    <style>
+    body {
+        background-color: #CCC;
+    }
+
+    ul {
+        list-style-type: none;
+        text-align: top;
+    }
+
+    .left-content {
+        float: left;
+        width: 20%;
+    }
+
+    .right-content {
+        float: right;
+        width: 80%;
+    }
+
+    .cover_image {
+        width: 80px;
+        height: 80px;
+        margin-left: 40px;
+        margin-right: 10px;
+        margin-top: 16px;
+        float: left;
+        display: inline-block;
+    }
+
+    .left-frame {
+        width: 15%;
+        float:  left;
+    }
+
+    .right-frame {
+        width: 84%;
+        float: right;
+    }
+
+    .song-item {
+        padding: 3px;
+        display: inline-block;
+        border-spacing: 0px;
+        margin-left: -6px;
+        width: 15%;
+    }
+
+    .song-link {
+        text-decoration: none;
+        font-family: sans-serif;
+        font-size: 12px;
+        color: #666;
+    }
+
+    .songs-container-1 {
+        border: 1px solid #AAA;
+        border-radius: 3px;
+        background-color: #DDD;
+        margin-left: 80px;
+        margin-right: 20px;
+        width: 50%;
+    }
+
+    .songs-container-0 {
+        border: 1px solid #AAA;
+        border-radius: 3px;
+        background-color: #CCC;
+        margin-right: 20px;
+        margin-left: 80px;
+        width: 50%;
+    }
+    </style>
+
+    <body>
+        <div class="left-frame">
+        LEFT
+        </div>
+        <div class="right-frame">
+            <img class="cover_image" src="/home/gabriele/Music/Dire Straits/Brothers in Arms/Folder.jpg">
+            <ul>
+                <div class="songs-container-1">
+                    <ul>
+                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">So Far Away</a></li>
+                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">So Far Away</a></li>
+                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">So Far Away</a></li>
+                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">So Far Away</a></li>
+                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">So Far Away</a></li>
+                    </ul>
+                </div>
+                <div class="songs-container-0">
+                    <ul>
+                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">Not So Far Away</a></li>
+                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">Not So Far Away</a></li>
+                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">Not So Far Away</a></li>
+                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">Not So Far Away</a></li>
+                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">Not So Far Away</a></li>
+                    </ul>
+                </div>
+        </div>
+    </body>
