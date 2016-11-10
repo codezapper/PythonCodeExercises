@@ -8,7 +8,7 @@ import utils
 def index(request):
     songs_list = [song
                   for song in Song.objects.order_by('-year')]
-    template = loader.get_template('lister/index.html')
+    template = loader.get_template('lister/index_with_menu.html')
     context = {'songs_list': songs_list, }
     return HttpResponse(template.render(context, request))
 

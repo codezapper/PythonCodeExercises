@@ -10,6 +10,7 @@ class Song(models.Model):
     year = models.IntegerField(default=1900, null=True)
     rating = models.IntegerField(default=0, null=True)
     title = models.CharField(max_length=256)
+    track_number = models.CharField(max_length=256, default='')
     path = models.CharField(max_length=256, default='')
 
     def __str__(self):

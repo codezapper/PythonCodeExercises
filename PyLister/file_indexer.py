@@ -15,10 +15,10 @@ def update_db():
     for file in get_files():
         song = taglib.File(file)
         songs.append((song.tags['ALBUM'][0], song.tags['ARTIST'][
-            0], os.path.dirname(os.path.realpath(file)) + '/Folder.jpg', song.tags['DATE'][0], 0, song.tags['TITLE'][0], file))
+            0], os.path.dirname(os.path.realpath(file)) + '/Folder.jpg', song.tags['DATE'][0], 0, song.tags['TITLE'][0], song.tags['TRACKNUMBER'][0], file))
     cursor.execute('DELETE FROM lister_song')
     cursor.executemany(
-        'INSERT INTO lister_song (album, artist, image_file, year, rating, title, path) VALUES(?, ?, ?, ?, ?, ?, ?)', songs)
+        'INSERT INTO lister_song (album, artist, image_file, year, rating, title, track_number, path) VALUES(?, ?, ?, ?, ?, ?, ?, ?)', songs)
 
     db_main.commit()
 

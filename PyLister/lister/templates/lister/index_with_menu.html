@@ -40,12 +40,21 @@
         float: right;
     }
 
+    .truncate {
+        width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        -ms-text-overflow: ellipsis;
+    }
+
     .song-item {
         padding: 3px;
         display: inline-block;
         border-spacing: 0px;
         margin-left: -6px;
-        width: 15%;
+        width: 20%;
     }
 
     .song-link {
@@ -68,8 +77,8 @@
         border: 1px solid #AAA;
         border-radius: 3px;
         background-color: #CCC;
-        margin-right: 20px;
         margin-left: 80px;
+        margin-right: 20px;
         width: 50%;
     }
     </style>
@@ -80,24 +89,26 @@
         </div>
         <div class="right-frame">
             <img class="cover_image" src="/home/gabriele/Music/Dire Straits/Brothers in Arms/Folder.jpg">
+{% if songs_list %}
             <ul>
-                <div class="songs-container-1">
-                    <ul>
-                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">So Far Away</a></li>
-                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">So Far Away</a></li>
-                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">So Far Away</a></li>
-                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">So Far Away</a></li>
-                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">So Far Away</a></li>
+                <div>
+    {% for song in songs_list %}
+    {% if forloop.counter|divisibleby:2 %}
+                    <ul class="songs-container-1">
+    {% else %}
+                    <ul class="songs-container-0">
+    {% endif %}
+                        <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.track_number }}</a></li>
+                        <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.title }}</a></li>
+                        <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.artist }}</a></li>
+                        <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.album }}</a></li>
+                        <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.year }}</a></li>
                     </ul>
+    {% endfor %}
                 </div>
-                <div class="songs-container-0">
-                    <ul>
-                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">Not So Far Away</a></li>
-                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">Not So Far Away</a></li>
-                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">Not So Far Away</a></li>
-                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">Not So Far Away</a></li>
-                        <li class="song-item"><a class="song-link" href="/lister/detail/{{ song.id }}/">Not So Far Away</a></li>
-                    </ul>
-                </div>
+            </ul>
+{% else %}
+    <p>No songs are available.</p>
+{% endif %}
         </div>
     </body>
