@@ -31,12 +31,12 @@
     }
 
     .left-frame {
-        width: 15%;
+        width: 10%;
         float:  left;
     }
 
     .right-frame {
-        width: 84%;
+        width: 89%;
         float: right;
     }
 
@@ -54,7 +54,15 @@
         display: inline-block;
         border-spacing: 0px;
         margin-left: -6px;
-        width: 20%;
+        width: 22%;
+    }
+
+    .song-track-number {
+        padding: 3px;
+        display: inline-block;
+        border-spacing: 0px;
+        margin-left: -6px;
+        width: 5%;
     }
 
     .song-link {
@@ -70,7 +78,7 @@
         background-color: #DDD;
         margin-left: 80px;
         margin-right: 20px;
-        width: 50%;
+        width: 60%;
     }
 
     .songs-container-0 {
@@ -79,16 +87,15 @@
         background-color: #CCC;
         margin-left: 80px;
         margin-right: 20px;
-        width: 50%;
+        width: 60%;
     }
     </style>
 
     <body>
         <div class="left-frame">
-        LEFT
+        
         </div>
         <div class="right-frame">
-            <img class="cover_image" src="/home/gabriele/Music/Dire Straits/Brothers in Arms/Folder.jpg">
 {% if songs_list %}
             <ul>
                 <div>
@@ -98,11 +105,11 @@
     {% else %}
                     <ul class="songs-container-0">
     {% endif %}
-                        <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.track_number }}</a></li>
                         <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.title }}</a></li>
                         <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.artist }}</a></li>
                         <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.album }}</a></li>
                         <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.year }}</a></li>
+                        <li class="song-track-number truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.track_number }}</a></li>
                     </ul>
     {% endfor %}
                 </div>
