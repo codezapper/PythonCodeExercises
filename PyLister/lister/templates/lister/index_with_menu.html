@@ -30,11 +30,6 @@
         display: inline-block;
     }
 
-    .left-frame {
-        width: 10%;
-        float:  left;
-    }
-
     .right-frame {
         width: 89%;
         float: right;
@@ -89,11 +84,47 @@
         margin-right: 20px;
         width: 60%;
     }
+
+    .menu-link-0 {
+        text-decoration: none;
+        font-family: sans-serif;
+        font-size: 16px strong;
+        margin-bottom: 10px;
+        color: #666;
+        background-color: #BBB;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .menu-link-1 {
+        text-decoration: none;
+        font-family: sans-serif;
+        font-size: 16px;
+        margin-bottom: 10px;
+        color: #666;
+        background-color: #DDD;
+        padding: 5px;
+        border-radius: 5px;
+    }
+
+    .left-frame {
+        width: 10%;
+        float:  left;
+        border: 1px solid #888;
+        border-radius: 5px;
+    }
     </style>
 
     <body>
         <div class="left-frame">
-        
+            <ul>
+                <div style="text-align: left">
+                    <li class="menu-link-0">Songs</li>
+                    <li class="menu-link-1">Albums</li>
+                    <li class="menu-link-0">Artists</li>
+                    <li class="menu-link-1">Years</li>
+                </div>
+            </ul>
         </div>
         <div class="right-frame">
 {% if songs_list %}
