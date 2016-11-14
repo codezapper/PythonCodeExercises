@@ -1,0 +1,174 @@
+    <head></head>
+
+    <style>
+    body {
+        background-color: #CCC;
+    }
+
+    ul {
+        list-style-type: none;
+        text-align: top;
+    }
+
+    .left-content {
+        float: left;
+        width: 20%;
+    }
+
+    .right-content {
+        float: right;
+        width: 80%;
+    }
+
+    .cover_image {
+        width: 80px;
+        height: 80px;
+        margin-left: 40px;
+        margin-right: 10px;
+        margin-top: 16px;
+        float: left;
+        display: inline-block;
+    }
+
+    .right-frame {
+        width: 40%;
+        float: left;
+    }
+
+    .truncate {
+        width: 250px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        -ms-text-overflow: ellipsis;
+    }
+
+    .album-item {
+        padding: 3px;
+        display: inline-block;
+        border-spacing: 0px;
+        margin-left: -6px;
+        width: 100%;
+    }
+
+    .album-track-number {
+        padding: 3px;
+        display: inline-block;
+        border-spacing: 0px;
+        margin-left: -6px;
+        width: 5%;
+    }
+
+    .album-link {
+        text-decoration: none;
+        font-family: sans-serif;
+        font-size: 12px;
+        color: #666;
+        margin-left: 5px;
+    }
+
+    .albums-container-1 {
+        border: 1px solid #AAA;
+        border-radius: 3px;
+        background-color: #DDD;
+        margin-left: 80px;
+        margin-right: 20px;
+        width: 60%;
+    }
+
+    .albums-container-0 {
+        border: 1px solid #AAA;
+        border-radius: 3px;
+        background-color: #CCC;
+        margin-left: 80px;
+        margin-right: 20px;
+        width: 60%;
+    }
+    .menu-item {
+        text-decoration: none;
+        font-family: sans-serif;
+        font-size: 12px strong;
+        color: #666;
+    }
+
+    .menu-link-0 {
+        text-decoration: none;
+        font-family: sans-serif;
+        margin-bottom: 0px;
+        margin-left: -30px;
+        margin-right: 0px;
+        color: #666;
+        background-color: #BBB;
+        padding: 3px;
+        border-radius: 5px;
+        width: 100%;
+        text-align: left;
+        border: 1px solid #AAA;
+    }
+
+    .menu-link-1 {
+        text-decoration: none;
+        font-family: sans-serif;
+        margin-bottom: 0px;
+        margin-left: -30px;
+        margin-right: 0px;
+        color: #666;
+        background-color: #DDD;
+        padding: 3px;
+        border-radius: 5px;
+        width: 100%;
+        text-align: left;
+        border: 1px solid #AAA;
+    }
+
+    .menu-container {
+        text-align: left;
+        align-content: left;
+        border-radius: 5px;
+    }
+
+    .left-frame {
+        width: 10%;
+        float:  left;
+    }
+    .cover {
+        width: 80px;
+        height: 80px;
+        text-align: left;
+        vertical-align: middle;
+    }
+    </style>
+
+    <body>
+        <div class="left-frame">
+            <ul class="menu-container">
+                <div style="text-align: left">
+                    <li class="menu-link-0"><a class="menu-item" href="/lister/albums/">Songs</a></li>
+                    <li class="menu-link-1"><a class="menu-item" href="/lister/albums/">Albums</a></li>
+                    <li class="menu-link-0"><a class="menu-item" href="/lister/artists/">Artists</a></li>
+                    <li class="menu-link-1"><a class="menu-item" href="/lister/years/">Years</a></li>
+                </div>
+            </ul>
+        </div>
+        <div class="right-frame">
+{% if albums_list %}
+            <ul>
+                <div>
+    {% load static %}
+    {% for album in albums_list %}
+    {% if forloop.counter|divisibleby:2 %}
+                    <ul class="albums-container-1">
+    {% else %}
+                    <ul class="albums-container-0">
+    {% endif %}
+                        <li class="album-item truncate"><img class="cover" src="{% static album.image_file %}"><a class="album-link" href="/lister/detail/{{ album.id }}/">{{ album.album }}</a></li>
+                    </ul>
+    {% endfor %}
+                </div>
+            </ul>
+{% else %}
+    <p>No albums are available.</p>
+{% endif %}
+        </div>
+    </body>

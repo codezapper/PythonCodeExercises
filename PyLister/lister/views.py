@@ -1,3 +1,4 @@
+from django.db import connection
 from django.db.models import Count
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -23,10 +24,21 @@ def songs(request):
 
 
 def albums(request):
-    albums_list = [album
-                   for album in Song.objects.values('album').annotate(dcount=Count('album'))]
-    template = loader.get_template('lister/index_with_menu.html')
-    context = {'songs_list': albums_list, }
+    cursor = connection.cursor()
+    cursor.execute(
+        '''SELECT album, image_file FROM lister_song GROUP BY album, image_file''')
+    row = cursor.fetchone()
+
+    albums_list = []
+    print(albums_list)
+    while (row):
+        print row[0]
+        albums_list.append(
+            {'album': row[0], 'image_file': row[1].replace(' ', '\ ')})
+        row = cursor.fetchone()
+    print albums_list
+    template = loader.get_template('lister/albums_with_menu.html')
+    context = {'albums_list': albums_list, }
     return HttpResponse(template.render(context, request))
 
 
