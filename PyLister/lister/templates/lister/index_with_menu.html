@@ -84,40 +84,45 @@
         margin-right: 20px;
         width: 60%;
     }
+    .menu-item {
+        text-decoration: none;
+        font-family: sans-serif;
+        font-size: 12px strong;
+        color: #666;
+    }
 
     .menu-link-0 {
         text-decoration: none;
         font-family: sans-serif;
-        font-size: 16px strong;
         margin-bottom: 0px;
         margin-left: -30px;
         margin-right: 0px;
         color: #666;
         background-color: #BBB;
-        padding: 5px;
+        padding: 3px;
         border-radius: 5px;
         width: 100%;
         text-align: left;
+        border: 1px solid #AAA;
     }
 
     .menu-link-1 {
         text-decoration: none;
         font-family: sans-serif;
-        font-size: 16px;
         margin-bottom: 0px;
         margin-left: -30px;
         margin-right: 0px;
         color: #666;
         background-color: #DDD;
-        padding: 5px;
+        padding: 3px;
         border-radius: 5px;
         width: 100%;
         text-align: left;
+        border: 1px solid #AAA;
     }
 
     .menu-container {
         text-align: left;
-        /* border: 1px solid #888; */
         align-content: left;
         border-radius: 5px;
     }
@@ -132,10 +137,10 @@
         <div class="left-frame">
             <ul class="menu-container">
                 <div style="text-align: left">
-                    <li class="menu-link-0">Songs</li>
-                    <li class="menu-link-1">Albums</li>
-                    <li class="menu-link-0">Artists</li>
-                    <li class="menu-link-1">Years</li>
+                    <li class="menu-link-0"><a class="menu-item" href="/lister/songs/">Songs</a></li>
+                    <li class="menu-link-1"><a class="menu-item" href="/lister/albums/">Albums</a></li>
+                    <li class="menu-link-0"><a class="menu-item" href="/lister/artists/">Artists</a></li>
+                    <li class="menu-link-1"><a class="menu-item" href="/lister/years/">Years</a></li>
                 </div>
             </ul>
         </div>
