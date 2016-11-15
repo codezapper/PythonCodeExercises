@@ -8,16 +8,12 @@ import utils
 
 
 def index(request):
-    songs_list = [song
-                  for song in Song.objects.order_by('-year')]
-    template = loader.get_template('lister/index_with_menu.html')
-    context = {'songs_list': songs_list, }
-    return HttpResponse(template.render(context, request))
+    return songs(request)
 
 
 def songs(request):
     songs_list = [song
-                  for song in Song.objects.order_by('-year')]
+                  for song in Song.objects.order_by('-artist', 'album', 'track_number')]
     template = loader.get_template('lister/index_with_menu.html')
     context = {'songs_list': songs_list, }
     return HttpResponse(template.render(context, request))
@@ -26,7 +22,7 @@ def songs(request):
 def albums(request):
     cursor = connection.cursor()
     cursor.execute(
-        '''SELECT album, image_file FROM lister_song GROUP BY album, image_file''')
+        '''SELECT album, image_file, artist, year FROM lister_song GROUP BY album, image_file, artist, year ORDER BY album''')
     row = cursor.fetchone()
 
     albums_list = []
@@ -34,7 +30,7 @@ def albums(request):
     while (row):
         print row[0]
         albums_list.append(
-            {'album': row[0], 'image_file': row[1].replace(' ', '\ ')})
+            {'album': row[0], 'image_file': row[1].replace('/home/gabriele/', ''), 'artist': row[2], 'year': row[3]})
         row = cursor.fetchone()
     print albums_list
     template = loader.get_template('lister/albums_with_menu.html')

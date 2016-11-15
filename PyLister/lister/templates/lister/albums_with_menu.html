@@ -144,7 +144,7 @@
         <div class="left-frame">
             <ul class="menu-container">
                 <div style="text-align: left">
-                    <li class="menu-link-0"><a class="menu-item" href="/lister/albums/">Songs</a></li>
+                    <li class="menu-link-0"><a class="menu-item" href="/lister/songs/">Songs</a></li>
                     <li class="menu-link-1"><a class="menu-item" href="/lister/albums/">Albums</a></li>
                     <li class="menu-link-0"><a class="menu-item" href="/lister/artists/">Artists</a></li>
                     <li class="menu-link-1"><a class="menu-item" href="/lister/years/">Years</a></li>
@@ -162,7 +162,8 @@
     {% else %}
                     <ul class="albums-container-0">
     {% endif %}
-                        <li class="album-item truncate"><img class="cover" src="{% static album.image_file %}"><a class="album-link" href="/lister/detail/{{ album.id }}/">{{ album.album }}</a></li>
+                        <li class="album-item truncate"><a class="album-link" href="/lister/detail/{{ album.id }}/"><img class="cover" src="{% static album.image_file %}">
+                        {{ album.album }} - {{album.artist}} ({{album.year}})</a></li>
                     </ul>
     {% endfor %}
                 </div>
