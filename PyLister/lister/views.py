@@ -26,13 +26,10 @@ def albums(request):
     row = cursor.fetchone()
 
     albums_list = []
-    print(albums_list)
     while (row):
-        print row[0]
         albums_list.append(
             {'album': row[0], 'image_file': row[1].replace('/home/gabriele/', ''), 'artist': row[2], 'year': row[3]})
         row = cursor.fetchone()
-    print albums_list
     template = loader.get_template('lister/albums_with_menu.html')
     context = {'albums_list': albums_list, }
     return HttpResponse(template.render(context, request))
