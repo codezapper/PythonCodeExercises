@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <title>Available songs</title>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'lister/main.css' %}" />
+    </head>
+    <body>
+        <div class="left-frame">
+            <ul class="menu-container">
+                <div>
+                    <li class="menu-link-0"><a class="menu-item" href="/lister/songs/">Songs</a></li>
+                    <li class="menu-link-1"><a class="menu-item" href="/lister/albums/">Albums</a></li>
+                    <li class="menu-link-0"><a class="menu-item" href="/lister/artists/">Artists</a></li>
+                    <li class="menu-link-1"><a class="menu-item" href="/lister/years/">Years</a></li>
+                </div>
+            </ul>
+        </div>
+        <div class="right-frame">
+    {% if years_list %}
+            <ul>
+                <div>
+    {% load mathfilters %}
+    {% load static %}
+    {% for year in years_list %}
+                    <ul class="years-container-{{ forloop.counter|mod:2 }}">
+                        <li class="year-item truncate"><a class="year-link" href="/lister/detail/year/{{ year.year }}/">
+                        {{ year.year }} ({{ year.count }})</a></li>
+                    </ul>
+    {% endfor %}
+                </div>
+            </ul>
+    {% else %}
+    <p>No years are available.</p>
+    {% endif %}
+        </div>
+    </body>
+</html>
