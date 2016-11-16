@@ -14,5 +14,4 @@ class Song(models.Model):
     path = models.CharField(max_length=256, default='')
 
     def __str__(self):
-        print str(self.year)
         return '{} ({}) by {}'.format(self.title, self.year or '----', self.artist)
