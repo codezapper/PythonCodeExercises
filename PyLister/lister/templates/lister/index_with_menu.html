@@ -22,20 +22,20 @@
             <ul>
                 <div>
                     <ul class="songs-header">
-                        <li class="header-item"><a class="header-link truncate" href="/lister/detail/{{ song.id }}/">Title</a></li>
-                        <li class="header-item"><a class="header-link truncate" href="/lister/detail/{{ song.id }}/">Artist</a></li>
-                        <li class="header-item"><a class="header-link truncate" href="/lister/detail/{{ song.id }}/">Album</a></li>
-                        <li class="header-item"><a class="header-link truncate" href="/lister/detail/{{ song.id }}/">Year</a></li>
-                        <li class="header-item"><a class="header-link truncate" href="/lister/detail/{{ song.id }}/">Track n.</a></li>
+                        <li class="header-item"><a class="header-link truncate" href="/lister/play/{{ song.id }}/">Title</a></li>
+                        <li class="header-item"><a class="header-link truncate" href="/lister/play/{{ song.id }}/">Artist</a></li>
+                        <li class="header-item"><a class="header-link truncate" href="/lister/play/{{ song.id }}/">Album</a></li>
+                        <li class="header-item"><a class="header-link truncate" href="/lister/play/{{ song.id }}/">Year</a></li>
+                        <li class="header-item"><a class="header-link truncate" href="/lister/play/{{ song.id }}/">Track n.</a></li>
                     </ul>
     {% load mathfilters %}
     {% for song in songs_list %}
                     <ul class="songs-container-{{ forloop.counter|mod:2 }}">
-                        <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.title }}</a></li>
-                        <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.artist }}</a></li>
-                        <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.album }}</a></li>
-                        <li class="song-item truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.year }}</a></li>
-                        <li class="song-track-number truncate"><a class="song-link" href="/lister/detail/{{ song.id }}/">{{ song.track_number }}</a></li>
+                        <li class="song-item truncate"><a class="song-link" href="/lister/play/{{ song.id }}/">{{ song.title }}</a></li>
+                        <li class="song-item truncate"><a class="song-link" href="/lister/play/{{ song.id }}/">{{ song.artist }}</a></li>
+                        <li class="song-item truncate"><a class="song-link" href="/lister/play/{{ song.id }}/">{{ song.album }}</a></li>
+                        <li class="song-item truncate"><a class="song-link" href="/lister/play/{{ song.id }}/">{{ song.year }}</a></li>
+                        <li class="song-track-number truncate"><a class="song-link" href="/lister/play/{{ song.id }}/">{{ song.track_number }}</a></li>
                     </ul>
     {% endfor %}
                 </div>

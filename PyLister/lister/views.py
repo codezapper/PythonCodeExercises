@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.template import loader
 from .models import Song
+import os
 import utils
 
 
@@ -77,3 +78,26 @@ def detail(request, song_id):
 
 def vote(request, song_id):
     return HttpResponse("You're voting on song %s." % song_id)
+
+
+class FileIterWrapper(object):
+  def __init__(self, flo, chunk_size = 1024**2):
+    self.flo = flo
+    self.chunk_size = chunk_size
+
+  def next(self):
+    data = self.flo.read(self.chunk_size)
+    if data:
+      return data
+    else:
+      raise StopIteration
+
+  def __iter__(self):
+    return self
+
+
+def play(request, song_id):  
+    resp =  HttpResponse(FileIterWrapper(open('/home/gabriele/Music/test.mp3',"rb")),content_type='audio/mpeg')
+    resp['Content-Length'] = os.path.getsize("/home/gabriele/Music/test.mp3")  
+    resp['Content-Disposition'] = 'filename=test.mp3'  
+    return resp
