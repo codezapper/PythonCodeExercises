@@ -76,19 +76,23 @@ def detail(request, song_id):
     return render(request, 'lister/detail.html', {'song': song})
 
 
-def vote(request, song_id):
-    return HttpResponse("You're voting on song %s." % song_id)
+'''It is possible (and documented) to use a response like:
+HttpResponse(open('test.file')) but Django emits bytes using iter(),
+and calling next() to get more bytes. The problem is that the
+default behaviour is to check for newlines in the input file.
+This does not work well for binary files (there is no real concept
+of "line"), so I want an iterator that reads chunks of data
+of a specified size.'''
 
-
-class FileIterWrapper(object):
-  def __init__(self, flo, chunk_size = 1024**2):
-    self.flo = flo
-    self.chunk_size = chunk_size
+class StreamWrapper():
+  def __init__(self, input_file, buffer_size = 1024**2):
+    self.file_handle = open(input_file, 'rb')
+    self.buffer_size = buffer_size
 
   def next(self):
-    data = self.flo.read(self.chunk_size)
-    if data:
-      return data
+    stream_data = self.file_handle.read(self.buffer_size)
+    if stream_data:
+      return stream_data
     else:
       raise StopIteration
 
@@ -97,7 +101,7 @@ class FileIterWrapper(object):
 
 
 def play(request, song_id):  
-    resp =  HttpResponse(FileIterWrapper(open('/home/gabriele/Music/test.mp3',"rb")),content_type='audio/mpeg')
-    resp['Content-Length'] = os.path.getsize("/home/gabriele/Music/test.mp3")  
-    resp['Content-Disposition'] = 'filename=test.mp3'  
-    return resp
+    streaming_response =  HttpResponse(StreamWrapper('/home/gabriele/Music/test.mp3'),content_type='audio/mpeg')
+    streaming_response['Content-Length'] = os.path.getsize("/home/gabriele/Music/test.mp3")  
+    streaming_response['Content-Disposition'] = 'filename=test.mp3'  
+    return streaming_response
