@@ -113,14 +113,13 @@ ul {
     color: #666;
 }
 
-.menu-link-0 {
+.menu-link {
     text-decoration: none;
     font-family: sans-serif;
     margin-bottom: 0px;
     margin-left: -30px;
     margin-right: 0px;
     color: #666;
-    background-color: #BBB;
     padding: 3px;
     border-radius: 5px;
     width: 100%;
@@ -128,19 +127,12 @@ ul {
     border: 1px solid #AAA;
 }
 
+.menu-link-0 {
+    background-color: #BBB;
+}
+
 .menu-link-1 {
-    text-decoration: none;
-    font-family: sans-serif;
-    margin-bottom: 0px;
-    margin-left: -30px;
-    margin-right: 0px;
-    color: #666;
     background-color: #DDD;
-    padding: 3px;
-    border-radius: 5px;
-    width: 100%;
-    text-align: left;
-    border: 1px solid #AAA;
 }
 
 .menu-container {
