@@ -127,11 +127,11 @@ ul {
     border: 1px solid #AAA;
 }
 
-.menu-link-0 {
+.row-0 {
     background-color: #BBB;
 }
 
-.menu-link-1 {
+.row-1 {
     background-color: #DDD;
 }
 
@@ -177,19 +177,9 @@ ul {
     margin-left: 5px;
 }
 
-.albums-container-1 {
+.albums-container {
     border: 1px solid #AAA;
     border-radius: 3px;
-    background-color: #DDD;
-    margin-left: 80px;
-    margin-right: 20px;
-    width: 60%;
-}
-
-.albums-container-0 {
-    border: 1px solid #AAA;
-    border-radius: 3px;
-    background-color: #CCC;
     margin-left: 80px;
     margin-right: 20px;
     width: 60%;
