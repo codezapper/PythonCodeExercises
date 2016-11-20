@@ -1,3 +1,5 @@
+{% extends "lister/left_menu.html" %}
+{% block content %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
     <head>
@@ -8,26 +10,7 @@
         <script src="{% static 'lister/jquery-3.1.1.min.js' %}"></script>
     </head>
     <body>
-        <div class="left-frame">
-            <ul class="menu-container">
-                <div>
-                    <li class="menu-link menu-link-0"><a class="menu-item" href="/lister/songs/">Songs</a></li>
-                    <li class="menu-link menu-link-1"><a class="menu-item" href="/lister/albums/">Albums</a></li>
-                    <li class="menu-link menu-link-0"><a class="menu-item" href="/lister/artists/">Artists</a></li>
-                    <li class="menu-link menu-link-1"><a class="menu-item" href="/lister/years/">Years</a></li>
-                </div>
-            </ul>
-            <audio id="audioplayer" preload="true">
-                <source src="">
-            </audio>
-            <div class="player-border">
-                <button id="pButton" class="play" onclick="play()"></button>
-                <div id="timeline">    
-                    <div id="playhead">
-                    </div>
-                </div>
-            </div>
-        </div>
+    {{ block.super }}
         <div class="right-frame">
             {% if songs_list %}
                 <ul>
@@ -61,3 +44,4 @@
 </html>
 
 <script src="{% static 'lister/main.js' %}"></script>
+{% endblock %}

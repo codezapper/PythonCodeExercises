@@ -1,3 +1,5 @@
+{% extends "lister/left_menu.html" %}
+{% block content %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
     <head>
@@ -7,15 +9,7 @@
         <link rel="stylesheet" type="text/css" href="{% static 'lister/main.css' %}" />
     </head>
     <body>
-        <div class="left-frame">
-            <ul class="menu-container">
-                <div>
-                    <li class="menu-link-0"><a class="menu-item" href="/lister/songs/">Songs</a></li>
-                    <li class="menu-link-1"><a class="menu-item" href="/lister/albums/">Albums</a></li>
-                    <li class="menu-link-0"><a class="menu-item" href="/lister/artists/">Artists</a></li>
-                    <li class="menu-link-1"><a class="menu-item" href="/lister/years/">Years</a></li>
-                </div>
-            </ul>
+    {{ block.super }}
         </div>
         <div class="right-frame">
     {% if artists_list %}
@@ -37,3 +31,4 @@
         </div>
     </body>
 </html>
+{% endblock %}
