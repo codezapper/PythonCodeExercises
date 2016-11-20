@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, connection
 from django.template import loader
 from .models import Song
 
