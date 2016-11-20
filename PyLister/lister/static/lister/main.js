@@ -1,17 +1,17 @@
-var music = document.getElementById('music');
+// Adapted from http://codepen.io/katzkode/pen/Kfgix
+
 var duration;
+var player = document.getElementById('audioplayer');
 var pButton = document.getElementById('pButton');
-
 var playhead = document.getElementById('playhead');
-
 var timeline = document.getElementById('timeline');
 var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
 
-music.addEventListener("timeupdate", timeUpdate, false);
+player.addEventListener("timeupdate", timeUpdate, false);
 
 timeline.addEventListener("click", function (event) {
     moveplayhead(event);
-    music.currentTime = duration * clickPercent(event);
+    player.currentTime = duration * clickPercent(event);
 }, false);
 
 function clickPercent(e) {
@@ -25,14 +25,14 @@ var onplayhead = false;
 function mouseDown() {
     onplayhead = true;
     window.addEventListener('mousemove', moveplayhead, true);
-    music.removeEventListener('timeupdate', timeUpdate, false);
+    player.removeEventListener('timeupdate', timeUpdate, false);
 }
 function mouseUp(e) {
     if (onplayhead == true) {
         moveplayhead(e);
         window.removeEventListener('mousemove', moveplayhead, true);
-        music.currentTime = duration * clickPercent(e);
-        music.addEventListener('timeupdate', timeUpdate, false);
+        player.currentTime = duration * clickPercent(e);
+        player.addEventListener('timeupdate', timeUpdate, false);
     }
     onplayhead = false;
 }
@@ -51,26 +51,56 @@ function moveplayhead(e) {
 }
 
 function timeUpdate() {
-    var playPercent = timelineWidth * (music.currentTime / duration);
+    var playPercent = timelineWidth * (player.currentTime / duration);
     playhead.style.marginLeft = playPercent + "px";
-    if (music.currentTime == duration) {
+    if (player.currentTime == duration) {
         pButton.className = "";
         pButton.className = "play";
     }
+}
+
+var currentTrack = 0;
+var audio = $('#audioplayer');
+var playlist = $('#playlist');
+var trackList = [];
+
+player.addEventListener('ended',function(e){
+    if(currentTrack == len){
+        currentTrack = 0;
+        link = playlist.find('a')[0];
+    }else{
+        currentTrack++;
+        link = playlist.find('a')[currentTrack];    
+    }
+    run($(link),audio[0]);
+});
+
+function getCurrentTrack() {
+    if (trackList.length === 0) {
+        player.load();
+        trackList = playlist.find('li a');
+        currentTrack = 0;
+    }
+
+    return trackList[currentTrack].getAttribute('href');
 }
 
 function play() {
-    if (music.paused) {
-        music.play();
+    if (player.paused) {
+        console.log(getCurrentTrack());
+        if (player.src === "") {
+            player.src = getCurrentTrack();
+        }
+        player.play();
         pButton.className = "";
         pButton.className = "pause";
     } else {
-        music.pause();
+        player.pause();
         pButton.className = "";
         pButton.className = "play";
     }
 }
 
-music.addEventListener("canplaythrough", function () {
-    duration = music.duration;  
+player.addEventListener("canplaythrough", function () {
+    duration = player.duration;  
 }, false);
