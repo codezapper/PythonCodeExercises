@@ -65,14 +65,14 @@ var playlist = $('#playlist');
 var trackList = [];
 
 player.addEventListener('ended',function(e){
-    if(currentTrack == len){
+    if(currentTrack == (trackList.length - 1)){
         currentTrack = 0;
-        link = playlist.find('a')[0];
+        player.src = playlist.find('a')[0];
     }else{
         currentTrack++;
-        link = playlist.find('a')[currentTrack];    
+        player.src = playlist.find('a')[currentTrack];    
     }
-    run($(link),audio[0]);
+    player.play();
 });
 
 function getCurrentTrack() {
@@ -87,7 +87,6 @@ function getCurrentTrack() {
 
 function play() {
     if (player.paused) {
-        console.log(getCurrentTrack());
         if (player.src === "") {
             player.src = getCurrentTrack();
         }
