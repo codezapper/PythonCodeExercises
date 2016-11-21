@@ -252,3 +252,45 @@ ul {
     width: 60%;
     padding: 5px;
 }
+
+.player-border{
+    width: 150px;
+    height: 30px;
+    margin: 20px auto auto 10px;
+    border: 2px solid #AAA;
+    border-radius: 5px;
+}
+
+#pButton{
+    height: 32px; 
+    width:  32px;
+    border: none;
+    background-size: 50% 50%;
+    background-repeat: no-repeat;
+    background-position: center;
+    float:left;
+    outline:none;
+}
+
+.play{background: url('/static/lister/images/play.png') ;}
+.pause{background: url('/static/lister/images/pause.png') ;}
+
+#timeline{
+    width: 100px;
+    height: 7px;
+    margin-top: 12px;
+    float: left;
+    border-radius: 15px;
+    background: rgba(0,0,0,.3);
+    background-color: #888;
+}
+
+#playhead{
+    width: 6px;
+    height: 5px;
+    border-radius: 3px;
+    margin-top: 1px;
+    margin-left: 1px;
+    background: rgba(0, 0, 0,1);
+    background-color: #DDD;
+}

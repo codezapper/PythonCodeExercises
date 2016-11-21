@@ -1,0 +1,22 @@
+{% block content %}
+        <div class="left-frame">
+            <ul class="menu-container">
+                <div>
+                    <li class="menu-link menu-link-0"><a class="menu-item" href="/lister/songs/">Songs</a></li>
+                    <li class="menu-link menu-link-1"><a class="menu-item" href="/lister/albums/">Albums</a></li>
+                    <li class="menu-link menu-link-0"><a class="menu-item" href="/lister/artists/">Artists</a></li>
+                    <li class="menu-link menu-link-1"><a class="menu-item" href="/lister/years/">Years</a></li>
+                </div>
+            </ul>
+            <audio id="audioplayer" preload="true">
+                <source src="">
+            </audio>
+            <div class="player-border">
+                <button id="pButton" class="play" onclick="play()"></button>
+                <div id="timeline">    
+                    <div id="playhead">
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}

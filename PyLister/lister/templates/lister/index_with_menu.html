@@ -1,3 +1,5 @@
+{% extends "lister/left_menu.html" %}
+{% block content %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
     <head>
@@ -5,44 +7,41 @@
         <title>Available songs</title>
         {% load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'lister/main.css' %}" />
+        <script src="{% static 'lister/jquery-3.1.1.min.js' %}"></script>
     </head>
     <body>
-        <div class="left-frame">
-            <ul class="menu-container">
-                <div>
-                    <li class="menu-link row-0"><a class="menu-item" href="/lister/songs/">Songs</a></li>
-                    <li class="menu-link row-1"><a class="menu-item" href="/lister/albums/">Albums</a></li>
-                    <li class="menu-link row-0"><a class="menu-item" href="/lister/artists/">Artists</a></li>
-                    <li class="menu-link row-1"><a class="menu-item" href="/lister/years/">Years</a></li>
-                </div>
-            </ul>
-        </div>
+    {{ block.super }}
         <div class="right-frame">
-    {% if songs_list %}
-            <ul>
-                <div>
-                    <ul class="songs-header">
-                        <li class="header-item"><a class="header-link truncate" href="/lister/play/{{ song.id }}/">Title</a></li>
-                        <li class="header-item"><a class="header-link truncate" href="/lister/play/{{ song.id }}/">Artist</a></li>
-                        <li class="header-item"><a class="header-link truncate" href="/lister/play/{{ song.id }}/">Album</a></li>
-                        <li class="header-item"><a class="header-link truncate" href="/lister/play/{{ song.id }}/">Year</a></li>
-                        <li class="header-item"><a class="header-link truncate" href="/lister/play/{{ song.id }}/">Track n.</a></li>
-                    </ul>
-    {% load mathfilters %}
-    {% for song in songs_list %}
-                    <ul class="songs-container-{{ forloop.counter|mod:2 }}">
-                        <li class="song-item truncate"><a class="song-link" href="/lister/play/{{ song.id }}/">{{ song.title }}</a></li>
-                        <li class="song-item truncate"><a class="song-link" href="/lister/play/{{ song.id }}/">{{ song.artist }}</a></li>
-                        <li class="song-item truncate"><a class="song-link" href="/lister/play/{{ song.id }}/">{{ song.album }}</a></li>
-                        <li class="song-item truncate"><a class="song-link" href="/lister/play/{{ song.id }}/">{{ song.year }}</a></li>
-                        <li class="song-track-number truncate"><a class="song-link" href="/lister/play/{{ song.id }}/">{{ song.track_number }}</a></li>
-                    </ul>
-    {% endfor %}
-                </div>
-            </ul>
-    {% else %}
-    <p>No songs are available.</p>
-    {% endif %}
+            {% if songs_list %}
+                <ul>
+                    <div>
+                        <ul class="songs-header">
+                            <li class="header-item"><a class="header-link truncate" href="">Title</a></li>
+                            <li class="header-item"><a class="header-link truncate" href="">Artist</a></li>
+                            <li class="header-item"><a class="header-link truncate" href="">Album</a></li>
+                            <li class="header-item"><a class="header-link truncate" href="">Year</a></li>
+                            <li class="header-item"><a class="header-link truncate" href="">Track n.</a></li>
+                        </ul>
+                        {% load mathfilters %}
+                        <div id="playlist">
+                        {% for song in songs_list %}
+                            <ul class="songs-container-{{ forloop.counter|mod:2 }}">
+                                <li class="song-item truncate"><a class="song-link" href="{% static song.path %}/">{{ song.title }}</a></li>
+                                <li class="song-item song-link truncate">{{ song.artist }}</li>
+                                <li class="song-item song-link truncate">{{ song.album }}</li>
+                                <li class="song-item song-link truncate">{{ song.year }}</li>
+                                <li class="song-track-number song-link truncate">{{ song.track_number }}</li>
+                            </ul>
+                        {% endfor %}
+                        </div>
+                    </div>
+                </ul>
+            {% else %}
+                <p>No songs are available.</p>
+            {% endif %}
         </div>
     </body>
 </html>
+
+<script src="{% static 'lister/main.js' %}"></script>
+{% endblock %}
