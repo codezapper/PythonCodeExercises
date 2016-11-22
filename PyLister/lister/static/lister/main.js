@@ -85,8 +85,7 @@ function getCurrentTrack() {
         currentTrack = 0;
     }
 
-    currentTrackText.innerHTML = trackList[currentTrack].text;
-    console.log(currentTrackText.innerHTML);
+    currentTrackText[0].innerHTML = trackList[currentTrack].text;
     return trackList[currentTrack].getAttribute('href');
 }
 

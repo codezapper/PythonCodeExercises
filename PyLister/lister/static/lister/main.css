@@ -295,3 +295,17 @@ ul {
     background-color: #AAA;
     border: 1px solid black;
 }
+
+#current-track {
+    text-decoration: none;
+    font-family: sans-serif;
+    margin-bottom: 0px;
+    margin-left: 10px;
+    margin-right: 0px;
+    color: #666;
+    padding: 3px;
+    border-radius: 5px;
+    width: 100%;
+    text-align: left;
+    border: 1px solid #AAA;
+}
