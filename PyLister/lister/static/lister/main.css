@@ -261,7 +261,7 @@ ul {
     border-radius: 5px;
 }
 
-#pButton{
+#play-button {
     height: 32px; 
     width:  32px;
     border: none;
@@ -275,7 +275,7 @@ ul {
 .play{background: url('/static/lister/images/play.png') ;}
 .pause{background: url('/static/lister/images/pause.png') ;}
 
-#timeline{
+#timeline {
     width: 100px;
     height: 7px;
     margin-top: 12px;
@@ -285,7 +285,7 @@ ul {
     background-color: #888;
 }
 
-#playhead{
+#play-head {
     width: 12px;
     height: 12px;
     border-radius: 50%;

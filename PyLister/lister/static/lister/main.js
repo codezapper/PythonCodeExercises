@@ -1,13 +1,42 @@
 // Adapted from http://codepen.io/katzkode/pen/Kfgix
 
-var duration;
-var player = document.getElementById('audioplayer');
-var playButton = document.getElementById('play-button');
-var playHead = document.getElementById('play-head');
+var playlist = $('#playlist');
+var player = $('#audioplayer')[0];
+var playButton = $('#play-button')[0];
+var playHead = $('#play-head')[0];
+var currentTrackText = $('div#current-track');
+var onPlayHead = false;
 var timeline = document.getElementById('timeline');
 var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
+var trackList = [];
+var currentTrack = 0;
+var duration;
 
 player.addEventListener("timeupdate", timeUpdate, false);
+
+player.addEventListener('ended',function(e){
+    if(currentTrack == (trackList.length - 1)){
+        currentTrack = 0;
+        player.src = playlist.find('a')[0];
+    }else{
+        currentTrack++;
+        player.src = playlist.find('a')[currentTrack];    
+    }
+    player.play();
+});
+
+player.addEventListener("canplaythrough", function () {
+    duration = player.duration;  
+}, false);
+
+function timeUpdate() {
+    var playPercent = timelineWidth * (player.currentTime / duration);
+    playHead.style.marginLeft = playPercent + "px";
+    if (player.currentTime == duration) {
+        playButton.className = "";
+        playButton.className = "play";
+    }
+}
 
 timeline.addEventListener("click", function (event) {
     movePlayHead(event);
@@ -18,11 +47,9 @@ function clickPercent(e) {
     return (e.pageX - timeline.offsetLeft) / timelineWidth;
 }
 
-playHead.addEventListener('mousedown', mouseDown, false);
-window.addEventListener('mouseup', mouseUp, false);
+playHead.addEventListener('mousedown', mouseDownOnPlayHead, false);
 
-var onPlayHead = false;
-function mouseDown() {
+function mouseDownOnPlayHead() {
     onPlayHead = true;
     window.addEventListener('mousemove', movePlayHead, true);
     player.removeEventListener('timeupdate', timeUpdate, false);
@@ -51,31 +78,6 @@ function movePlayHead(e) {
     }
 }
 
-function timeUpdate() {
-    var playPercent = timelineWidth * (player.currentTime / duration);
-    playHead.style.marginLeft = playPercent + "px";
-    if (player.currentTime == duration) {
-        playButton.className = "";
-        playButton.className = "play";
-    }
-}
-
-var currentTrack = 0;
-var audio = $('#audioplayer');
-var playlist = $('#playlist');
-var trackList = [];
-
-player.addEventListener('ended',function(e){
-    if(currentTrack == (trackList.length - 1)){
-        currentTrack = 0;
-        player.src = playlist.find('a')[0];
-    }else{
-        currentTrack++;
-        player.src = playlist.find('a')[currentTrack];    
-    }
-    player.play();
-});
-
 function getCurrentTrack() {
     if (trackList.length === 0) {
         player.load();
@@ -83,6 +85,8 @@ function getCurrentTrack() {
         currentTrack = 0;
     }
 
+    currentTrackText.innerHTML = trackList[currentTrack].text;
+    console.log(currentTrackText.innerHTML);
     return trackList[currentTrack].getAttribute('href');
 }
 
@@ -101,6 +105,4 @@ function play() {
     }
 }
 
-player.addEventListener("canplaythrough", function () {
-    duration = player.duration;  
-}, false);
+window.addEventListener('mouseup', mouseUp, false);
