@@ -2,15 +2,15 @@
 
 var duration;
 var player = document.getElementById('audioplayer');
-var pButton = document.getElementById('pButton');
-var playhead = document.getElementById('playhead');
+var playButton = document.getElementById('play-button');
+var playHead = document.getElementById('play-head');
 var timeline = document.getElementById('timeline');
-var timelineWidth = timeline.offsetWidth - playhead.offsetWidth;
+var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
 
 player.addEventListener("timeupdate", timeUpdate, false);
 
 timeline.addEventListener("click", function (event) {
-    moveplayhead(event);
+    movePlayHead(event);
     player.currentTime = duration * clickPercent(event);
 }, false);
 
@@ -18,44 +18,45 @@ function clickPercent(e) {
     return (e.pageX - timeline.offsetLeft) / timelineWidth;
 }
 
-playhead.addEventListener('mousedown', mouseDown, false);
+playHead.addEventListener('mousedown', mouseDown, false);
 window.addEventListener('mouseup', mouseUp, false);
 
-var onplayhead = false;
+var onPlayHead = false;
 function mouseDown() {
-    onplayhead = true;
-    window.addEventListener('mousemove', moveplayhead, true);
+    onPlayHead = true;
+    window.addEventListener('mousemove', movePlayHead, true);
     player.removeEventListener('timeupdate', timeUpdate, false);
 }
+
 function mouseUp(e) {
-    if (onplayhead == true) {
-        moveplayhead(e);
-        window.removeEventListener('mousemove', moveplayhead, true);
+    if (onPlayHead == true) {
+        movePlayHead(e);
+        window.removeEventListener('mousemove', movePlayHead, true);
         player.currentTime = duration * clickPercent(e);
         player.addEventListener('timeupdate', timeUpdate, false);
     }
-    onplayhead = false;
+    onPlayHead = false;
 }
 
-function moveplayhead(e) {
-    var newMargLeft = e.pageX - timeline.offsetLeft;
-    if (newMargLeft >= 0 && newMargLeft <= timelineWidth) {
-        playhead.style.marginLeft = newMargLeft + "px";
+function movePlayHead(e) {
+    var newMarginLeft = e.pageX - timeline.offsetLeft;
+    if (newMarginLeft >= 0 && newMarginLeft <= timelineWidth) {
+        playHead.style.marginLeft = newMarginLeft + "px";
     }
-    if (newMargLeft < 0) {
-        playhead.style.marginLeft = "0px";
+    if (newMarginLeft < 0) {
+        playHead.style.marginLeft = "0px";
     }
-    if (newMargLeft > timelineWidth) {
-        playhead.style.marginLeft = timelineWidth + "px";
+    if (newMarginLeft > timelineWidth) {
+        playHead.style.marginLeft = timelineWidth + "px";
     }
 }
 
 function timeUpdate() {
     var playPercent = timelineWidth * (player.currentTime / duration);
-    playhead.style.marginLeft = playPercent + "px";
+    playHead.style.marginLeft = playPercent + "px";
     if (player.currentTime == duration) {
-        pButton.className = "";
-        pButton.className = "play";
+        playButton.className = "";
+        playButton.className = "play";
     }
 }
 
@@ -91,12 +92,12 @@ function play() {
             player.src = getCurrentTrack();
         }
         player.play();
-        pButton.className = "";
-        pButton.className = "pause";
+        playButton.className = "";
+        playButton.className = "pause";
     } else {
         player.pause();
-        pButton.className = "";
-        pButton.className = "play";
+        playButton.className = "";
+        playButton.className = "play";
     }
 }
 
