@@ -18,10 +18,11 @@ player.addEventListener('ended',function(e){
     if(currentTrack == (trackList.length - 1)){
         currentTrack = 0;
         player.src = playlist.find('a')[0];
-    }else{
+    } else {
         currentTrack++;
         player.src = playlist.find('a')[currentTrack];    
     }
+    $(trackList[currentTrack].closest('ul')).addClass('active-track');
     player.play();
 });
 
@@ -85,9 +86,7 @@ function getCurrentTrack() {
         currentTrack = 0;
     }
 
-    // trackList[currentTrack].getParent().className = "active-track";
-    console.log(trackList[currentTrack].closest('li'));
-    trackList[currentTrack].closest('ul').className += ' active-track';
+    $(trackList[currentTrack].closest('ul')).addClass('active-track');
     currentTrackText[0].innerHTML = trackList[currentTrack].text;
     return trackList[currentTrack].getAttribute('href');
 }
