@@ -15,6 +15,7 @@ var duration;
 player.addEventListener("timeupdate", timeUpdate, false);
 
 player.addEventListener('ended',function(e){
+    $(trackList[currentTrack].closest('ul')).removeClass('active-track');
     if(currentTrack == (trackList.length - 1)){
         currentTrack = 0;
         player.src = playlist.find('a')[0];
