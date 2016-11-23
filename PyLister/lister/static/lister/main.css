@@ -309,3 +309,7 @@ ul {
     text-align: left;
     border: 1px solid #AAA;
 }
+
+.active-track {
+    background-color: #96C5E6;
+}

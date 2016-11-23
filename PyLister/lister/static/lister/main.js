@@ -85,6 +85,9 @@ function getCurrentTrack() {
         currentTrack = 0;
     }
 
+    // trackList[currentTrack].getParent().className = "active-track";
+    console.log(trackList[currentTrack].closest('li'));
+    trackList[currentTrack].closest('ul').className += ' active-track';
     currentTrackText[0].innerHTML = trackList[currentTrack].text;
     return trackList[currentTrack].getAttribute('href');
 }
@@ -95,11 +98,9 @@ function play() {
             player.src = getCurrentTrack();
         }
         player.play();
-        playButton.className = "";
         playButton.className = "pause";
     } else {
         player.pause();
-        playButton.className = "";
         playButton.className = "play";
     }
 }
