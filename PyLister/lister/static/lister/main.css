@@ -254,7 +254,7 @@ ul {
 }
 
 .player-border{
-    width: 150px;
+    width: 155px;
     height: 30px;
     margin: 20px auto auto 10px;
     border: 2px solid #AAA;
@@ -305,9 +305,14 @@ ul {
     color: #666;
     padding: 3px;
     border-radius: 5px;
-    width: 100%;
+    width: 150px;
     text-align: left;
     border: 1px solid #AAA;
+}
+
+#current-track-title {
+    margin-left: 20px;
+    margin-top: 5px;
 }
 
 .active-track {

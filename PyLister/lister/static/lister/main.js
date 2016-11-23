@@ -4,7 +4,7 @@ var playlist = $('#playlist');
 var player = $('#audioplayer')[0];
 var playButton = $('#play-button')[0];
 var playHead = $('#play-head')[0];
-var currentTrackText = $('div#current-track');
+var currentTrackText = $('div#current-track-title');
 var onPlayHead = false;
 var timeline = document.getElementById('timeline');
 var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
@@ -24,6 +24,7 @@ player.addEventListener('ended',function(e){
         player.src = playlist.find('a')[currentTrack];    
     }
     $(trackList[currentTrack].closest('ul')).addClass('active-track');
+    currentTrackText[0].innerHTML = trackList[currentTrack].text;
     player.play();
 });
 
