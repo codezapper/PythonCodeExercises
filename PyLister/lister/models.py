@@ -4,8 +4,8 @@ from django.db import models
 
 
 class Song(models.Model):
-    album = models.CharField(max_length=256, null=True)
-    artist = models.CharField(max_length=256, null=True)
+    album_id = models.IntegerField(null=True)
+    artist_id = models.IntegerField(null=True)
     image_file = models.CharField(max_length=256, null=True)
     year = models.IntegerField(default=1900, null=True)
     rating = models.IntegerField(default=0, null=True)
@@ -15,3 +15,19 @@ class Song(models.Model):
 
     def __str__(self):
         return '{} ({}) by {}'.format(self.title, self.year or '----', self.artist)
+
+
+class Album(models.Model):
+    album_id = models.IntegerField(null=True)
+    description = models.CharField(max_length=256)
+
+    def __str__(self):
+        return '{}'.format(self.description)
+
+
+class Artist(models.Model):
+    artist_id = models.IntegerField(null=True)
+    description = models.CharField(max_length=256)
+
+    def __str__(self):
+        return '{}'.format(self.description)
