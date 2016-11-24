@@ -18,8 +18,10 @@ def songs(request):
     return HttpResponse(tu.render_for_songs_list(request))
 
 
-def albums(request):
-    return HttpResponse(tu.render_for_albums_list(request))
+def albums(request, album_id=''):
+    if (album_id == ''):
+        return HttpResponse(tu.render_for_albums_list(request))
+    return HttpResponse(tu.render_for_songs_list(request, album_id))
 
 
 def artists(request):

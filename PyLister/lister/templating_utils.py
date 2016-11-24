@@ -3,15 +3,21 @@ from django.template import loader
 from .models import Song
 
 
-def render_for_songs_list(request):
-    songs_list = [song for song in Song.objects.order_by(
-        'artist', 'album', 'track_number')]
+def render_for_songs_list(request, album='', artist='', year=''):
+    songs_list = []
+    if (album != ''):
+        songs_list = [song for song in Song.objects.filter(album=album).order_by(
+            'artist', 'album', 'track_number')]
+    else:
+        songs_list = [song for song in Song.objects.order_by(
+            'artist', 'album', 'track_number')]
     template = loader.get_template('lister/index_with_menu.html')
     context = {'songs_list': songs_list, }
     return template.render(context, request)
 
 
 def render_for_albums_list(request):
+    print request
     cursor = connection.cursor()
     cursor.execute(
         '''SELECT album, image_file, artist, year FROM lister_song GROUP BY album, image_file, artist, year ORDER BY album''')
