@@ -4,13 +4,24 @@ from .models import Song
 
 
 def render_for_songs_list(request, album='', artist='', year=''):
-    songs_list = []
+    # songs_list = [song for song in Song.objects.order_by(
+    #     'artist_id', 'album_id', 'track_number')]
+    cursor = connection.cursor()
+    sql = ''
     if (album != ''):
-        songs_list = [song for song in Song.objects.filter(album=album).order_by(
-            'artist', 'album', 'track_number')]
+        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_album.album_id = ''' + \
+            album + ''' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
     else:
-        songs_list = [song for song in Song.objects.order_by(
-            'artist', 'album', 'track_number')]
+        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
+    cursor.execute(sql)
+    row = cursor.fetchone()
+
+    songs_list = []
+    while (row):
+        songs_list.append(
+            {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3].replace('/home/gabriele/', ''), 'path': row[4], 'year': row[5], 'track_number': row[6]})
+        row = cursor.fetchone()
+
     template = loader.get_template('lister/index_with_menu.html')
     context = {'songs_list': songs_list, }
     return template.render(context, request)
