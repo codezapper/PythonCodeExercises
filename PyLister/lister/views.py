@@ -30,8 +30,10 @@ def artists(request, artist_id=''):
     return HttpResponse(tu.render_for_songs_list(request, '', artist_id))
 
 
-def years(request):
-    return HttpResponse(tu.render_for_years(request))
+def years(request, year=''):
+    if (year == ''):
+        return HttpResponse(tu.render_for_years_list(request))
+    return HttpResponse(tu.render_for_songs_list(request, '', '', year))
 
 
 def detail(request, song_id):

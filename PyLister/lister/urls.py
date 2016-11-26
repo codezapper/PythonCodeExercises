@@ -11,6 +11,8 @@ urlpatterns = [
     url(r'^artists/(?P<artist_id>\w+)$', views.artists, name='artists'),
     url(r'^artists/(?P<artist_id>\w+)/$', views.artists, name='artists'),
     url(r'^years/$', views.years, name='years'),
+    url(r'^years/(?P<year>\w+)$', views.years, name='years'),
+    url(r'^years/(?P<year>\w+)/$', views.years, name='years'),
     url(r'^detail/([0-9]+)/$', views.detail, name='detail'),
     url(r'^play/([0-9]+)/$', views.play, name='play'),
 ]

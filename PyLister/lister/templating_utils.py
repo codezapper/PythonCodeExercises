@@ -14,6 +14,9 @@ def render_for_songs_list(request, album='', artist='', year=''):
     elif (artist != ''):
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_artist.artist_id = ''' + \
             artist + ''' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
+    elif (year != ''):
+        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_song.year = ''' + \
+            year + ''' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
     else:
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
     cursor.execute(sql)
@@ -64,7 +67,7 @@ def render_for_artists_list(request):
     return template.render(context, request)
 
 
-def render_for_years(request):
+def render_for_years_list(request):
     cursor = connection.cursor()
     cursor.execute(
         '''SELECT year, count(year) FROM lister_song GROUP BY year ORDER BY year''')
