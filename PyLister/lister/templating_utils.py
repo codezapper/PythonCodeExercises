@@ -31,13 +31,13 @@ def render_for_albums_list(request):
     print request
     cursor = connection.cursor()
     cursor.execute(
-        '''SELECT album, image_file, artist, year FROM lister_song GROUP BY album, image_file, artist, year ORDER BY album''')
+        '''SELECT lister_album.album_id, lister_album.description, image_file, lister_artist.description, year FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id GROUP BY lister_album.description, lister_artist.description, image_file, year ORDER BY lister_album.album_id''')
     row = cursor.fetchone()
 
     albums_list = []
     while (row):
         albums_list.append(
-            {'album': row[0], 'image_file': row[1].replace('/home/gabriele/', ''), 'artist': row[2], 'year': row[3]})
+            {'album_id': row[0], 'album': row[1], 'image_file': row[2].replace('/home/gabriele/', ''), 'artist': row[3], 'year': row[4]})
         row = cursor.fetchone()
     template = loader.get_template('lister/albums_with_menu.html')
     context = {'albums_list': albums_list, }
