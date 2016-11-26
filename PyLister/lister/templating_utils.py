@@ -11,6 +11,9 @@ def render_for_songs_list(request, album='', artist='', year=''):
     if (album != ''):
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_album.album_id = ''' + \
             album + ''' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
+    elif (artist != ''):
+        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_artist.artist_id = ''' + \
+            artist + ''' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
     else:
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
     cursor.execute(sql)
@@ -31,7 +34,7 @@ def render_for_albums_list(request):
     print request
     cursor = connection.cursor()
     cursor.execute(
-        '''SELECT lister_album.album_id, lister_album.description, image_file, lister_artist.description, year FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id GROUP BY lister_album.description, lister_artist.description, image_file, year ORDER BY lister_album.album_id''')
+        '''SELECT lister_album.album_id, lister_album.description, image_file, lister_artist.description, year FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id GROUP BY lister_album.description, lister_artist.description, image_file, year ORDER BY lister_album.description''')
     row = cursor.fetchone()
 
     albums_list = []
@@ -44,16 +47,17 @@ def render_for_albums_list(request):
     return template.render(context, request)
 
 
-def render_for_artists(request):
+def render_for_artists_list(request):
+    print request
     cursor = connection.cursor()
     cursor.execute(
-        '''SELECT artist, count(artist) FROM lister_song GROUP BY artist ORDER BY artist''')
+        '''SELECT lister_artist.artist_id, lister_artist.description, count(*) FROM lister_song, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id GROUP BY lister_artist.artist_id, lister_artist.description ORDER BY lister_artist.description''')
     row = cursor.fetchone()
 
     artists_list = []
     while (row):
         artists_list.append(
-            {'artist': row[0], 'count': row[1]})
+            {'artist_id': row[0], 'artist': row[1], 'count': row[2]})
         row = cursor.fetchone()
     template = loader.get_template('lister/artists_with_menu.html')
     context = {'artists_list': artists_list, }

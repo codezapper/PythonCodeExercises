@@ -15,14 +15,19 @@
     {% if artists_list %}
             <ul>
                 <div>
-    {% load mathfilters %}
-    {% load static %}
-    {% for artist in artists_list %}
-                    <ul class="artists-container-{{ forloop.counter|mod:2 }}">
-                        <li class="artist-item truncate"><a class="artist-link" href="/lister/detail/{{ artist.id }}/">
-                        {{ artist.artist }} ({{ artist.count }})</a></li>
+                    <ul class="artists-header">
+                        <li class="artist-item truncate"><a class="artist-link" href="/lister/artists/{{ artist.artist_id }}/">Artist</a></li>
                     </ul>
-    {% endfor %}
+                    <div>
+        {% load mathfilters %}
+        {% load static %}
+        {% for artist in artists_list %}
+                        <ul class="artists-container-{{ forloop.counter|mod:2 }}">
+                            <li class="artist-item truncate"><a class="artist-link" href="/lister/artists/{{ artist.artist_id }}/">
+                            {{ artist.artist }} ({{ artist.count }})</a></li>
+                        </ul>
+        {% endfor %}
+                    </div>
                 </div>
             </ul>
     {% else %}

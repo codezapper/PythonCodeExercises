@@ -224,6 +224,17 @@ ul {
     padding: 5px;
 }
 
+.artists-header {
+    border: 1px solid #AAA;
+    border-radius: 3px;
+    background-color: #888;
+    margin-left: 80px;
+    margin-right: 20px;
+    width: 60%;
+    padding: 5px;
+    color: #33A;
+}
+
 .year-link {
     text-decoration: none;
     font-family: sans-serif;
