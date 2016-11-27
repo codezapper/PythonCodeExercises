@@ -19,8 +19,12 @@
                 </div>
             </div>
             <div id="current-track" class="truncate">
-            <div id="fixed-text" class="truncate">
-                Currently playing:
+                <ul class="navigation-buttons-container">
+        {% load static %}
+                    <li class="navigation-buttons"><img class="prev-track" src="{% static 'lister/images/prev_track.png' %}" ></img></li>
+                    <li class="navigation-buttons">Current</li>
+                    <li class="navigation-buttons"><img class="next-track" src="{% static 'lister/images/next_track.png' %}" ></img></li>
+                </ul>
             </div>
             <div id="current-track-title" class="truncate">
             </div>

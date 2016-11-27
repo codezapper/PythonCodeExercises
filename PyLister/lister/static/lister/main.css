@@ -55,7 +55,6 @@ ul {
     border-spacing: 0px;
     margin-left: -6px;
     width: 18%;
-    color: red;
 }
 
 .song-track-number {
@@ -328,4 +327,35 @@ ul {
 
 .active-track {
     background-color: #96C5E6;
+}
+
+.navigation-buttons {
+    padding: 3px;
+    display: inline-block;
+    width: 18%;
+    height: 30px;
+    color: #666;
+}
+
+.prev-track {
+    width: 20px;
+    height: 16px;
+    border-spacing: 20px;
+    margin-bottom: 0px;
+}
+
+.next-track {
+    width: 20px;
+    height: 16px;
+    border-spacing: 20px;
+    margin-bottom: 0px;
+}
+
+.navigation-buttons-container {
+    display: inline-block;
+    border-spacing: 0px;
+    width: 18%;
+    padding: 1px;
+    margin-top: 0px;
+    margin-bottom: 0px;
 }
