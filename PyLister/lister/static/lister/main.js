@@ -15,17 +15,7 @@ var duration;
 player.addEventListener("timeupdate", timeUpdate, false);
 
 player.addEventListener('ended',function(e){
-    $(trackList[currentTrack].closest('ul')).removeClass('active-track');
-    if(currentTrack == (trackList.length - 1)){
-        currentTrack = 0;
-        player.src = playlist.find('a')[0];
-    } else {
-        currentTrack++;
-        player.src = playlist.find('a')[currentTrack];    
-    }
-    $(trackList[currentTrack].closest('ul')).addClass('active-track');
-    currentTrackText[0].innerHTML = trackList[currentTrack].text;
-    player.play();
+    nextTrack();
 });
 
 player.addEventListener("canplaythrough", function () {
@@ -104,6 +94,46 @@ function play() {
         player.pause();
         playButton.className = "play";
     }
+}
+
+function getNextTrack() {
+    var trackPath = '';
+    $(trackList[currentTrack].closest('ul')).removeClass('active-track');
+    if(currentTrack == (trackList.length - 1)){
+        currentTrack = 0;
+        trackPath = playlist.find('a')[0];
+    } else {
+        currentTrack++;
+        trackPath = playlist.find('a')[currentTrack];    
+    }
+    $(trackList[currentTrack].closest('ul')).addClass('active-track');
+    currentTrackText[0].innerHTML = trackList[currentTrack].text;
+    return trackPath;
+}
+
+function getPrevTrack() {
+    var trackPath = '';
+    $(trackList[currentTrack].closest('ul')).removeClass('active-track');
+    if(currentTrack == 0){
+        currentTrack = trackList.length - 1;
+        trackPath = playlist.find('a')[currentTrack];
+    } else {
+        currentTrack--;
+        trackPath = playlist.find('a')[currentTrack];    
+    }
+    $(trackList[currentTrack].closest('ul')).addClass('active-track');
+    currentTrackText[0].innerHTML = trackList[currentTrack].text;
+    return trackPath;
+}
+
+function nextTrack() {
+    player.src = getNextTrack();
+    player.play();
+}
+
+function prevTrack() {
+    player.src = getPrevTrack();
+    player.play();
 }
 
 window.addEventListener('mouseup', mouseUp, false);
