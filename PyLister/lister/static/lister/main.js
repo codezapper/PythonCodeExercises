@@ -72,6 +72,16 @@ function movePlayHead(e) {
     }
 }
 
+function getCurrentTrackPath() {
+    if (trackList.length === 0) {
+        player.load();
+        trackList = playlist.find('li a');
+        currentTrack = 0;
+    }
+
+    return trackList[getCurrentTrack()].getAttribute('href');
+}
+
 function getCurrentTrack() {
     if (trackList.length === 0) {
         player.load();
@@ -81,15 +91,14 @@ function getCurrentTrack() {
 
     $(trackList[currentTrack].closest('ul')).addClass('active-track');
     currentTrackText[0].innerHTML = trackList[currentTrack].text;
-    return trackList[currentTrack].getAttribute('href');
+    return currentTrack;
 }
 
 function play() {
     if (player.paused) {
         if (player.src === "") {
-            currentTrack = getCurrentTrack();
-            setCoverImage(currentTrack);
-            player.src = currentTrack;
+            setCoverImage(getCurrentTrackPath());
+            player.src = getCurrentTrackPath();
         }
         player.play();
         playButton.className = "pause";
@@ -100,7 +109,6 @@ function play() {
 }
 
 function setCoverImage(songPath) {
-    console.log(currentTrackCover);
     currentTrackCover.attr('src', getCoverPathFromSongPath(songPath));
 }
 
@@ -120,7 +128,7 @@ function getNextTrack() {
     }
     $(trackList[currentTrack].closest('ul')).addClass('active-track');
     currentTrackText[0].innerHTML = trackList[currentTrack].text;
-    setCoverImage(trackPath);
+    setCoverImage(getCurrentTrackPath());
     return trackPath;
 }
 
@@ -136,7 +144,7 @@ function getPrevTrack() {
     }
     $(trackList[currentTrack].closest('ul')).addClass('active-track');
     currentTrackText[0].innerHTML = trackList[currentTrack].text;
-    setCoverImage(trackPath);
+    setCoverImage(getCurrentTrackPath());
     return trackPath;
 }
 
