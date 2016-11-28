@@ -5,6 +5,7 @@ var player = $('#audioplayer')[0];
 var playButton = $('#play-button')[0];
 var playHead = $('#play-head')[0];
 var currentTrackText = $('div#current-track-title');
+var currentTrackCover = $('img#current-track-cover');
 var onPlayHead = false;
 var timeline = document.getElementById('timeline');
 var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
@@ -86,7 +87,9 @@ function getCurrentTrack() {
 function play() {
     if (player.paused) {
         if (player.src === "") {
-            player.src = getCurrentTrack();
+            currentTrack = getCurrentTrack();
+            setCoverImage(currentTrack);
+            player.src = currentTrack;
         }
         player.play();
         playButton.className = "pause";
@@ -94,6 +97,15 @@ function play() {
         player.pause();
         playButton.className = "play";
     }
+}
+
+function setCoverImage(songPath) {
+    console.log(currentTrackCover);
+    currentTrackCover.attr('src', getCoverPathFromSongPath(songPath));
+}
+
+function getCoverPathFromSongPath(songPath) {
+    return songPath.substring(0, songPath.lastIndexOf('/')) + '/Folder.jpg';
 }
 
 function getNextTrack() {
@@ -108,6 +120,7 @@ function getNextTrack() {
     }
     $(trackList[currentTrack].closest('ul')).addClass('active-track');
     currentTrackText[0].innerHTML = trackList[currentTrack].text;
+    setCoverImage(trackPath);
     return trackPath;
 }
 
@@ -123,6 +136,7 @@ function getPrevTrack() {
     }
     $(trackList[currentTrack].closest('ul')).addClass('active-track');
     currentTrackText[0].innerHTML = trackList[currentTrack].text;
+    setCoverImage(trackPath);
     return trackPath;
 }
 

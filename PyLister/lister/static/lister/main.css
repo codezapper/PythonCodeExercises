@@ -374,3 +374,9 @@ ul {
     vertical-align: middle;
     font-weight: bold;
 }
+
+#current-track-cover {
+    width: 150px;
+    height: 150px;
+    margin-top: 3px;
+}
