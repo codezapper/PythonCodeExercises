@@ -283,8 +283,13 @@ ul {
     outline:none;
 }
 
-.play{background: url('/static/lister/images/play.png') ;}
-.pause{background: url('/static/lister/images/pause.png') ;}
+.play {
+    background: url('/static/lister/images/play.png');
+}
+
+.pause {
+    background: url('/static/lister/images/pause.png');
+}
 
 #timeline {
     width: 100px;
@@ -379,4 +384,9 @@ ul {
     width: 150px;
     height: 150px;
     margin-top: 3px;
+}
+
+.shuffle-button {
+    width: 16px;
+    height: 12px;
 }

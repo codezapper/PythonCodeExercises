@@ -2,7 +2,6 @@
 - Group styles in CSS
 
 - Clicking on a song should play it and continue on the next in the list
-- Clicking on an album/year/artist shows list of related songs
 - Add a shuffle button
-- Add controls for skip, volume up/down, prev/next track
+- Add controls for volume up/down
 - Add history of recently played songs
