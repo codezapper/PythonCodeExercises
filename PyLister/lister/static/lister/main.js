@@ -54,7 +54,6 @@ function mouseUp(e) {
         movePlayHead(e);
         window.removeEventListener('mousemove', movePlayHead, true);
         player.currentTime = duration * clickPercent(e);
-        player.addEventListener('timeupdate', timeUpdate, false);
     }
     onPlayHead = false;
 }

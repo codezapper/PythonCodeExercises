@@ -46,18 +46,10 @@ def detail(request, song_id):
 
 def play(request, song_id):
     file_path = utils.get_path_by_id(song_id)
-    response = HttpResponse(content_type = 'audio/mpeg', status=206)
-    response['Content-Disposition'] = "attachment; filename=%s" % (file_path)
-    response['Accept-Ranges'] = 'bytes'
-    # response['X-Accel-Redirect'] = settings.MEDIA_URL + '/' + fileModel.FileData.MD5
-    response['X-Accel-Buffering'] = 'no'
-    return response
-
-    # file_path = utils.get_path_by_id(song_id)
-    # streaming_response = HttpResponse(StreamWrapper(
-    #     file_path), content_type='audio/mpeg')
-    # streaming_response[
-    #     'Content-Length'] = os.path.getsize(file_path)
-    # streaming_response['Content-Disposition'] = 'filename=' + \
-    #     os.path.basename(file_path)
-    # return streaming_response
+    streaming_response = HttpResponse(StreamWrapper(
+        file_path), content_type='audio/mpeg')
+    streaming_response[
+        'Content-Length'] = os.path.getsize(file_path)
+    streaming_response['Content-Disposition'] = 'filename=' + \
+        os.path.basename(file_path)
+    return streaming_response
