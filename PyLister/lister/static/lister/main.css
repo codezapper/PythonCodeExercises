@@ -313,18 +313,15 @@ ul {
 }
 
 #current-track {
-    text-decoration: none;
     font-family: sans-serif;
+    color: #666;
     margin-bottom: 0px;
     margin-left: 10px;
     margin-right: 0px;
-    color: #666;
     padding: 3px;
     border-radius: 5px;
     width: 150px;
-    text-align: left;
     border: 1px solid #AAA;
-    vertical-align: middle;
 }
 
 #current-track-title {
@@ -339,7 +336,7 @@ ul {
 
 .navigation-buttons {
     padding: 3px;
-    display: inline;
+    display: inline-block;
     width: 18%;
     height: 30px;
     color: #666;
@@ -350,14 +347,11 @@ ul {
 .prev-track {
     width: 16px;
     height: 12px;
-    margin-bottom: 0px;
 }
 
 .next-track {
     width: 16px;
     height: 12px;
-    margin: 2px 4px;
-    float: right;
 }
 
 .navigation-buttons-container {
@@ -366,6 +360,7 @@ ul {
     padding: 1px;
     margin-top: 0px;
     margin-bottom: 0px;
+    text-align: center;
 }
 
 .truncate-current-track {
@@ -389,4 +384,11 @@ ul {
 .shuffle-button {
     width: 16px;
     height: 12px;
+}
+
+#song-time {
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #666;
+    width: 60px;
 }

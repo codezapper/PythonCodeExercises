@@ -23,7 +23,7 @@
             <div id="current-track">
                 <ul class="navigation-buttons-container">
                     <li class="navigation-buttons"><img class="prev-track" src="{% static 'lister/images/prev_track.png' %}" onclick="prevTrack()"></img></li>
-                    <li class="navigation-buttons">Current track</li>
+                    <li id="song-time" class="navigation-buttons">00:00</li>
                     <li class="navigation-buttons"><img class="next-track" src="{% static 'lister/images/next_track.png' %}" onclick="nextTrack()"></img></li>
                 </ul>
                 <div id="current-track-title" class="truncate-current-track">

@@ -4,6 +4,7 @@ var playlist = $('#playlist');
 var player = $('#audioplayer')[0];
 var playButton = $('#play-button')[0];
 var playHead = $('#play-head')[0];
+var currentTime = $('li#song-time');
 var currentTrackText = $('div#current-track-title');
 var currentTrackCover = $('img#current-track-cover');
 var onPlayHead = false;
@@ -12,6 +13,17 @@ var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
 var trackList = [];
 var currentTrack = 0;
 var duration;
+
+Number.prototype.toMMSS = function () {
+    var roundedTime = Math.round(this);
+    var minutes = Math.floor(roundedTime / 60);
+    var seconds = roundedTime - (minutes * 60);
+
+    minutes = minutes < 10 ? "0" + minutes : minutes;
+    seconds = seconds < 10 ? "0" + seconds : seconds;
+
+    return minutes + ':' + seconds;
+}
 
 player.addEventListener("timeupdate", timeUpdate, false);
 
@@ -25,6 +37,7 @@ player.addEventListener("canplaythrough", function () {
 
 function timeUpdate() {
     var playPercent = timelineWidth * (player.currentTime / duration);
+    currentTime[0].innerHTML = player.currentTime.toMMSS();
     playHead.style.marginLeft = playPercent + "px";
     if (player.currentTime == duration) {
         playButton.className = "";
