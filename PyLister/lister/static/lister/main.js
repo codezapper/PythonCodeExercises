@@ -118,16 +118,24 @@ function getCurrentTrack() {
 }
 
 function play() {
+    setCoverImage(getCurrentTrackPath());
+    if (player.src === "") {
+        player.src = getCurrentTrackPath();
+    }
+    player.play();
+    playButton.className = "pause";
+}
+
+function pause() {
+    player.pause();
+    playButton.className = "play";
+}
+
+function playOrPause() {
     if (player.paused) {
-        if (player.src === "") {
-            setCoverImage(getCurrentTrackPath());
-            player.src = getCurrentTrackPath();
-        }
-        player.play();
-        playButton.className = "pause";
+        play();
     } else {
-        player.pause();
-        playButton.className = "play";
+        pause();
     }
 }
 
@@ -165,12 +173,12 @@ function getPrevTrack() {
 
 function nextTrack() {
     player.src = getNextTrack();
-    player.play();
+    play();
 }
 
 function prevTrack() {
     player.src = getPrevTrack();
-    player.play();
+    play();
 }
 
 function playTrack(trackIndex) {
@@ -188,7 +196,7 @@ function playTrack(trackIndex) {
     currentTrack = trackIndex;
     $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
     player.src = getCurrentTrackPath();
-    player.play();
+    play();
 }
 
 window.addEventListener('mouseup', mouseUp, false);
