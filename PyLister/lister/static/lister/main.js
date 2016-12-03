@@ -10,7 +10,7 @@ var currentTrackCover = $('img#current-track-cover');
 var onPlayHead = false;
 var timeline = document.getElementById('timeline');
 var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
-var trackList = [];
+var trackList = {};
 var currentTrack = 0;
 var duration;
 
@@ -86,24 +86,32 @@ function movePlayHead(e) {
 }
 
 function getCurrentTrackPath() {
-    if (trackList.length === 0) {
+    if (Object.keys(trackList).length === 0) {
         player.load();
-        trackList = playlist.find('li a');
-        currentTrack = 0;
+        playlist.find('li a').each(function(index, item) {
+            trackList[item.getAttribute('data-index')] = {}
+            trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('href');
+            trackList[item.getAttribute('data-index')]["title"] = item.text;
+        });
+        currentTrack = 1;
     }
 
-    return trackList[getCurrentTrack()].getAttribute('href');
+    return trackList[getCurrentTrack()].path;
 }
 
 function getCurrentTrack() {
-    if (trackList.length === 0) {
+    if (Object.keys(trackList).length === 0) {
         player.load();
-        trackList = playlist.find('li a');
-        currentTrack = 0;
+        playlist.find('li a').each(function(index, item) {
+            trackList[item.getAttribute('data-index')] = {}
+            trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('href');
+            trackList[item.getAttribute('data-index')]["title"] = item.text;
+        });
+        currentTrack = 1;
     }
 
-    $(trackList[currentTrack].closest('ul')).addClass('active-track');
-    currentTrackText[0].innerHTML = trackList[currentTrack].text;
+    currentTrackText[0].innerHTML = trackList[currentTrack].title;
+    $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
     return currentTrack;
 }
 
@@ -130,35 +138,27 @@ function getCoverPathFromSongPath(songPath) {
 }
 
 function getNextTrack() {
-    var trackPath = '';
-    $(trackList[currentTrack].closest('ul')).removeClass('active-track');
-    if(currentTrack == (trackList.length - 1)){
-        currentTrack = 0;
-        trackPath = playlist.find('a')[0];
-    } else {
-        currentTrack++;
-        trackPath = playlist.find('a')[currentTrack];    
+    $('[data-index="' + currentTrack + '"').closest('ul').removeClass('active-track');
+    currentTrack++;
+    if (currentTrack > Object.keys(trackList).length) {
+        currentTrack = 1;
     }
-    $(trackList[currentTrack].closest('ul')).addClass('active-track');
-    currentTrackText[0].innerHTML = trackList[currentTrack].text;
+    $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
+
     setCoverImage(getCurrentTrackPath());
-    return trackPath;
+    return trackList[currentTrack].path;
 }
 
 function getPrevTrack() {
-    var trackPath = '';
-    $(trackList[currentTrack].closest('ul')).removeClass('active-track');
-    if(currentTrack == 0){
-        currentTrack = trackList.length - 1;
-        trackPath = playlist.find('a')[currentTrack];
-    } else {
-        currentTrack--;
-        trackPath = playlist.find('a')[currentTrack];    
+    $('[data-index="' + currentTrack + '"').closest('ul').removeClass('active-track');
+    currentTrack--;
+    if (currentTrack <= 0) {
+        currentTrack = Object.keys(trackList).length;
     }
-    $(trackList[currentTrack].closest('ul')).addClass('active-track');
-    currentTrackText[0].innerHTML = trackList[currentTrack].text;
+    $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
+
     setCoverImage(getCurrentTrackPath());
-    return trackPath;
+    return trackList[currentTrack].path;
 }
 
 function nextTrack() {
@@ -169,6 +169,11 @@ function nextTrack() {
 function prevTrack() {
     player.src = getPrevTrack();
     player.play();
+}
+
+function playTrack() {
+    console.log(this);
+    return false;
 }
 
 window.addEventListener('mouseup', mouseUp, false);
