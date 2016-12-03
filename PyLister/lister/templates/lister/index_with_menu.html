@@ -26,7 +26,7 @@
                         <div id="playlist">
                         {% for song in songs_list %}
                             <ul class="songs-container-{{ forloop.counter|mod:2 }}">
-                                <li class="song-item truncate"><a class="song-link" onclick="playTrack();return false;" data-index="{{ forloop.counter }}" href="{% static song.path %}">{{ song.title }}</a></li>
+                                <li class="song-item truncate"><a class="song-link" onclick="playTrack({{ forloop.counter }});return false;" data-index="{{ forloop.counter }}" href="{% static song.path %}">{{ song.title }}</a></li>
                                 <li class="song-item song-link truncate">{{ song.artist }}</li>
                                 <li class="song-item song-link truncate">{{ song.album }}</li>
                                 <li class="song-item song-link truncate">{{ song.year }}</li>

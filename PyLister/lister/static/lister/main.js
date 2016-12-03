@@ -92,6 +92,7 @@ function getCurrentTrackPath() {
             trackList[item.getAttribute('data-index')] = {}
             trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('href');
             trackList[item.getAttribute('data-index')]["title"] = item.text;
+            item.onclick = playTrack;
         });
         currentTrack = 1;
     }
@@ -106,6 +107,7 @@ function getCurrentTrack() {
             trackList[item.getAttribute('data-index')] = {}
             trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('href');
             trackList[item.getAttribute('data-index')]["title"] = item.text;
+            item.onclick = playTrack;
         });
         currentTrack = 1;
     }
@@ -171,9 +173,22 @@ function prevTrack() {
     player.play();
 }
 
-function playTrack() {
-    console.log(this);
-    return false;
+function playTrack(trackIndex) {
+    if (Object.keys(trackList).length === 0) {
+        player.load();
+        playlist.find('li a').each(function(index, item) {
+            trackList[item.getAttribute('data-index')] = {}
+            trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('href');
+            trackList[item.getAttribute('data-index')]["title"] = item.text;
+        });
+        currentTrack = 1;
+    }
+
+    $('[data-index="' + currentTrack + '"').closest('ul').removeClass('active-track');
+    currentTrack = trackIndex;
+    $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
+    player.src = getCurrentTrackPath();
+    player.play();
 }
 
 window.addEventListener('mouseup', mouseUp, false);
