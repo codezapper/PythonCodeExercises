@@ -18,6 +18,7 @@ var currentTrack = 0;
 var currentTrackIndex = 0;
 var nextTrackIndex = 0;
 var useShuffled = false;
+var useCycled = false;
 var duration;
 
 Number.prototype.toMMSS = function () {
@@ -125,10 +126,14 @@ function getCoverPathFromSongPath(songPath) {
 function getNextTrack() {
     currentTrackIndex++;
     if (currentTrackIndex > Object.keys(trackList).length) {
-        currentTrackIndex = 1;
+        if (useCycled) {
+            currentTrackIndex = 1;
+        } else {
+            currentTrackIndex = -1;
+        }
     }
 
-    if (useShuffled) {
+    if (useShuffled && (currentTrackIndex > -1)) {
         return shuffledList[currentTrackIndex - 1];
     }
 
@@ -136,16 +141,20 @@ function getNextTrack() {
 }
 
 function getPrevTrack() {
-    var prevTrack = currentTrack - 1;
-    if (prevTrack <= 0) {
-        prevTrack = Object.keys(trackList).length;
+    currentTrackIndex--;
+    if (currentTrackIndex < 1) {
+        if (useCycled) {
+            currentTrackIndex = Object.keys(trackList).length;
+        } else {
+            currentTrackIndex = -1;
+        }
     }
 
-    if (useShuffled) {
-        return shuffledList[nextTrack];
+    if (useShuffled && (currentTrackIndex > -1)) {
+        return shuffledList[currentTrackIndex - 1];
     }
 
-    return prevTrack;
+    return currentTrackIndex;
 }
 
 function goToNextTrack() {
@@ -193,6 +202,7 @@ function toggleShuffle() {
 }
 
 function toggleCycle() {
+    useCycled = !useCycled;
     cycleButton.toggleClass('cycle-button-off');
     cycleButton.toggleClass('cycle-button-on');
 }
