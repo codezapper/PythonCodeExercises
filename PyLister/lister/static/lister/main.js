@@ -86,41 +86,18 @@ function movePlayHead(e) {
 }
 
 function getCurrentTrackPath() {
-    if (Object.keys(trackList).length === 0) {
-        player.load();
-        playlist.find('li a').each(function(index, item) {
-            trackList[item.getAttribute('data-index')] = {}
-            trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('data-path');
-            trackList[item.getAttribute('data-index')]["title"] = item.text;
-        });
-        currentTrack = 1;
-    }
-
     return trackList[getCurrentTrack()].path;
 }
 
 function getCurrentTrack() {
-    if (Object.keys(trackList).length === 0) {
-        player.load();
-        playlist.find('li a').each(function(index, item) {
-            trackList[item.getAttribute('data-index')] = {}
-            trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('data-path');
-            trackList[item.getAttribute('data-index')]["title"] = item.text;
-        });
-        currentTrack = 1;
-    }
-
     currentTrackText[0].innerHTML = trackList[currentTrack].title;
     $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
     return currentTrack;
 }
 
 function play() {
-    setCoverImage(getCurrentTrackPath());
-    if (player.src === "") {
-        player.src = getCurrentTrackPath();
-    }
-    player.play();
+    console.log("play");
+    setCurrentTrack(getCurrentTrack());
     playButton.className = "pause";
 }
 
@@ -137,49 +114,51 @@ function playOrPause() {
     }
 }
 
-function setCoverImage(songPath) {
-    currentTrackCover.attr('src', getCoverPathFromSongPath(songPath));
-}
-
 function getCoverPathFromSongPath(songPath) {
     return songPath.substring(0, songPath.lastIndexOf('/')) + '/Folder.jpg';
 }
 
 function getNextTrack() {
-    $('[data-index="' + currentTrack + '"').closest('ul').removeClass('active-track');
-    currentTrack++;
-    if (currentTrack > Object.keys(trackList).length) {
-        currentTrack = 1;
+    nextTrack = currentTrack + 1;
+    if (nextTrack > Object.keys(trackList).length) {
+        nextTrack = 1;
     }
-    $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
 
-    setCoverImage(getCurrentTrackPath());
-    return trackList[currentTrack].path;
+    return nextTrack;
 }
 
 function getPrevTrack() {
-    $('[data-index="' + currentTrack + '"').closest('ul').removeClass('active-track');
-    currentTrack--;
-    if (currentTrack <= 0) {
-        currentTrack = Object.keys(trackList).length;
+    var prevTrack = currentTrack - 1;
+    if (prevTrack <= 0) {
+        prevTrack = Object.keys(trackList).length;
     }
-    $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
 
-    setCoverImage(getCurrentTrackPath());
-    return trackList[currentTrack].path;
+    return prevTrack;
 }
 
-function nextTrack() {
-    player.src = getNextTrack();
-    play();
+function goToNextTrack() {
+    setCurrentTrack(getNextTrack());
 }
 
-function prevTrack() {
-    player.src = getPrevTrack();
-    play();
+function goToPrevTrack() {
+    setCurrentTrack(getPrevTrack());
 }
 
 function playTrack(trackIndex) {
+    setCurrentTrack(trackIndex);
+}
+
+function setCurrentTrack(trackIndex) {
+    $('[data-index="' + currentTrack + '"').closest('ul').removeClass('active-track');
+    currentTrack = trackIndex;
+    $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
+    currentTrackPath = getCurrentTrackPath();
+    currentTrackCover.attr('src', getCoverPathFromSongPath(currentTrackPath));
+    player.src = currentTrackPath;
+    player.play();
+}
+
+function initTrackList() {
     if (Object.keys(trackList).length === 0) {
         player.load();
         playlist.find('li a').each(function(index, item) {
@@ -189,12 +168,7 @@ function playTrack(trackIndex) {
         });
         currentTrack = 1;
     }
-
-    $('[data-index="' + currentTrack + '"').closest('ul').removeClass('active-track');
-    currentTrack = trackIndex;
-    $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
-    player.src = getCurrentTrackPath();
-    play();
 }
 
+window.addEventListener('load', initTrackList, false);
 window.addEventListener('mouseup', mouseUp, false);

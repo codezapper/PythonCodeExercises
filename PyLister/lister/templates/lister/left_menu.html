@@ -7,7 +7,7 @@
                     <li class="menu-link row-1"><a class="menu-item" href="/lister/albums/">Albums</a></li>
                     <li class="menu-link row-0"><a class="menu-item" href="/lister/artists/">Artists</a></li>
                     <li class="menu-link row-1"><a class="menu-item" href="/lister/years/">Years</a></li>
-                    <li><img class="shuffle-button" src="{% static 'lister/images/shuffle.png' %}" onclick="prevTrack()"></img></li>
+                    <li><img class="shuffle-button" src="{% static 'lister/images/shuffle.png' %}" onclick="goToPrevTrack()"></img></li>
                 </div>
             </ul>
             <audio id="audioplayer" preload="true">
@@ -22,9 +22,9 @@
             </div>
             <div id="current-track">
                 <ul class="navigation-buttons-container">
-                    <li class="navigation-buttons"><img class="prev-track" src="{% static 'lister/images/prev_track.png' %}" onclick="prevTrack()"></img></li>
+                    <li class="navigation-buttons"><img class="prev-track" src="{% static 'lister/images/prev_track.png' %}" onclick="goToPrevTrack()"></img></li>
                     <li id="song-time" class="navigation-buttons">00:00</li>
-                    <li class="navigation-buttons"><img class="next-track" src="{% static 'lister/images/next_track.png' %}" onclick="nextTrack()"></img></li>
+                    <li class="navigation-buttons"><img class="next-track" src="{% static 'lister/images/next_track.png' %}" onclick="goToNextTrack()"></img></li>
                 </ul>
                 <div id="current-track-title" class="truncate-current-track">
                 None

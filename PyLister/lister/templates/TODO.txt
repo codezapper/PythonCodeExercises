@@ -1,8 +1,6 @@
 - Cleanup main.js
 - Group styles in CSS
 
-- Clicking on a song should play it and continue on the next in the list
 - Add a shuffle button
 - Add controls for volume up/down
 - Add history of recently played songs
-- Replace "Current track" with actual time from current track
