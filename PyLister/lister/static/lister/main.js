@@ -90,9 +90,8 @@ function getCurrentTrackPath() {
         player.load();
         playlist.find('li a').each(function(index, item) {
             trackList[item.getAttribute('data-index')] = {}
-            trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('href');
+            trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('data-path');
             trackList[item.getAttribute('data-index')]["title"] = item.text;
-            item.onclick = playTrack;
         });
         currentTrack = 1;
     }
@@ -105,9 +104,8 @@ function getCurrentTrack() {
         player.load();
         playlist.find('li a').each(function(index, item) {
             trackList[item.getAttribute('data-index')] = {}
-            trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('href');
+            trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('data-path');
             trackList[item.getAttribute('data-index')]["title"] = item.text;
-            item.onclick = playTrack;
         });
         currentTrack = 1;
     }
@@ -186,7 +184,7 @@ function playTrack(trackIndex) {
         player.load();
         playlist.find('li a').each(function(index, item) {
             trackList[item.getAttribute('data-index')] = {}
-            trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('href');
+            trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('data-path');
             trackList[item.getAttribute('data-index')]["title"] = item.text;
         });
         currentTrack = 1;
