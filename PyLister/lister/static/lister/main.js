@@ -91,12 +91,10 @@ function getCurrentTrackPath() {
 
 function getCurrentTrack() {
     currentTrackText[0].innerHTML = trackList[currentTrack].title;
-    $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
     return currentTrack;
 }
 
 function play() {
-    console.log("play");
     setCurrentTrack(getCurrentTrack());
     playButton.className = "pause";
 }
