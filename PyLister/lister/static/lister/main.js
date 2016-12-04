@@ -8,6 +8,7 @@ var currentTime = $('li#song-time');
 var currentTrackText = $('div#current-track-title');
 var currentTrackCover = $('img#current-track-cover');
 var shuffleButton = $('#shuffle-button');
+var cycleButton = $('#cycle-button');
 var onPlayHead = false;
 var timeline = document.getElementById('timeline');
 var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
@@ -191,6 +192,11 @@ function toggleShuffle() {
     shuffleButton.toggleClass('shuffle-button-on');
 }
 
+function toggleCycle() {
+    cycleButton.toggleClass('cycle-button-off');
+    cycleButton.toggleClass('cycle-button-on');
+}
+
 function initTrackList() {
     if (Object.keys(trackList).length === 0) {
         player.load();
@@ -200,6 +206,18 @@ function initTrackList() {
             trackList[item.getAttribute('data-index')]["title"] = item.text;
         });
         currentTrack = 1;
+    }
+}
+
+function volumeUp() {
+    if (player.volume < 1) {
+        player.volume += 0.1;
+    }
+}
+
+function volumeDown() {
+    if (player.volume > 0) {
+        player.volume -= 0.1;
     }
 }
 

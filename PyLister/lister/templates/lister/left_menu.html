@@ -26,6 +26,9 @@
                     <li class="navigation-buttons"><img class="next-track" src="{% static 'lister/images/next_track.png' %}" onclick="goToNextTrack()"></img></li>
                 </ul>
                 <button id="shuffle-button" class="shuffle-button-off" onclick="toggleShuffle()"></button>
+                <button id="cycle-button" class="cycle-button-off" onclick="toggleCycle()"></button>
+                <button class="volume-up-button" onclick="volumeUp()"></button>
+                <button class="volume-down-button" onclick="volumeDown()"></button>
                 <div id="current-track-title" class="truncate-current-track">
                 None
                 </div>

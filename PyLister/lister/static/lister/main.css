@@ -389,6 +389,8 @@ ul {
     outline:none;
     border: none;
     background: url('/static/lister/images/shuffle_on.png');
+    margin-left: 10px;
+    float: left;
 }
 
 .shuffle-button-off {
@@ -399,6 +401,56 @@ ul {
     outline:none;
     border: none;
     background: url('/static/lister/images/shuffle_off.png');
+    margin-left: 10px;
+    float: left;
+}
+
+.volume-up-button {
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    outline:none;
+    border: none;
+    background: url('/static/lister/images/volume_up.png');
+    float: right;
+    margin-right: 10px;
+}
+
+.volume-down-button {
+    width: 16px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    outline:none;
+    border: none;
+    background: url('/static/lister/images/volume_down.png');
+    float: right;
+    margin-right: 10px;
+}
+
+.cycle-button-off {
+    width: 17px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    outline:none;
+    border: none;
+    background: url('/static/lister/images/repeat_off.png');
+    float: left;
+    margin-left: 10px;
+}
+
+.cycle-button-on {
+    width: 17px;
+    height: 16px;
+    background-repeat: no-repeat;
+    background-position: center;
+    outline:none;
+    border: none;
+    background: url('/static/lister/images/repeat_on.png');
+    float: left;
+    margin-left: 10px;
 }
 
 #song-time {
