@@ -7,11 +7,14 @@ var playHead = $('#play-head')[0];
 var currentTime = $('li#song-time');
 var currentTrackText = $('div#current-track-title');
 var currentTrackCover = $('img#current-track-cover');
+var shuffleButton = $('#shuffle-button');
 var onPlayHead = false;
 var timeline = document.getElementById('timeline');
 var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
 var trackList = {};
+var shuffledList = [];
 var currentTrack = 0;
+var useShuffled = false;
 var duration;
 
 Number.prototype.toMMSS = function () {
@@ -122,6 +125,10 @@ function getNextTrack() {
         nextTrack = 1;
     }
 
+    if (useShuffled) {
+        return shuffledList[nextTrack];
+    }
+
     return nextTrack;
 }
 
@@ -129,6 +136,10 @@ function getPrevTrack() {
     var prevTrack = currentTrack - 1;
     if (prevTrack <= 0) {
         prevTrack = Object.keys(trackList).length;
+    }
+
+    if (useShuffled) {
+        return shuffledList[nextTrack];
     }
 
     return prevTrack;
@@ -156,8 +167,23 @@ function setCurrentTrack(trackIndex) {
     player.play();
 }
 
+function getShuffledList() {
+    if (shuffledList.length === 0) {
+        shuffledList = Object.keys(trackList);
+        for (var i = shuffledList.length; i > 0; i--) {
+            var j = Math.floor(Math.random() * i);
+            [shuffledList[i - 1], shuffledList[j]] = [shuffledList[j], shuffledList[i - 1]];
+        }
+    }
+    console.log(shuffledList);
+    return shuffledList;
+}
+
 function toggleShuffle() {
-    console.log('toggleShuffle');
+    useShuffled = !useShuffled;
+    useShuffled && getShuffledList();
+    shuffleButton.toggleClass('shuffle-button-off');
+    shuffleButton.toggleClass('shuffle-button-on');
 }
 
 function initTrackList() {
