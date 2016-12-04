@@ -156,6 +156,10 @@ function setCurrentTrack(trackIndex) {
     player.play();
 }
 
+function toggleShuffle() {
+    console.log('toggleShuffle');
+}
+
 function initTrackList() {
     if (Object.keys(trackList).length === 0) {
         player.load();

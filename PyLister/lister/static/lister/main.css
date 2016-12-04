@@ -381,9 +381,24 @@ ul {
     margin-top: 3px;
 }
 
-.shuffle-button {
-    width: 16px;
-    height: 12px;
+.shuffle-button-on {
+    width: 20px;
+    height: 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+    outline:none;
+    border: none;
+    background: url('/static/lister/images/shuffle_on.png');
+}
+
+.shuffle-button-off {
+    width: 20px;
+    height: 15px;
+    background-repeat: no-repeat;
+    background-position: center;
+    outline:none;
+    border: none;
+    background: url('/static/lister/images/shuffle_off.png');
 }
 
 #song-time {

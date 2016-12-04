@@ -7,7 +7,6 @@
         <title>Available songs</title>
         {% load static %}
         <link rel="stylesheet" type="text/css" href="{% static 'lister/main.css' %}" />
-        <script src="{% static 'lister/jquery-3.1.1.min.js' %}"></script>
     </head>
     <body>
     {{ block.super }}
@@ -41,7 +40,8 @@
             {% endif %}
         </div>
     </body>
-</html>
 
-<script src="{% static 'lister/main.js' %}"></script>
+    <script src="{% static 'lister/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'lister/main.js' %}"></script>
+</html>
 {% endblock %}
