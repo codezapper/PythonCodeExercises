@@ -1,7 +1,6 @@
 - Cleanup main.js
 - Group styles in CSS
 
-- Add a shuffle button
 - Add controls for volume up/down
 - Add history of recently played songs
 - Implement callback to play through shown items (albums, artists, years)

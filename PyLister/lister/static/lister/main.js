@@ -14,6 +14,8 @@ var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
 var trackList = {};
 var shuffledList = [];
 var currentTrack = 0;
+var currentTrackIndex = 0;
+var nextTrackIndex = 0;
 var useShuffled = false;
 var duration;
 
@@ -98,7 +100,7 @@ function getCurrentTrack() {
 }
 
 function play() {
-    setCurrentTrack(getCurrentTrack());
+    setCurrentTrack(getNextTrack());
     playButton.className = "pause";
 }
 
@@ -120,16 +122,16 @@ function getCoverPathFromSongPath(songPath) {
 }
 
 function getNextTrack() {
-    nextTrack = currentTrack + 1;
-    if (nextTrack > Object.keys(trackList).length) {
-        nextTrack = 1;
+    currentTrackIndex++;
+    if (currentTrackIndex > Object.keys(trackList).length) {
+        currentTrackIndex = 1;
     }
 
     if (useShuffled) {
-        return shuffledList[nextTrack];
+        return shuffledList[currentTrackIndex - 1];
     }
 
-    return nextTrack;
+    return currentTrackIndex;
 }
 
 function getPrevTrack() {
@@ -153,13 +155,13 @@ function goToPrevTrack() {
     setCurrentTrack(getPrevTrack());
 }
 
-function playTrack(trackIndex) {
-    setCurrentTrack(trackIndex);
+function playTrack(track) {
+    setCurrentTrack(track);
 }
 
-function setCurrentTrack(trackIndex) {
+function setCurrentTrack(track) {
     $('[data-index="' + currentTrack + '"').closest('ul').removeClass('active-track');
-    currentTrack = trackIndex;
+    currentTrack = track;
     $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
     currentTrackPath = getCurrentTrackPath();
     currentTrackCover.attr('src', getCoverPathFromSongPath(currentTrackPath));
@@ -175,13 +177,16 @@ function getShuffledList() {
             [shuffledList[i - 1], shuffledList[j]] = [shuffledList[j], shuffledList[i - 1]];
         }
     }
-    console.log(shuffledList);
     return shuffledList;
 }
 
 function toggleShuffle() {
     useShuffled = !useShuffled;
-    useShuffled && getShuffledList();
+    if (useShuffled) {
+        getShuffledList();
+    } else {
+        currentTrackIndex = shuffledList[currentTrackIndex - 1];
+    }
     shuffleButton.toggleClass('shuffle-button-off');
     shuffleButton.toggleClass('shuffle-button-on');
 }
