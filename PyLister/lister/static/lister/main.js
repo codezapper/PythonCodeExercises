@@ -26,33 +26,32 @@ Number.prototype.toMMSS = function() {
     var minutes = Math.floor(roundedTime / 60);
     var seconds = roundedTime - (minutes * 60);
 
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-    seconds = seconds < 10 ? "0" + seconds : seconds;
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    seconds = seconds < 10 ? '0' + seconds : seconds;
 
     return minutes + ':' + seconds;
 }
 
-player.addEventListener("timeupdate", timeUpdate, false);
+player.addEventListener('timeupdate', timeUpdate, false);
 
 player.addEventListener('ended', function(e) {
-    nextTrack();
+    goToNextTrack();
 });
 
-player.addEventListener("canplaythrough", function() {
+player.addEventListener('canplaythrough', function() {
     duration = player.duration;
 }, false);
 
 function timeUpdate() {
     var playPercent = timelineWidth * (player.currentTime / duration);
     currentTime[0].innerHTML = player.currentTime.toMMSS();
-    playHead.style.marginLeft = playPercent + "px";
+    playHead.style.marginLeft = playPercent + 'px';
     if (player.currentTime == duration) {
-        playButton.className = "";
-        playButton.className = "play";
+        playButton.className = 'play';
     }
 }
 
-timeline.addEventListener("click", function(event) {
+timeline.addEventListener('click', function(event) {
     movePlayHead(event);
     player.currentTime = duration * clickPercent(event);
 }, false);
@@ -74,7 +73,7 @@ function mouseUp(e) {
         movePlayHead(e);
         window.removeEventListener('mousemove', movePlayHead, true);
         player.currentTime = duration * clickPercent(e);
-        player.addEventListener("timeupdate", timeUpdate, false);
+        player.addEventListener('timeupdate', timeUpdate, false);
     }
     onPlayHead = false;
 }
@@ -82,13 +81,13 @@ function mouseUp(e) {
 function movePlayHead(e) {
     var newMarginLeft = e.pageX - timeline.offsetLeft;
     if (newMarginLeft >= 0 && newMarginLeft <= timelineWidth) {
-        playHead.style.marginLeft = newMarginLeft + "px";
+        playHead.style.marginLeft = newMarginLeft + 'px';
     }
     if (newMarginLeft < 0) {
-        playHead.style.marginLeft = "0px";
+        playHead.style.marginLeft = '0px';
     }
     if (newMarginLeft > timelineWidth) {
-        playHead.style.marginLeft = timelineWidth + "px";
+        playHead.style.marginLeft = timelineWidth + 'px';
     }
 }
 
@@ -102,13 +101,16 @@ function getCurrentTrack() {
 }
 
 function play() {
-    setCurrentTrack(getNextTrack());
-    playButton.className = "pause";
+    var nextTrack = getNextTrack();
+    if (nextTrack > -1) {
+        setCurrentTrack(getNextTrack());
+        playButton.className = 'pause';
+    }
 }
 
 function pause() {
     player.pause();
-    playButton.className = "play";
+    playButton.className = 'play';
 }
 
 function playOrPause() {
@@ -179,6 +181,7 @@ function setCurrentTrack(track) {
         currentTrackPath = getCurrentTrackPath();
         currentTrackCover.attr('src', getCoverPathFromSongPath(currentTrackPath));
         player.src = currentTrackPath;
+        playButton.className = 'pause';
         player.play();
     }
 }
@@ -216,8 +219,8 @@ function initTrackList() {
         player.load();
         playlist.find('li a').each(function(index, item) {
             trackList[item.getAttribute('data-index')] = {}
-            trackList[item.getAttribute('data-index')]["path"] = item.getAttribute('data-path');
-            trackList[item.getAttribute('data-index')]["title"] = item.text;
+            trackList[item.getAttribute('data-index')]['path'] = item.getAttribute('data-path');
+            trackList[item.getAttribute('data-index')]['title'] = item.text;
         });
         currentTrack = 1;
     }

@@ -2,6 +2,5 @@
 - Move inclusion of JS files to left_menu html file
 - Group styles in CSS
 
-- When at the end of the playlist, don't unset active track until it's finished
 - Add history of recently played songs
 - Implement callback to play through shown items (albums, artists, years)
