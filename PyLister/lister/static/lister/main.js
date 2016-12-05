@@ -18,10 +18,10 @@ var currentTrack = 0;
 var currentTrackIndex = 0;
 var nextTrackIndex = 0;
 var useShuffled = false;
-var useCycled = false;
+var useCycled = true;
 var duration;
 
-Number.prototype.toMMSS = function () {
+Number.prototype.toMMSS = function() {
     var roundedTime = Math.round(this);
     var minutes = Math.floor(roundedTime / 60);
     var seconds = roundedTime - (minutes * 60);
@@ -34,12 +34,12 @@ Number.prototype.toMMSS = function () {
 
 player.addEventListener("timeupdate", timeUpdate, false);
 
-player.addEventListener('ended',function(e){
+player.addEventListener('ended', function(e) {
     nextTrack();
 });
 
-player.addEventListener("canplaythrough", function () {
-    duration = player.duration;  
+player.addEventListener("canplaythrough", function() {
+    duration = player.duration;
 }, false);
 
 function timeUpdate() {
@@ -52,7 +52,7 @@ function timeUpdate() {
     }
 }
 
-timeline.addEventListener("click", function (event) {
+timeline.addEventListener("click", function(event) {
     movePlayHead(event);
     player.currentTime = duration * clickPercent(event);
 }, false);
@@ -124,13 +124,14 @@ function getCoverPathFromSongPath(songPath) {
 }
 
 function getNextTrack() {
-    currentTrackIndex++;
-    if (currentTrackIndex > Object.keys(trackList).length) {
+    if ((currentTrackIndex + 1) > Object.keys(trackList).length) {
         if (useCycled) {
             currentTrackIndex = 1;
         } else {
-            currentTrackIndex = -1;
+            return -1;
         }
+    } else {
+        currentTrackIndex++;
     }
 
     if (useShuffled && (currentTrackIndex > -1)) {
@@ -141,13 +142,14 @@ function getNextTrack() {
 }
 
 function getPrevTrack() {
-    currentTrackIndex--;
-    if (currentTrackIndex < 1) {
+    if ((currentTrackIndex - 1) < 1) {
         if (useCycled) {
             currentTrackIndex = Object.keys(trackList).length;
         } else {
-            currentTrackIndex = -1;
+            return -1;
         }
+    } else {
+        currentTrackIndex--;
     }
 
     if (useShuffled && (currentTrackIndex > -1)) {
@@ -170,13 +172,15 @@ function playTrack(track) {
 }
 
 function setCurrentTrack(track) {
-    $('[data-index="' + currentTrack + '"').closest('ul').removeClass('active-track');
-    currentTrack = track;
-    $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
-    currentTrackPath = getCurrentTrackPath();
-    currentTrackCover.attr('src', getCoverPathFromSongPath(currentTrackPath));
-    player.src = currentTrackPath;
-    player.play();
+    if (track > -1) {
+        $('[data-index="' + currentTrack + '"').closest('ul').removeClass('active-track');
+        currentTrack = track;
+        $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
+        currentTrackPath = getCurrentTrackPath();
+        currentTrackCover.attr('src', getCoverPathFromSongPath(currentTrackPath));
+        player.src = currentTrackPath;
+        player.play();
+    }
 }
 
 function getShuffledList() {
