@@ -174,6 +174,7 @@ function playTrack(track) {
 }
 
 function setCurrentTrack(track) {
+    initTrackListIfNeeded();
     if (track > -1) {
         $('[data-index="' + currentTrack + '"').closest('ul').removeClass('active-track');
         currentTrack = track;
@@ -214,7 +215,7 @@ function toggleCycle() {
     cycleButton.toggleClass('cycle-button-on');
 }
 
-function initTrackList() {
+function initTrackListIfNeeded() {
     if (Object.keys(trackList).length === 0) {
         player.load();
         playlist.find('li a').each(function(index, item) {
@@ -238,5 +239,5 @@ function volumeDown() {
     }
 }
 
-window.addEventListener('load', initTrackList, false);
+window.addEventListener('load', initTrackListIfNeeded, false);
 window.addEventListener('mouseup', mouseUp, false);
