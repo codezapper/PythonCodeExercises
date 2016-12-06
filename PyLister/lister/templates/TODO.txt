@@ -1,6 +1,7 @@
 - Cleanup main.js
 - Move inclusion of JS files to left_menu html file
 - Group styles in CSS
+- Fix possible SQL injection
 
 - Add history of recently played songs
 - Implement callback to play through shown items (albums, artists, years)

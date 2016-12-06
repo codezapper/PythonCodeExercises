@@ -5,7 +5,7 @@ import os.path
 
 
 def get_files():
-    return glob2.glob('/home/gabriele/Music/**/*.mp3')
+    return glob2.glob('Music/**/*.mp3')
 
 
 def update_db():
@@ -44,6 +44,7 @@ def update_db():
         'INSERT INTO lister_artist (artist_id, description) VALUES(?, ?)', artists)
 
     db_main.commit()
+
 
 if __name__ == '__main__':
     update_db()

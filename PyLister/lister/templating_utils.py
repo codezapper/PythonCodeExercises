@@ -1,6 +1,5 @@
-from django.db import models, connection
+from django.db import connection
 from django.template import loader
-from .models import Song
 
 
 def render_for_songs_list(request, album='', artist='', year=''):
@@ -25,7 +24,7 @@ def render_for_songs_list(request, album='', artist='', year=''):
     songs_list = []
     while (row):
         songs_list.append(
-            {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3].replace('/home/gabriele/', ''), 'path': row[4], 'year': row[5], 'track_number': row[6]})
+            {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3], 'path': row[4], 'year': row[5], 'track_number': row[6]})
         row = cursor.fetchone()
 
     template = loader.get_template('lister/index_with_menu.html')
@@ -43,7 +42,7 @@ def render_for_albums_list(request):
     albums_list = []
     while (row):
         albums_list.append(
-            {'album_id': row[0], 'album': row[1], 'image_file': row[2].replace('/home/gabriele/', ''), 'artist': row[3], 'year': row[4]})
+            {'album_id': row[0], 'album': row[1], 'image_file': row[2], 'artist': row[3], 'year': row[4]})
         row = cursor.fetchone()
     template = loader.get_template('lister/albums_with_menu.html')
     context = {'albums_list': albums_list, }
