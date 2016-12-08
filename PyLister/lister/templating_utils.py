@@ -6,19 +6,18 @@ def render_for_songs_list(request, album='', artist='', year=''):
     # songs_list = [song for song in Song.objects.order_by(
     #     'artist_id', 'album_id', 'track_number')]
     cursor = connection.cursor()
-    sql = ''
     if (album != ''):
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_album.album_id = ''' + \
-            album + ''' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
+        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_album.album_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
+        cursor.execute(sql, [album])
     elif (artist != ''):
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_artist.artist_id = ''' + \
-            artist + ''' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
+        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_artist.artist_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
+        cursor.execute(sql, [artist])
     elif (year != ''):
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_song.year = ''' + \
-            year + ''' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
+        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_song.year = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
+        cursor.execute(sql, [year])
     else:
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
-    cursor.execute(sql)
+        cursor.execute(sql)
     row = cursor.fetchone()
 
     songs_list = []
