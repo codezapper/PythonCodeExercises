@@ -2,6 +2,13 @@ from django.db import connection
 from django.template import loader
 
 
+# response = render_to_response(template_name, context)
+
+# response.set_cookie('use_shuffle', '0')
+# return response
+
+# request.COOKIES.get('use_shuffle')
+
 def render_for_songs_list(request, album='', artist='', year=''):
     # songs_list = [song for song in Song.objects.order_by(
     #     'artist_id', 'album_id', 'track_number')]
@@ -27,7 +34,7 @@ def render_for_songs_list(request, album='', artist='', year=''):
         row = cursor.fetchone()
 
     template = loader.get_template('lister/index_with_menu.html')
-    context = {'songs_list': songs_list, }
+    context = {'songs_list': songs_list, 'counters': get_counters()}
     return template.render(context, request)
 
 
@@ -44,7 +51,7 @@ def render_for_albums_list(request):
             {'album_id': row[0], 'album': row[1], 'image_file': row[2], 'artist': row[3], 'year': row[4]})
         row = cursor.fetchone()
     template = loader.get_template('lister/albums_with_menu.html')
-    context = {'albums_list': albums_list, }
+    context = {'albums_list': albums_list, 'counters': get_counters()}
     return template.render(context, request)
 
 
@@ -61,7 +68,7 @@ def render_for_artists_list(request):
             {'artist_id': row[0], 'artist': row[1], 'count': row[2]})
         row = cursor.fetchone()
     template = loader.get_template('lister/artists_with_menu.html')
-    context = {'artists_list': artists_list, }
+    context = {'artists_list': artists_list, 'counters': get_counters()}
     return template.render(context, request)
 
 
@@ -77,5 +84,20 @@ def render_for_years_list(request):
             {'year': row[0], 'count': row[1]})
         row = cursor.fetchone()
     template = loader.get_template('lister/years_with_menu.html')
-    context = {'years_list': years_list, }
+    context = {'years_list': years_list, 'counters': get_counters()}
     return template.render(context, request)
+
+
+def get_counters():
+    counters = {}
+    cursor = connection.cursor()
+    cursor.execute('''SELECT count(*) FROM lister_song''')
+    counters['songs'] = cursor.fetchone()[0]
+    cursor.execute('''SELECT count(*) FROM lister_album''')
+    counters['albums'] = cursor.fetchone()[0]
+    cursor.execute('''SELECT count(*) FROM lister_artist''')
+    counters['artists'] = cursor.fetchone()[0]
+    cursor.execute('''SELECT count(distinct year) FROM lister_song''')
+    counters['years'] = cursor.fetchone()[0]
+
+    return counters
