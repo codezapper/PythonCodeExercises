@@ -12,17 +12,22 @@ from django.template import loader
 def render_for_songs_list(request, album='', artist='', year=''):
     # songs_list = [song for song in Song.objects.order_by(
     #     'artist_id', 'album_id', 'track_number')]
+    section = ''
     cursor = connection.cursor()
     if (album != ''):
+        section = 'album'
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_album.album_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
         cursor.execute(sql, [album])
     elif (artist != ''):
+        section = 'artist'
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_artist.artist_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
         cursor.execute(sql, [artist])
     elif (year != ''):
+        section = 'year'
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_song.year = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
         cursor.execute(sql, [year])
     else:
+        section = 'songs'
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
         cursor.execute(sql)
     row = cursor.fetchone()
@@ -34,7 +39,8 @@ def render_for_songs_list(request, album='', artist='', year=''):
         row = cursor.fetchone()
 
     template = loader.get_template('lister/index_with_menu.html')
-    context = {'songs_list': songs_list, 'counters': get_counters()}
+    context = {'songs_list': songs_list,
+               'counters': get_counters(), 'section': section}
     return template.render(context, request)
 
 
@@ -51,7 +57,8 @@ def render_for_albums_list(request):
             {'album_id': row[0], 'album': row[1], 'image_file': row[2], 'artist': row[3], 'year': row[4]})
         row = cursor.fetchone()
     template = loader.get_template('lister/albums_with_menu.html')
-    context = {'albums_list': albums_list, 'counters': get_counters()}
+    context = {'albums_list': albums_list,
+               'counters': get_counters(), 'section': 'album'}
     return template.render(context, request)
 
 
@@ -68,7 +75,8 @@ def render_for_artists_list(request):
             {'artist_id': row[0], 'artist': row[1], 'count': row[2]})
         row = cursor.fetchone()
     template = loader.get_template('lister/artists_with_menu.html')
-    context = {'artists_list': artists_list, 'counters': get_counters()}
+    context = {'artists_list': artists_list,
+               'counters': get_counters(), 'section': 'artist'}
     return template.render(context, request)
 
 
@@ -84,7 +92,8 @@ def render_for_years_list(request):
             {'year': row[0], 'count': row[1]})
         row = cursor.fetchone()
     template = loader.get_template('lister/years_with_menu.html')
-    context = {'years_list': years_list, 'counters': get_counters()}
+    context = {'years_list': years_list,
+               'counters': get_counters(), 'section': 'year'}
     return template.render(context, request)
 
 

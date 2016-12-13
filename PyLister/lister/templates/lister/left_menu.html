@@ -3,10 +3,10 @@
         <div class="left-frame">
             <ul class="menu-container">
                 <div>
-                    <li class="menu-link row-0"><a class="menu-item" href="/lister/songs/">Songs ({{ counters.songs }})</a></li>
-                    <li class="menu-link row-1"><a class="menu-item" href="/lister/albums/">Albums ({{ counters.albums }})</a></li>
-                    <li class="menu-link row-0"><a class="menu-item" href="/lister/artists/">Artists ({{ counters.artists }})</a></li>
-                    <li class="menu-link row-1"><a class="menu-item" href="/lister/years/">Years ({{ counters.years }})</a></li>
+                    <li class="menu-link {% if section == 'songs' %} active-menu {% else %} row-1 {% endif %}"><a class="menu-item{% if section == 'songs' %} active-menu {% endif %}" href="/lister/songs/"><span style="width:10%">Songs</span><span style="width:65%;float:right">({{ counters.songs }})</span></a></li>
+                    <li class="menu-link {% if section == 'album' %} active-menu {% else %} row-1 {% endif %}"><a class="menu-item {% if section == 'album' %} active-menu {% else %} row-1 {% endif %}" href="/lister/albums/"><span style="width:10%">Albums</span><span style="width:65%;float:right">({{ counters.albums }})</span></a></li>
+                    <li class="menu-link {% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}"><a class="menu-item {% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}" href="/lister/artists/"><span style="width:10%">Artists</span><span style="width:65%;float:right">({{ counters.artists }})</span></a></li>
+                    <li class="menu-link {% if section == 'year' %} active-menu {% else %} row-1 {% endif %}"><a class="menu-item {% if section == 'year' %} active-menu {% else %} row-1 {% endif %}" href="/lister/years/"><span style="width:10%">Years</span><span style="width:65%;float:right">({{ counters.years }})</span></a></li>
                 </div>
             </ul>
             <audio id="audioplayer" preload="true">
