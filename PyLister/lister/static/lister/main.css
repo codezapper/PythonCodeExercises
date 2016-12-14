@@ -50,20 +50,27 @@ a {
     -ms-text-overflow: ellipsis;
 }
 
-.song-item {
+.standard-header {
+    border-radius: 3px;
+    background-color: #788;
+    margin-right: 20px;
+    width: 60%;
+    padding: 3px;
+}
+
+.standard-header > li {
     padding: 3px;
     display: inline-block;
     border-spacing: 0px;
-    margin-left: -6px;
+    /*margin-left: -6px;*/
     width: 18%;
 }
 
-.songs-header > li {
-    padding: 3px;
-    display: inline-block;
-    border-spacing: 0px;
-    margin-left: -6px;
-    width: 18%;
+.standard-header > li > a {
+    text-decoration: none;
+    font-family: sans-serif;
+    font-size: 12px;
+    /* color: #33A; */
 }
 
 .song-track-number {
@@ -81,17 +88,9 @@ a {
     /* color: #666; */
 }
 
-.songs-header > li > a {
-    text-decoration: none;
-    font-family: sans-serif;
-    font-size: 12px;
-    /* color: #33A; */
-}
-
 .songs-header {
     border-radius: 3px;
     background-color: #788;
-    margin-left: 80px;
     margin-right: 20px;
     width: 60%;
 }
@@ -99,10 +98,18 @@ a {
 .songs-container {
     border-radius: 3px;
     background-color: #BCC;
-    margin-left: 80px;
-    margin-right: 20px;
+    /*margin-right: 20px;*/
     width: 60%;
 }
+
+.song-item {
+    padding: 3px;
+    display: inline-block;
+    /*border-spacing: 0px;*/
+    /*margin-left: -6px;*/
+    width: 18%;
+}
+
 .menu-item {
     text-decoration: none;
     font-family: sans-serif;
@@ -189,7 +196,6 @@ a {
 .albums-container {
     border: 1px solid #AAA;
     border-radius: 3px;
-    margin-left: 80px;
     margin-right: 20px;
     width: 60%;
 }
@@ -215,25 +221,6 @@ a {
 
 .artists-container {
     border-radius: 3px;
-    margin-left: 80px;
-    margin-right: 20px;
-    width: 60%;
-    padding: 5px;
-}
-
-.artists-header {
-    border-radius: 3px;
-    background-color: #888;
-    margin-left: 80px;
-    margin-right: 20px;
-    width: 60%;
-    padding: 5px;
-}
-
-.years-header {
-    border-radius: 3px;
-    background-color: #888;
-    margin-left: 80px;
     margin-right: 20px;
     width: 60%;
     padding: 5px;
@@ -249,7 +236,6 @@ a {
 
 .years-container {
     border-radius: 3px;
-    margin-left: 80px;
     margin-right: 20px;
     width: 60%;
     padding: 5px;
