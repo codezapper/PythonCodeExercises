@@ -36,7 +36,6 @@ a {
 .right-frame {
     width: 89%;
     float: right;
-    border: 1px solid #ABB;
     border-radius: 5px;
 }
 
@@ -157,20 +156,19 @@ a {
 }
 
 .div-menu {
-    border: 1px solid #AAA;
 }
 
 .menu-container {
     text-align: left;
     align-content: left;
-    border-radius: 5px;
+    border-radius: 3px;
 }
 
 .left-frame {
     width: 10%;
     float:  left;
-    border: 1px solid #ABB;
     border-radius: 5px;
+    border: 1px solid #AA9;
 }
 
 .cover {
@@ -204,7 +202,6 @@ a {
 }
 
 .albums-container {
-    border: 1px solid #AAA;
     border-radius: 3px;
     margin-right: 20px;
     width: 60%;
@@ -254,7 +251,7 @@ a {
     width: 155px;
     height: 30px;
     margin: 20px auto auto 10px;
-    border: 2px solid #AAA;
+    border: 1px solid #AA9;
     border-radius: 5px;
 }
 
@@ -295,7 +292,7 @@ a {
     margin-left: -1px;
     background: rgba(0, 0, 0,1);
     background-color: #AAA;
-    border: 1px solid black;
+    border: 1px solid #777;
 }
 
 #current-track {
@@ -306,7 +303,7 @@ a {
     padding: 3px;
     border-radius: 5px;
     width: 150px;
-    border: 1px solid #AAA;
+    border: 1px solid #AA9;
 }
 
 #current-track-title {
