@@ -14,22 +14,26 @@
             {% if songs_list %}
                 <ul>
                     <div>
-                        <ul class="standard-header">
-                            <li><a class="truncate" href="">Title</a></li>
-                            <li><a class="truncate" href="">Artist</a></li>
-                            <li><a class="truncate" href="">Album</a></li>
-                            <li><a class="truncate" href="">Year</a></li>
-                            <li><a class="truncate" href="">Track n.</a></li>
-                        </ul>
+                        <div id="header">
+                            <ul class="standard-header">
+                                <li>Title</li>
+                                <li>Artist</li>
+                                <li>Album</li>
+                                <li>Year</li>
+                                <li>Track</li>
+                            </ul>
+                        </div>
                         {% load mathfilters %}
-                        <div id="playlist">
+                        <div id="playlist" class="main-content">
                         {% for song in songs_list %}
-                            <ul class="songs-container row-{{ forloop.counter|mod:2 }}">
-                                <li class="song-item truncate"><a class="song-link" onclick="playTrack({{ forloop.counter }});return false;" data-index="{{ forloop.counter }}" data-path="{% static song.path %}" href="#">{{ song.title }}</a></li>
-                                <li class="song-item song-link truncate">{{ song.artist }}</li>
-                                <li class="song-item song-link truncate">{{ song.album }}</li>
-                                <li class="song-item song-link truncate">{{ song.year }}</li>
-                                <li class="song-track-number song-link truncate">{{ song.track_number }}</li>
+                            <ul class="row-{{ forloop.counter|mod:2 }}">
+                                <li>
+                                    <a onclick="playTrack({{ forloop.counter }});return false;" data-index="{{ forloop.counter }}" data-path="{% static song.path %}" href="#">{{ song.title }}</a>
+                                </li>
+                                <li>{{ song.artist }}</li>
+                                <li>{{ song.album }}</li>
+                                <li>{{ song.year }}</li>
+                                <li>{{ song.track_number }}</li>
                             </ul>
                         {% endfor %}
                         </div>

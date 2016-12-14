@@ -1,5 +1,4 @@
 body {
-    /* background-color: #CCC; */
     background-color: #BCC;
     text-decoration: none;
 }
@@ -53,24 +52,42 @@ a {
 .standard-header {
     border-radius: 3px;
     background-color: #788;
-    margin-right: 20px;
     width: 60%;
     padding: 3px;
 }
 
 .standard-header > li {
+    margin-left: 9px;
     padding: 3px;
     display: inline-block;
-    border-spacing: 0px;
-    /*margin-left: -6px;*/
     width: 18%;
-}
-
-.standard-header > li > a {
     text-decoration: none;
     font-family: sans-serif;
     font-size: 12px;
-    /* color: #33A; */
+}
+
+.main-content {
+    text-decoration: none;
+    font-family: sans-serif;
+    font-size: 12px;
+    width: 60%;
+}
+
+.main-content > ul {
+    margin: 0 0 0 0;
+    padding: 3px;
+}
+
+.main-content > ul > li {
+    display: inline-block;
+    width: 18%;
+    margin-left: 10px;
+    padding: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
 }
 
 .song-track-number {
@@ -85,7 +102,6 @@ a {
     text-decoration: none;
     font-family: sans-serif;
     font-size: 12px;
-    /* color: #666; */
 }
 
 .songs-header {
@@ -98,15 +114,12 @@ a {
 .songs-container {
     border-radius: 3px;
     background-color: #BCC;
-    /*margin-right: 20px;*/
     width: 60%;
 }
 
 .song-item {
     padding: 3px;
     display: inline-block;
-    /*border-spacing: 0px;*/
-    /*margin-left: -6px;*/
     width: 18%;
 }
 
@@ -114,7 +127,6 @@ a {
     text-decoration: none;
     font-family: sans-serif;
     font-size: 12px strong;
-    /* color: #666; */
 }
 
 .menu-link {
@@ -125,7 +137,6 @@ a {
     margin-bottom: 0px;
     margin-left: -30px;
     margin-right: 0px;
-    /* color: #666; */
     padding: 3px;
     width: 100%;
     text-align: left;
@@ -189,7 +200,6 @@ a {
     text-decoration: none;
     font-family: sans-serif;
     font-size: 12px;
-    /* color: #666; */
     margin-left: 5px;
 }
 
@@ -214,7 +224,6 @@ a {
     text-decoration: none;
     font-family: sans-serif;
     font-size: 12px;
-    /* color: #666; */
     margin-left: 5px;
     padding: 3px;
 }
@@ -291,7 +300,6 @@ a {
 
 #current-track {
     font-family: sans-serif;
-    /* color: #666; */
     margin-bottom: 0px;
     margin-left: 10px;
     margin-right: 0px;
@@ -316,7 +324,6 @@ a {
     display: inline-block;
     width: 18%;
     height: 30px;
-    /* color: #666; */
     font-family: sans-serif;
     font-size: 13px;
 }
@@ -433,6 +440,5 @@ a {
 #song-time {
     font-family: sans-serif;
     font-weight: bold;
-    /* color: #666; */
     width: 60px;
 }
