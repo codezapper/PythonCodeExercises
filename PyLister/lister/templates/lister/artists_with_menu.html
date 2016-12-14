@@ -22,7 +22,7 @@
         {% load mathfilters %}
         {% load static %}
         {% for artist in artists_list %}
-                        <ul class="artists-container-{{ forloop.counter|mod:2 }}">
+                        <ul class="artists-container row-{{ forloop.counter|mod:2 }}">
                             <li class="artist-item truncate"><a class="artist-link" href="/lister/artists/{{ artist.artist_id }}">
                             {{ artist.artist }} ({{ artist.count }})</a></li>
                         </ul>

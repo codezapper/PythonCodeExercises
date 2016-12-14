@@ -1,11 +1,17 @@
 body {
     /* background-color: #CCC; */
     background-color: #BCC;
+    text-decoration: none;
 }
 
 ul {
     list-style-type: none;
     text-align: top;
+}
+
+a {
+    text-decoration: none;
+    color: #444;
 }
 
 .left-content {
@@ -52,7 +58,7 @@ ul {
     width: 18%;
 }
 
-.header-item {
+.songs-header > li {
     padding: 3px;
     display: inline-block;
     border-spacing: 0px;
@@ -75,7 +81,7 @@ ul {
     /* color: #666; */
 }
 
-.header-link {
+.songs-header > li > a {
     text-decoration: none;
     font-family: sans-serif;
     font-size: 12px;
@@ -90,15 +96,7 @@ ul {
     width: 60%;
 }
 
-.songs-container-1 {
-    border-radius: 3px;
-    background-color: #CDD;
-    margin-left: 80px;
-    margin-right: 20px;
-    width: 60%;
-}
-
-.songs-container-0 {
+.songs-container {
     border-radius: 3px;
     background-color: #BCC;
     margin-left: 80px;
@@ -215,20 +213,9 @@ ul {
     padding: 3px;
 }
 
-.artists-container-1 {
+.artists-container {
     border: 1px solid #AAA;
     border-radius: 3px;
-    background-color: #DDD;
-    margin-left: 80px;
-    margin-right: 20px;
-    width: 60%;
-    padding: 5px;
-}
-
-.artists-container-0 {
-    border: 1px solid #AAA;
-    border-radius: 3px;
-    background-color: #CCC;
     margin-left: 80px;
     margin-right: 20px;
     width: 60%;
@@ -255,20 +242,9 @@ ul {
     padding: 3px;
 }
 
-.years-container-1 {
+.years-container {
     border: 1px solid #AAA;
     border-radius: 3px;
-    background-color: #DDD;
-    margin-left: 80px;
-    margin-right: 20px;
-    width: 60%;
-    padding: 5px;
-}
-
-.years-container-0 {
-    border: 1px solid #AAA;
-    border-radius: 3px;
-    background-color: #CCC;
     margin-left: 80px;
     margin-right: 20px;
     width: 60%;

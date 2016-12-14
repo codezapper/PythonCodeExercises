@@ -17,7 +17,7 @@
     {% load mathfilters %}
     {% load static %}
     {% for year in years_list %}
-                    <ul class="years-container-{{ forloop.counter|mod:2 }}">
+                    <ul class="years-container row-{{ forloop.counter|mod:2 }}">
                         <li class="year-item truncate"><a class="year-link" href="/lister/years/{{ year.year }}">
                         {{ year.year }} ({{ year.count }})</a></li>
                     </ul>
