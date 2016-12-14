@@ -25,10 +25,12 @@
                     <li id="song-time" class="navigation-buttons">00:00</li>
                     <li class="navigation-buttons"><img class="next-track" src="{% static 'lister/images/next_track.png' %}" onclick="goToNextTrack()"></img></li>
                 </ul>
-                <button id="shuffle-button" class="shuffle-button-off" onclick="toggleShuffle()"></button>
-                <button id="cycle-button" class="cycle-button-on" onclick="toggleCycle()"></button>
-                <button class="volume-up-button" onclick="volumeUp()"></button>
-                <button class="volume-down-button" onclick="volumeDown()"></button>
+                <ul class="navigation-buttons-container">
+                    <li><button id="shuffle-button" class="shuffle-button-off" onclick="toggleShuffle()"></button></li>
+                    <li><button id="cycle-button" class="cycle-button-on" onclick="toggleCycle()"></button></li>
+                    <li><button class="volume-up-button" onclick="volumeUp()"></button></li>
+                    <li><button class="volume-down-button" onclick="volumeDown()"></button></li>
+                </ul>
                 <div id="current-track-title" class="truncate-current-track">
                 None
                 </div>
