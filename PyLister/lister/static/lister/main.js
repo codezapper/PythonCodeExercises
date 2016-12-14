@@ -16,7 +16,6 @@ var trackList = {};
 var shuffledList = [];
 var currentTrack = 0;
 var currentTrackIndex = 0;
-var nextTrackIndex = 0;
 var useShuffled = false;
 var useCycled = true;
 var duration;
@@ -178,6 +177,9 @@ function setCurrentTrack(track) {
     if (track > -1) {
         $('[data-index="' + currentTrack + '"').closest('ul').removeClass('active-track');
         currentTrack = track;
+        if (!useShuffled) {
+            currentTrackIndex = track;
+        }
         $('[data-index="' + currentTrack + '"').closest('ul').addClass('active-track');
         currentTrackPath = getCurrentTrackPath();
         currentTrackCover.attr('src', getCoverPathFromSongPath(currentTrackPath));
