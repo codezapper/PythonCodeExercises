@@ -28,20 +28,11 @@ a {
     border: 1px solid #AA9;
 }
 
-.left-content {
-    float: left;
-    width: 20%;
-}
-
 .right-frame {
     width: 89%;
     float: right;
     border-radius: 5px;
-}
-
-.right-content {
-    float: right;
-    width: 80%;
+    border: 1px solid #AA9;
 }
 
 .truncate {
@@ -59,6 +50,7 @@ a {
     border-radius: 3px;
     width: 100%;
     border: 1px solid #AA9;
+    margin-top: 0px;
 }
 
 .menu-container > li {
@@ -109,6 +101,10 @@ a {
     text-overflow: ellipsis;
     -o-text-overflow: ellipsis;
     -ms-text-overflow: ellipsis;
+}
+
+.root-list {
+    margin-top: 0px;
 }
 
 .song-track-number {
