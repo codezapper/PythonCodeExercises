@@ -1,38 +1,41 @@
-{% extends "lister/left_menu.html" %}
-{% block content %}
+{% extends "lister/left_menu.html" %} {% block content %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <title>Available songs</title>
-        {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'lister/main.css' %}" />
-    </head>
-    <body>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Available songs</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'lister/main.css' %}" />
+</head>
+
+<body>
     {{ block.super }}
-        <div class="right-frame">
-    {% if albums_list %}
-            <ul>
+    <div class="right-frame">
+        {% if albums_list %}
+        <ul>
+            <div class="main-container">
                 <div id="header">
                     <ul class="standard-header">
-                        <li><a href="/lister/albums/{{ album.id }}">Album</a></li>
+                        <li>Album</li>
                     </ul>
                     <div>
-        {% load mathfilters %}
-        {% load static %}
-        {% for album in albums_list %}
-                        <ul class="albums-container row-{{ forloop.counter|mod:2 }}">
-                            <li class="album-item truncate"><a class="album-link" href="/lister/albums/{{ album.album_id }}"><img class="cover" src="{% static album.image_file %}">
-                            {{ album.album }} - {{album.artist}} ({{album.year}})</a></li>
+                        {% load mathfilters %} {% load static %} {% for album in albums_list %}
+                        <ul class="row-{{ forloop.counter|mod:2 }}">
+                            <li class="album-item truncate">
+                                <a class="album-link" href="/lister/albums/{{ album.album_id }}"><img class="cover" src="{% static album.image_file %}"> {{ album.album }} - {{album.artist}} ({{album.year}})</a>
+                            </li>
                         </ul>
-        {% endfor %}
+                        {% endfor %}
                     </div>
                 </div>
-            </ul>
-    {% else %}
-    <p>No albums are available.</p>
-    {% endif %}
-        </div>
-    </body>
+            </div>
+        </ul>
+        {% else %}
+        <p>No albums are available.</p>
+        {% endif %}
+    </div>
+</body>
+
 </html>
 {% endblock %}

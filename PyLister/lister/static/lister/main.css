@@ -1,6 +1,6 @@
 body {
     background-color: #BCC;
-    text-decoration: none;
+    font-family: sans-serif;
 }
 
 ul {
@@ -8,8 +8,14 @@ ul {
     text-align: top;
 }
 
+li {
+    font-size: 12px;
+}
+
 a {
     text-decoration: none;
+    font-size: 12px;
+    margin-left: 5px;
     color: #444;
 }
 
@@ -21,16 +27,6 @@ a {
 .right-content {
     float: right;
     width: 80%;
-}
-
-.cover_image {
-    width: 80px;
-    height: 80px;
-    margin-left: 40px;
-    margin-right: 10px;
-    margin-top: 16px;
-    float: left;
-    display: inline-block;
 }
 
 .right-frame {
@@ -60,9 +56,6 @@ a {
     padding: 3px;
     display: inline-block;
     width: 18%;
-    text-decoration: none;
-    font-family: sans-serif;
-    font-size: 12px;
 }
 
 .main-container {
@@ -72,9 +65,6 @@ a {
 }
 
 .main-content {
-    text-decoration: none;
-    font-family: sans-serif;
-    font-size: 12px;
     width: 100%;
 }
 
@@ -103,12 +93,6 @@ a {
     width: 5%;
 }
 
-.song-link {
-    text-decoration: none;
-    font-family: sans-serif;
-    font-size: 12px;
-}
-
 .songs-header {
     border-radius: 3px;
     background-color: #788;
@@ -128,16 +112,7 @@ a {
     /* width: 20%; */
 }
 
-.menu-item {
-    text-decoration: none;
-    font-family: sans-serif;
-    font-size: 12px strong;
-}
-
 .menu-link {
-    text-decoration: none;
-    font-family: sans;
-    font-size: 12px;
     font-weight: bold;
     margin-bottom: 0px;
     margin-left: -30px;
@@ -178,8 +153,8 @@ a {
 }
 
 .cover {
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
     text-align: left;
     vertical-align: middle;
 }
@@ -200,33 +175,7 @@ a {
     width: 5%;
 }
 
-.album-link {
-    text-decoration: none;
-    font-family: sans-serif;
-    font-size: 12px;
-    margin-left: 5px;
-}
-
-.albums-container {
-    border-radius: 3px;
-    margin-right: 20px;
-    width: 60%;
-}
-
-.cover_image {
-    width: 80px;
-    height: 80px;
-    margin-left: 40px;
-    margin-right: 10px;
-    margin-top: 16px;
-    float: left;
-    display: inline-block;
-}
-
 .artist-link {
-    text-decoration: none;
-    font-family: sans-serif;
-    font-size: 12px;
     margin-left: 5px;
     padding: 3px;
 }
@@ -239,9 +188,6 @@ a {
 }
 
 .year-link {
-    text-decoration: none;
-    font-family: sans-serif;
-    font-size: 12px;
     margin-left: 5px;
     padding: 3px;
 }
@@ -342,7 +288,6 @@ a {
 }
 
 .navigation-buttons-container {
-    border-spacing: 0px;
     width: 100%;
     padding: 1px;
     margin-top: 0px;

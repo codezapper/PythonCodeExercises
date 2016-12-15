@@ -1,51 +1,52 @@
-{% extends "lister/left_menu.html" %}
-{% block content %}
+{% extends "lister/left_menu.html" %} {% block content %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-        <title>Available songs</title>
-        {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'lister/main.css' %}" />
-    </head>
-    <body>
-    {{ block.super }}
-        <div class="right-frame">
-            {% if songs_list %}
-                <ul>
-                    <div class="main-container">
-                        <div id="header">
-                            <ul class="standard-header">
-                                <li>Title</li>
-                                <li>Artist</li>
-                                <li>Album</li>
-                                <li>Year</li>
-                                <li>Track</li>
-                            </ul>
-                        </div>
-                        {% load mathfilters %}
-                        <div id="playlist" class="main-content">
-                        {% for song in songs_list %}
-                            <ul class="row-{{ forloop.counter|mod:2 }}">
-                                <li>
-                                    <a onclick="playTrack({{ forloop.counter }});return false;" data-index="{{ forloop.counter }}" data-path="{% static song.path %}" href="#">{{ song.title }}</a>
-                                </li>
-                                <li>{{ song.artist }}</li>
-                                <li>{{ song.album }}</li>
-                                <li>{{ song.year }}</li>
-                                <li>{{ song.track_number }}</li>
-                            </ul>
-                        {% endfor %}
-                        </div>
-                    </div>
-                </ul>
-            {% else %}
-                <p>No songs are available.</p>
-            {% endif %}
-        </div>
-    </body>
 
-    <script src="{% static 'lister/jquery-3.1.1.min.js' %}"></script>
-    <script src="{% static 'lister/main.js' %}"></script>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <title>Available songs</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'lister/main.css' %}" />
+</head>
+
+<body>
+    {{ block.super }}
+    <div class="right-frame">
+        {% if songs_list %}
+        <ul>
+            <div class="main-container">
+                <div id="header">
+                    <ul class="standard-header">
+                        <li>Title</li>
+                        <li>Artist</li>
+                        <li>Album</li>
+                        <li>Year</li>
+                        <li>Track</li>
+                    </ul>
+                </div>
+                {% load mathfilters %}
+                <div id="playlist" class="main-content">
+                    {% for song in songs_list %}
+                    <ul class="row-{{ forloop.counter|mod:2 }}">
+                        <li>
+                            <a onclick="playTrack({{ forloop.counter }});return false;" data-index="{{ forloop.counter }}" data-path="{% static song.path %}" href="#">{{ song.title }}</a>
+                        </li>
+                        <li>{{ song.artist }}</li>
+                        <li>{{ song.album }}</li>
+                        <li>{{ song.year }}</li>
+                        <li>{{ song.track_number }}</li>
+                    </ul>
+                    {% endfor %}
+                </div>
+            </div>
+        </ul>
+        {% else %}
+        <p>No songs are available.</p>
+        {% endif %}
+    </div>
+</body>
+<script src="{% static 'lister/jquery-3.1.1.min.js' %}"></script>
+<script src="{% static 'lister/main.js' %}"></script>
+
 </html>
 {% endblock %}
