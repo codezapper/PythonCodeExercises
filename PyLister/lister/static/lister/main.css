@@ -6,6 +6,7 @@ body {
 ul {
     list-style-type: none;
     text-align: top;
+    -webkit-padding-start: 0;
 }
 
 li {
@@ -17,6 +18,7 @@ a {
     font-size: 12px;
     margin-left: 5px;
     color: #444;
+    padding: 0px;
 }
 
 .left-frame {
@@ -56,15 +58,15 @@ a {
     align-content: left;
     border-radius: 3px;
     width: 100%;
+    border: 1px solid #AA9;
 }
 
 .menu-container > li {
     font-weight: bold;
     margin-bottom: 0px;
     padding: 3px;
-    width: 80%;
+    width: 96%;
     text-align: left;
-    margin-left: -25px;
 }
 
 .active-menu {

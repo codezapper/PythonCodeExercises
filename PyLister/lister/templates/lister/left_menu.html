@@ -1,10 +1,22 @@
 {% block content %} {% load static %}
 <div class="left-frame">
     <ul class="menu-container">
-        <li class="{% if section == 'songs' %} active-menu {% else %} row-1 {% endif %}"><a class="{% if section == 'songs' %} active-menu {% endif %}" href="/lister/songs/"><span style="width:10%">Songs</span><span style="width:65%;float:right">({{ counters.songs }})</span></a></li>
-        <li class="{% if section == 'album' %} active-menu {% else %} row-1 {% endif %}"><a class=" {% if section == 'album' %} active-menu {% else %} row-1 {% endif %}" href="/lister/albums/"><span style="width:10%">Albums</span><span style="width:65%;float:right">({{ counters.albums }})</span></a></li>
-        <li class="{% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}"><a class=" {% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}" href="/lister/artists/"><span style="width:10%">Artists</span><span style="width:65%;float:right">({{ counters.artists }})</span></a></li>
-        <li class="{% if section == 'year' %} active-menu {% else %} row-1 {% endif %}"><a class=" {% if section == 'year' %} active-menu {% else %} row-1 {% endif %}" href="/lister/years/"><span style="width:10%">Years</span><span style="width:65%;float:right">({{ counters.years }})</span></a></li>
+        <li class="{% if section == 'songs' %} active-menu {% else %} row-1 {% endif %}">
+        <a class="{% if section == 'songs' %} active-menu {% endif %}" href="/lister/songs/">
+            Songs
+            <span style="float:right">({{ counters.songs }})</span></a></li>
+        <li class="{% if section == 'album' %} active-menu {% else %} row-1 {% endif %}">
+        <a class=" {% if section == 'album' %} active-menu {% else %} row-1 {% endif %}" href="/lister/albums/">
+            Albums
+            <span style="float:right">({{ counters.albums }})</span></a></li>
+        <li class="{% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}">
+        <a class=" {% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}" href="/lister/artists/">
+            Artists
+            <span style="float:right">({{ counters.artists }})</span></a></li>
+        <li class="{% if section == 'year' %} active-menu {% else %} row-1 {% endif %}">
+        <a class=" {% if section == 'year' %} active-menu {% else %} row-1 {% endif %}" href="/lister/years/">
+            Years
+            <span style="float:right">({{ counters.years }})</span></a></li>
     </ul>
     <audio id="audioplayer" preload="true">
         <source src="">
