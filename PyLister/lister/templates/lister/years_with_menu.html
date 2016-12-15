@@ -13,17 +13,18 @@
     {{ block.super }}
     <div class="right-frame">
         {% if years_list %}
-        <ul>
+        <ul class="root-list">
             <div class="main-container">
-                <div>
+                <div id="header">
                     <ul class="standard-header">
                         <li>Year</li>
                     </ul>
                     <div>
                         {% load mathfilters %} {% load static %} {% for year in years_list %}
                         <ul class="years-container row-{{ forloop.counter|mod:2 }}">
-                            <li class="year-item truncate"><a class="year-link" href="/lister/years/{{ year.year }}">
-                        {{ year.year }} ({{ year.count }})</a></li>
+                            <li class="year-item truncate">
+                                <a class="year-link" href="/lister/years/{{ year.year }}">{{ year.year }} ({{ year.count }})</a>
+                            </li>
                         </ul>
                         {% endfor %}
                     </div>
