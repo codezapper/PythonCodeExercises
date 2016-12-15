@@ -21,7 +21,7 @@
                     </ul>
                     <div>
                         {% load mathfilters %} {% load static %} {% for album in albums_list %}
-                        <ul class="row-{{ forloop.counter|mod:2 }}">
+                        <ul class="album-container row-{{ forloop.counter|mod:2 }}">
                             <li class="album-item truncate">
                                 <a class="album-link" href="/lister/albums/{{ album.album_id }}"><img class="cover" src="{% static album.image_file %}"> {{ album.album }} - {{album.artist}} ({{album.year}})</a>
                             </li>

@@ -11,20 +11,20 @@
 
 <body>
     {{ block.super }}
-    </div>
     <div class="right-frame">
         {% if artists_list %}
         <ul>
             <div class="main-container">
-                <div>
+                <div id="header">
                     <ul class="standard-header">
-                        <li><a class="truncate" href="/lister/artists/{{ artist.artist_id }}">Artist</a></li>
+                        <li>Artist</li>
                     </ul>
                     <div>
                         {% load mathfilters %} {% load static %} {% for artist in artists_list %}
                         <ul class="artists-container row-{{ forloop.counter|mod:2 }}">
-                            <li class="artist-item truncate"><a class="artist-link" href="/lister/artists/{{ artist.artist_id }}">
-                            {{ artist.artist }} ({{ artist.count }})</a></li>
+                            <li class="artist-item truncate">
+                                <a class="artist-link" href="/lister/artists/{{ artist.artist_id }}">{{ artist.artist }} ({{ artist.count }})</a>
+                            </li>
                         </ul>
                         {% endfor %}
                     </div>
