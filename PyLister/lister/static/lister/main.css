@@ -44,11 +44,10 @@ a {
 .menu-container {
     text-align: left;
     align-content: left;
-    /* border-radius: 1px; */
     width: 100%;
-    /* border: 1px solid #AA9; */
-    border-bottom: 1px solid #AA9;
+    border-bottom: 1px solid #788;
     margin-top: 0px;
+    margin-bottom: -1px;
 }
 
 .menu-container > li {
@@ -188,12 +187,16 @@ a {
     padding: 5px;
 }
 
-.player-border{
+.player-header {
     width: 155px;
     height: 30px;
-    margin: 20px auto auto 10px;
-    border: 1px solid #AA9;
-    border-radius: 5px;
+    margin: 0px auto auto 15px;
+}
+
+.player-border {
+    border-top: 1px solid #788;
+    border-radius: 1px;
+    border-bottom: 1px solid #788;
 }
 
 #play-button {
@@ -244,13 +247,13 @@ a {
     padding: 3px;
     border-radius: 5px;
     width: 150px;
-    border: 1px solid #AA9;
 }
 
 #current-track-title {
     margin-top: 25px;
     font-family: sans-serif;
     font-size: 13px;
+    text-align: center;
 }
 
 .active-track {

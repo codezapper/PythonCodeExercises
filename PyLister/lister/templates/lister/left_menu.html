@@ -2,19 +2,19 @@
 <div class="left-frame">
     <ul class="menu-container">
         <li class="{% if section == 'songs' %} active-menu {% else %} row-1 {% endif %}">
-        <a class="{% if section == 'songs' %} active-menu {% endif %}" href="/lister/songs/">
+            <a class="{% if section == 'songs' %} active-menu {% endif %}" href="/lister/songs/">
             Songs
             <span style="float:right">({{ counters.songs }})</span></a></li>
         <li class="{% if section == 'album' %} active-menu {% else %} row-1 {% endif %}">
-        <a class=" {% if section == 'album' %} active-menu {% else %} row-1 {% endif %}" href="/lister/albums/">
+            <a class=" {% if section == 'album' %} active-menu {% else %} row-1 {% endif %}" href="/lister/albums/">
             Albums
             <span style="float:right">({{ counters.albums }})</span></a></li>
         <li class="{% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}">
-        <a class=" {% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}" href="/lister/artists/">
+            <a class=" {% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}" href="/lister/artists/">
             Artists
             <span style="float:right">({{ counters.artists }})</span></a></li>
         <li class="{% if section == 'year' %} active-menu {% else %} row-1 {% endif %}">
-        <a class=" {% if section == 'year' %} active-menu {% else %} row-1 {% endif %}" href="/lister/years/">
+            <a class=" {% if section == 'year' %} active-menu {% else %} row-1 {% endif %}" href="/lister/years/">
             Years
             <span style="float:right">({{ counters.years }})</span></a></li>
     </ul>
@@ -22,40 +22,42 @@
         <source src="">
     </audio>
     <div class="player-border">
-        <button id="play-button" class="play" onclick="playOrPause()"></button>
-        <div id="timeline">
-            <div id="play-head">
+        <div class="player-header">
+            <button id="play-button" class="play" onclick="playOrPause()"></button>
+            <div id="timeline">
+                <div id="play-head">
+                </div>
             </div>
         </div>
-    </div>
-    <div id="current-track">
-        <ul class="navigation-buttons-container">
-            <li class="navigation-buttons"><img class="prev-track" src="{% static 'lister/images/prev_track.png' %}" onclick="goToPrevTrack()"></img>
-            </li>
-            <li id="song-time" class="navigation-buttons">00:00</li>
-            <li class="navigation-buttons"><img class="next-track" src="{% static 'lister/images/next_track.png' %}" onclick="goToNextTrack()"></img>
-            </li>
-        </ul>
-        <ul class="navigation-buttons-container">
-            <li>
-                <button id="shuffle-button" class="shuffle-button-off" onclick="toggleShuffle()"></button>
-            </li>
-            <li>
-                <button id="cycle-button" class="cycle-button-on" onclick="toggleCycle()"></button>
-            </li>
-            <li>
-                <button class="volume-up-button" onclick="volumeUp()"></button>
-            </li>
-            <li>
-                <button class="volume-down-button" onclick="volumeDown()"></button>
-            </li>
-        </ul>
-        <div id="current-track-title" class="truncate-current-track">
-            None
-        </div>
-        <div id="current-album">
-            <img id="current-track-cover" src="">
+        <div id="current-track">
+            <ul class="navigation-buttons-container">
+                <li class="navigation-buttons"><img class="prev-track" src="{% static 'lister/images/prev_track.png' %}" onclick="goToPrevTrack()"></img>
+                </li>
+                <li id="song-time" class="navigation-buttons">00:00</li>
+                <li class="navigation-buttons"><img class="next-track" src="{% static 'lister/images/next_track.png' %}" onclick="goToNextTrack()"></img>
+                </li>
+            </ul>
+            <ul class="navigation-buttons-container">
+                <li>
+                    <button id="shuffle-button" class="shuffle-button-off" onclick="toggleShuffle()"></button>
+                </li>
+                <li>
+                    <button id="cycle-button" class="cycle-button-on" onclick="toggleCycle()"></button>
+                </li>
+                <li>
+                    <button class="volume-up-button" onclick="volumeUp()"></button>
+                </li>
+                <li>
+                    <button class="volume-down-button" onclick="volumeDown()"></button>
+                </li>
+            </ul>
         </div>
     </div>
+            <div id="current-track-title" class="truncate-current-track">
+                None
+            </div>
+            <div id="current-album">
+                <img id="current-track-cover" src="">
+            </div>
 </div>
 {% endblock %}
