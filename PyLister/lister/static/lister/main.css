@@ -286,8 +286,17 @@ a {
     text-align: center;
 }
 
+.option-buttons-container {
+    padding: 1px;
+    margin-top: 0px;
+    margin-bottom: -10px;
+    text-align: center;
+}
+
 .truncate-current-track {
-    width: 150px;
+    width: 90%;
+    margin: auto;
+    display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -298,10 +307,15 @@ a {
     font-weight: bold;
 }
 
+#current-album {
+    margin-top: 3px;
+}
+
 #current-track-cover {
     width: 150px;
     height: 150px;
-    margin-top: 3px;
+    display: block;
+    margin: 5px auto;
 }
 
 .shuffle-button-on {
