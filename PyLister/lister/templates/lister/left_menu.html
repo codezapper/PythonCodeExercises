@@ -1,5 +1,6 @@
 {% block content %} {% load static %}
     <div class="left-frame">
+    <input type="text" name="finder" class="finder-box">
         <ul class="menu-container">
             <li class="{% if section == 'songs' %} active-menu {% else %} row-1 {% endif %}">
             <a class="{% if section == 'songs' %} active-menu {% endif %}" href="/lister/songs/">
