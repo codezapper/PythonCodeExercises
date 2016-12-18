@@ -100,11 +100,13 @@ function getCurrentTrack() {
 }
 
 function play() {
-    var nextTrack = getNextTrack();
-    if (nextTrack > -1) {
+    if (currentTrackIndex <= 0) {
         setCurrentTrack(getNextTrack());
-        playButton.className = 'pause';
+    } else {
+        player.play();
     }
+
+    playButton.className = 'pause';
 }
 
 function pause() {
