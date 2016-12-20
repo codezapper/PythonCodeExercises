@@ -1,13 +1,15 @@
-from django.db import connection
-from django.db.models import Count
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django.shortcuts import render
-from django.template import loader
 from .models import Song
 import os
 import utils
+import data_utils as du
 import templating_utils as tu
 from streaming_utils import StreamWrapper
+
+
+def search(request, search_string=''):
+    return HttpResponse(du.data_for_songs_list(request))
 
 
 def index(request):

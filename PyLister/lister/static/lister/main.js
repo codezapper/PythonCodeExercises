@@ -220,6 +220,9 @@ function toggleCycle() {
 }
 
 function initTrackListIfNeeded() {
+$.getJSON('/lister/search/', function(data) {
+    console.log(data);
+});
     if (Object.keys(trackList).length === 0) {
         player.load();
         playlist.find('li a').each(function(index, item) {

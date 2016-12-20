@@ -15,4 +15,6 @@ urlpatterns = [
     url(r'^years/(?P<year>\w+)/$', views.years, name='years'),
     url(r'^detail/([0-9]+)/$', views.detail, name='detail'),
     url(r'^play/([0-9]+)/$', views.play, name='play'),
+    url(r'^search/(?P<search_string>\w+)$', views.search, name='search'),
+    url(r'^search/$', views.search, name='search'),
 ]
