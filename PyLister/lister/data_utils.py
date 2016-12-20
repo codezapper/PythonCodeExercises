@@ -25,9 +25,12 @@ def data_for_songs_list(request, search_string='', album='', artist='', year='')
     row = cursor.fetchone()
 
     songs_list = []
+    track_index = 0
     while (row):
+        row_type = track_index % 2
         songs_list.append(
-            {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3], 'path': row[4], 'year': row[5], 'track_number': row[6]})
+            {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3], 'path': row[4], 'year': row[5], 'track_number': row[6], 'row_type': row_type, 'track_index': track_index})
+        track_index += 1
         row = cursor.fetchone()
 
     context = {'songs_list': songs_list,

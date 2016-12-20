@@ -220,9 +220,17 @@ function toggleCycle() {
 }
 
 function initTrackListIfNeeded() {
-$.getJSON('/lister/search/', function(data) {
-    console.log(data);
-});
+    songs = [];
+    $.getJSON('/lister/search/', function(data) {
+        songs = data;
+        console.log(songs);
+        var template = $('#playlist').html();
+        console.log(songs);
+        var html = Mustache.render(template, songs);
+        $('#playlist').html(html);
+    });
+
+
     if (Object.keys(trackList).length === 0) {
         player.load();
         playlist.find('li a').each(function(index, item) {
