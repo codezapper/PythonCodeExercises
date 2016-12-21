@@ -7,7 +7,7 @@
             Songs
             <span style="float:right">({{ counters.songs }})</span></a></li>
             <li class="{% if section == 'album' %} active-menu {% else %} row-1 {% endif %}">
-            <a class=" {% if section == 'album' %} active-menu {% else %} row-1 {% endif %}" href="/lister/albums/">
+            <a class=" {% if section == 'album' %} active-menu {% else %} row-1 {% endif %}" href="/lister/albums/" onclick="showAlbums();return false;">
             Albums
             <span style="float:right">({{ counters.albums }})</span></a></li>
             <li class="{% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}">

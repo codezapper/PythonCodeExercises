@@ -17,4 +17,6 @@ urlpatterns = [
     url(r'^play/([0-9]+)/$', views.play, name='play'),
     url(r'^search/(?P<search_string>\w+)$', views.search, name='search'),
     url(r'^search/$', views.search, name='search'),
+    url(r'^albums_data/(?P<search_string>\w+)$', views.albums_data, name='albums_data'),
+    url(r'^albums_data/$', views.albums_data, name='albums_data'),
 ]

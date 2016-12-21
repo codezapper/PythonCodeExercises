@@ -51,6 +51,7 @@ def data_for_albums_list(request):
         row_type = album_index % 2
         albums_list.append(
             {'album_id': row[0], 'album': row[1], 'image_file': row[2], 'artist': row[3], 'year': row[4], 'row_type': row_type})
+        album_index += 1
         row = cursor.fetchone()
     context = {'albums_list': albums_list,
                'counters': get_counters(), 'section': 'album'}

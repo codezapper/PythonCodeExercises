@@ -12,6 +12,10 @@ def search(request, search_string=''):
     return HttpResponse(du.data_for_songs_list(request))
 
 
+def albums_data(request, search_string=''):
+    return HttpResponse(du.data_for_albums_list(request))
+
+
 def index(request):
     return songs(request)
 

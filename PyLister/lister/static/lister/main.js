@@ -219,6 +219,18 @@ function toggleCycle() {
     cycleButton.toggleClass('cycle-button-on');
 }
 
+function showAlbums() {
+    $.get("/lister/albums/",
+        function(template) {
+            $.getJSON('/lister/albums_data/', function(albums) {
+                var html = Mustache.render(template, albums);
+                $('#content-frame').html(html);
+                trackList = albums.albums_list;
+            });
+        }
+    );
+}
+
 function initTrackListIfNeeded() {
     songs = [];
     $.getJSON('/lister/search/', function(songs) {

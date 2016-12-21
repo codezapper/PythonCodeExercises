@@ -2,16 +2,7 @@ from django.db import connection
 from django.template import loader
 
 
-# response = render_to_response(template_name, context)
-
-# response.set_cookie('use_shuffle', '0')
-# return response
-
-# request.COOKIES.get('use_shuffle')
-
 def render_for_songs_list(request, album='', artist='', year=''):
-    # songs_list = [song for song in Song.objects.order_by(
-    #     'artist_id', 'album_id', 'track_number')]
     section = ''
     cursor = connection.cursor()
     if (album != ''):
