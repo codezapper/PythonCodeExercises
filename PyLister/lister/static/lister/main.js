@@ -224,6 +224,7 @@ function showAlbums() {
         function(template) {
             $.getJSON('/lister/albums_data/', function(albums) {
                 var html = Mustache.render(template, albums);
+                console.log(html);
                 $('#content-frame').html(html);
                 trackList = albums.albums_list;
             });
