@@ -221,25 +221,12 @@ function toggleCycle() {
 
 function initTrackListIfNeeded() {
     songs = [];
-    $.getJSON('/lister/search/', function(data) {
-        songs = data;
-        console.log(songs);
+    $.getJSON('/lister/search/', function(songs) {
         var template = $('#playlist').html();
-        console.log(songs);
         var html = Mustache.render(template, songs);
         $('#playlist').html(html);
+        trackList = songs.songs_list;
     });
-
-
-    if (Object.keys(trackList).length === 0) {
-        player.load();
-        playlist.find('li a').each(function(index, item) {
-            trackList[item.getAttribute('data-index')] = {}
-            trackList[item.getAttribute('data-index')]['path'] = item.getAttribute('data-path');
-            trackList[item.getAttribute('data-index')]['title'] = item.text;
-        });
-        currentTrack = 1;
-    }
 }
 
 function volumeUp() {
