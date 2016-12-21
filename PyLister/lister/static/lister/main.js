@@ -222,9 +222,9 @@ function toggleCycle() {
 function initTrackListIfNeeded() {
     songs = [];
     $.getJSON('/lister/search/', function(songs) {
-        var template = $('#playlist').html();
+        var template = $('#content-frame').html();
         var html = Mustache.render(template, songs);
-        $('#playlist').html(html);
+        $('#content-frame').html(html);
         trackList = songs.songs_list;
     });
 }

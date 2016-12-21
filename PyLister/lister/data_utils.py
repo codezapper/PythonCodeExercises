@@ -38,7 +38,7 @@ def data_for_songs_list(request, search_string='', album='', artist='', year='')
     return JsonResponse(context)
 
 
-def render_for_albums_list(request):
+def data_for_albums_list(request):
     print request
     cursor = connection.cursor()
     cursor.execute(
@@ -46,14 +46,15 @@ def render_for_albums_list(request):
     row = cursor.fetchone()
 
     albums_list = []
+    album_index = 0
     while (row):
+        row_type = album_index % 2
         albums_list.append(
-            {'album_id': row[0], 'album': row[1], 'image_file': row[2], 'artist': row[3], 'year': row[4]})
+            {'album_id': row[0], 'album': row[1], 'image_file': row[2], 'artist': row[3], 'year': row[4], 'row_type': row_type})
         row = cursor.fetchone()
-    template = loader.get_template('lister/albums_with_menu.html')
     context = {'albums_list': albums_list,
                'counters': get_counters(), 'section': 'album'}
-    return template.render(context, request)
+    return JsonResponse(context)
 
 
 def render_for_artists_list(request):
