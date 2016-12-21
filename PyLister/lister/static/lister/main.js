@@ -220,11 +220,26 @@ function toggleCycle() {
 }
 
 function showAlbums() {
-    $.get("/lister/albums/",
+    $.get('/lister/albums/',
         function(template) {
             $.getJSON('/lister/albums_data/', function(albums) {
                 var html = Mustache.render(template, albums);
-                console.log(html);
+                $('#content-frame').html(html);
+                trackList = albums.albums_list;
+            });
+        }
+    );
+}
+
+function showSingleAlbum(albumId) {
+    songs = [];
+    $.get('/lister/songs/',
+        function(template) {
+            console.log('/lister/albums_data/' + albumId.toString());
+            $.getJSON('/lister/albums_data/' + albumId.toString(), function(albums) {
+                console.log(template);
+                var html = Mustache.render(template, albums);
+                // console.log(html);
                 $('#content-frame').html(html);
                 trackList = albums.albums_list;
             });

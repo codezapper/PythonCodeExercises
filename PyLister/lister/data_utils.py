@@ -6,10 +6,12 @@ from django.template import loader
 def data_for_songs_list(request, search_string='', album='', artist='', year=''):
     section = ''
     cursor = connection.cursor()
+    print('-' + str(album) + '-')
     if (album != ''):
         section = 'album'
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_album.album_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
         cursor.execute(sql, [album])
+        print('14')
     elif (artist != ''):
         section = 'artist'
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_artist.artist_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
@@ -29,7 +31,7 @@ def data_for_songs_list(request, search_string='', album='', artist='', year='')
     while (row):
         row_type = track_index % 2
         songs_list.append(
-            {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3], 'path': row[4], 'year': row[5], 'track_number': row[6], 'row_type': row_type, 'track_index': track_index})
+            {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': '/static/' + row[3], 'path': '/static/' + row[4], 'year': row[5], 'track': row[6], 'row_type': row_type, 'track_index': track_index})
         track_index += 1
         row = cursor.fetchone()
 
@@ -50,7 +52,7 @@ def data_for_albums_list(request):
     while (row):
         row_type = album_index % 2
         albums_list.append(
-            {'album_id': row[0], 'album': row[1], 'image_file': row[2], 'artist': row[3], 'year': row[4], 'row_type': row_type})
+            {'album_id': row[0], 'album': row[1], 'image_file': '/static/' + row[2], 'artist': row[3], 'year': row[4], 'row_type': row_type})
         album_index += 1
         row = cursor.fetchone()
     context = {'albums_list': albums_list,
