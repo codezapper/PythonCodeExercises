@@ -235,11 +235,8 @@ function showSingleAlbum(albumId) {
     songs = [];
     $.get('/lister/songs/',
         function(template) {
-            console.log('/lister/albums_data/' + albumId.toString());
             $.getJSON('/lister/albums_data/' + albumId.toString(), function(albums) {
-                console.log(template);
                 var html = Mustache.render(template, albums);
-                // console.log(html);
                 $('#content-frame').html(html);
                 trackList = albums.albums_list;
             });
@@ -247,14 +244,19 @@ function showSingleAlbum(albumId) {
     );
 }
 
-function initTrackListIfNeeded() {
+function showSongs() {
     songs = [];
-    $.getJSON('/lister/search/', function(songs) {
-        var template = $('#content-frame').html();
-        var html = Mustache.render(template, songs);
-        $('#content-frame').html(html);
-        trackList = songs.songs_list;
+    $.get('/lister/songs/', function(template) {
+        $.getJSON('/lister/search/', function(songs) {
+            var html = Mustache.render(template, songs);
+            $('#content-frame').html(html);
+            trackList = songs.songs_list;
+        });
     });
+}
+
+function initTrackListIfNeeded() {
+
 }
 
 function volumeUp() {
@@ -269,5 +271,5 @@ function volumeDown() {
     }
 }
 
-window.addEventListener('load', initTrackListIfNeeded, false);
+window.addEventListener('load', showSongs, false);
 window.addEventListener('mouseup', mouseUp, false);

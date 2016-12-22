@@ -2,36 +2,16 @@ from django.db import connection
 from django.template import loader
 
 
+def render_wrapper(request):
+    template = loader.get_template('lister/wrapper.html')
+    context = {}
+
+    return template.render(context, request)
+
+
 def render_for_songs_list(request, album='', artist='', year=''):
-    section = ''
-    cursor = connection.cursor()
-    if (album != ''):
-        section = 'album'
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_album.album_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
-        cursor.execute(sql, [album])
-    elif (artist != ''):
-        section = 'artist'
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_artist.artist_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
-        cursor.execute(sql, [artist])
-    elif (year != ''):
-        section = 'year'
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_song.year = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
-        cursor.execute(sql, [year])
-    else:
-        section = 'songs'
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
-        cursor.execute(sql)
-    row = cursor.fetchone()
-
-    songs_list = []
-    while (row):
-        songs_list.append(
-            {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3], 'path': row[4], 'year': row[5], 'track_number': row[6]})
-        row = cursor.fetchone()
-
-    template = loader.get_template('lister/index_with_menu.html')
-    context = {'songs_list': songs_list,
-               'counters': get_counters(), 'section': section}
+    template = loader.get_template('lister/songs.html')
+    context = {}
     return template.render(context, request)
 
 

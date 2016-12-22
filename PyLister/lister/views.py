@@ -19,7 +19,7 @@ def albums_data(request, album_id=''):
 
 
 def index(request):
-    return songs(request)
+    return HttpResponse(tu.render_wrapper(request))
 
 
 def songs(request):

@@ -3,7 +3,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
-    url(r'^songs/$', views.index, name='songs'),
+    url(r'^songs/$', views.songs, name='songs'),
     url(r'^albums/$', views.albums, name='albums'),
     url(r'^albums/(?P<album_id>\w+)$', views.albums, name='albums'),
     url(r'^albums/(?P<album_id>\w+)/$', views.albums, name='albums'),
