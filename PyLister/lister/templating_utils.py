@@ -4,7 +4,7 @@ from django.template import loader
 
 def render_wrapper(request):
     template = loader.get_template('lister/wrapper.html')
-    context = {}
+    context = {'counters': get_counters()}
 
     return template.render(context, request)
 
