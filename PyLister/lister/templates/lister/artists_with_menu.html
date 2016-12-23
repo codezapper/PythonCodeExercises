@@ -1,17 +1,17 @@
 <ul class="root-list">
-    <div class="main-container">
+    <div class="main-container" id="content-frame">
         <div id="header">
             <ul class="standard-header">
                 <li>Artist</li>
             </ul>
-            <div>
-                {% load mathfilters %} {% load static %} {% for artist in artists_list %}
-                <ul class="artists-container row-{{ forloop.counter|mod:2 }}">
+            <div class="main-content">
+            {% verbatim %}{{#artists_list}}
+                <ul class="artists-container row-{{ row_type }}">
                     <li class="artist-item truncate">
-                        <a class="artist-link" href="/lister/artists/{{ artist.artist_id }}">{{ artist.artist }} ({{ artist.count }})</a>
+                        <a class="artist-link" href="#" onclick="showSingleArtist({{ artist_id }});return false;">{{ artist }}</a>
                     </li>
                 </ul>
-                {% endfor %}
+            {{/artists_list}}{% endverbatim %}
             </div>
         </div>
     </div>

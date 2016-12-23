@@ -39,15 +39,11 @@ def songs(request):
 
 
 def albums(request, album_id=''):
-    if (album_id == ''):
-        return HttpResponse(tu.render_for_albums_list(request))
-    return HttpResponse(tu.render_for_songs_list(request, album_id))
+    return HttpResponse(tu.template_for_albums_overview(request))
 
 
 def artists(request, artist_id=''):
-    if (artist_id == ''):
-        return HttpResponse(tu.render_for_artists_list(request))
-    return HttpResponse(tu.render_for_songs_list(request, '', artist_id))
+    return HttpResponse(tu.template_for_artists_overview(request))
 
 
 def years(request, year=''):

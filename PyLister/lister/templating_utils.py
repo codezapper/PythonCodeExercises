@@ -1,5 +1,6 @@
 from django.db import connection
 from django.template import loader
+import data_utils as du
 
 
 def render_wrapper(request):
@@ -15,38 +16,16 @@ def render_for_songs_list(request, album='', artist='', year=''):
     return template.render(context, request)
 
 
-def render_for_albums_list(request):
-    print request
-    cursor = connection.cursor()
-    cursor.execute(
-        '''SELECT lister_album.album_id, lister_album.description, image_file, lister_artist.description, year FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id GROUP BY lister_album.description, lister_artist.description, image_file, year ORDER BY lister_album.description''')
-    row = cursor.fetchone()
-
-    albums_list = []
-    while (row):
-        albums_list.append(
-            {'album_id': row[0], 'album': row[1], 'image_file': row[2], 'artist': row[3], 'year': row[4]})
-        row = cursor.fetchone()
+def template_for_albums_overview(request):
     template = loader.get_template('lister/albums_with_menu.html')
-    context = {'albums_list': albums_list,
+    context = {'albums_list': du.data_for_albums_overview(),
                'counters': get_counters(), 'section': 'album'}
     return template.render(context, request)
 
 
-def render_for_artists_list(request):
-    print request
-    cursor = connection.cursor()
-    cursor.execute(
-        '''SELECT lister_artist.artist_id, lister_artist.description, count(*) FROM lister_song, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id GROUP BY lister_artist.artist_id, lister_artist.description ORDER BY lister_artist.description''')
-    row = cursor.fetchone()
-
-    artists_list = []
-    while (row):
-        artists_list.append(
-            {'artist_id': row[0], 'artist': row[1], 'count': row[2]})
-        row = cursor.fetchone()
+def template_for_artists_overview(request):
     template = loader.get_template('lister/artists_with_menu.html')
-    context = {'artists_list': artists_list,
+    context = {'artists_list': du.data_for_artists_overview(),
                'counters': get_counters(), 'section': 'artist'}
     return template.render(context, request)
 
