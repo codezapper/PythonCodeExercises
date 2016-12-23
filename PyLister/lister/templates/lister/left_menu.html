@@ -2,20 +2,20 @@
     <div class="left-frame">
     <input type="text" name="finder" class="finder-box">
         <ul class="menu-container">
-            <li class="{% if section == 'songs' %} active-menu {% else %} row-1 {% endif %}">
-            <a class="{% if section == 'songs' %} active-menu {% endif %}" href="#" onclick="showSongs();return false;">
+            <li class="row-1">
+            <a class="row-1" href="#" onclick="showSongs();return false;">
             Songs
             <span style="float:right">({{ counters.songs }})</span></a></li>
-            <li class="{% if section == 'album' %} active-menu {% else %} row-1 {% endif %}">
-            <a class=" {% if section == 'album' %} active-menu {% else %} row-1 {% endif %}" href="#" onclick="showAlbums();return false;">
+            <li class="row-1">
+            <a class="row-1" href="#" onclick="showAlbums();return false;">
             Albums
             <span style="float:right">({{ counters.albums }})</span></a></li>
-            <li class="{% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}">
-            <a class=" {% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}" href="#" onclick="showArtists();return false;">
+            <li class="row-1">
+            <a class="row-1" href="#" onclick="showArtists();return false;">
             Artists
             <span style="float:right">({{ counters.artists }})</span></a></li>
-            <li class="{% if section == 'year' %} active-menu {% else %} row-1 {% endif %}">
-            <a class=" {% if section == 'year' %} active-menu {% else %} row-1 {% endif %}" href="#" onclick="showYears();return false;">
+            <li class="row-1">
+            <a class="row-1" href="#" onclick="showYears();return false;">
             Years
             <span style="float:right">({{ counters.years }})</span></a></li>
         </ul>

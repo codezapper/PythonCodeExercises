@@ -220,6 +220,7 @@ function toggleCycle() {
 }
 
 function showAlbums() {
+    setCurrentSection(1);
     $.get('/lister/albums/',
         function(template) {
             $.getJSON('/lister/albums_data/', function(albums) {
@@ -232,6 +233,7 @@ function showAlbums() {
 }
 
 function showArtists() {
+    setCurrentSection(2);
     $.get('/lister/artists/',
         function(template) {
             $.getJSON('/lister/artists_data/', function(artists) {
@@ -244,6 +246,7 @@ function showArtists() {
 }
 
 function showYears() {
+    setCurrentSection(3);
     $.get('/lister/years/',
         function(template) {
             $.getJSON('/lister/years_data/', function(years) {
@@ -256,6 +259,7 @@ function showYears() {
 }
 
 function showSingleAlbum(albumId) {
+    setCurrentSection(1);
     songs = [];
     $.get('/lister/songs/',
         function(template) {
@@ -269,6 +273,7 @@ function showSingleAlbum(albumId) {
 }
 
 function showSingleArtist(artistId) {
+    setCurrentSection(2);
     songs = [];
     $.get('/lister/songs/',
         function(template) {
@@ -282,6 +287,7 @@ function showSingleArtist(artistId) {
 }
 
 function showSingleYear(year) {
+    setCurrentSection(3);
     songs = [];
     $.get('/lister/songs/',
         function(template) {
@@ -295,6 +301,7 @@ function showSingleYear(year) {
 }
 
 function showSongs() {
+    setCurrentSection(0);
     songs = [];
     $.get('/lister/songs/', function(template) {
         $.getJSON('/lister/search/', function(songs) {
@@ -318,6 +325,18 @@ function volumeUp() {
 function volumeDown() {
     if (player.volume > 0) {
         player.volume -= 0.1;
+    }
+}
+
+function setCurrentSection(index) {
+    for (i = 0; i < $('.menu-container > li').length; i++ ) {
+        if (i == index) {
+            $('.menu-container > li')[i].className = 'active-menu';
+            $('.menu-container > li > a')[i].className = 'active-menu';
+        } else {
+            $('.menu-container > li')[i].className = 'row-1';
+            $('.menu-container > li > a')[i].className = 'row-1';
+        }
     }
 }
 
