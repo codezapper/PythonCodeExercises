@@ -262,7 +262,7 @@ function showSingleAlbum(albumId) {
             $.getJSON('/lister/albums_data/' + albumId.toString(), function(albums) {
                 var html = Mustache.render(template, albums);
                 $('#content-frame').html(html);
-                trackList = albums.albums_list;
+                trackList = albums.songs_list;
             });
         }
     );
@@ -275,7 +275,7 @@ function showSingleArtist(artistId) {
             $.getJSON('/lister/artists_data/' + artistId.toString(), function(artists) {
                 var html = Mustache.render(template, artists);
                 $('#content-frame').html(html);
-                trackList = artists.artists_list;
+                trackList = artists.songs_list;
             });
         }
     );
@@ -288,7 +288,7 @@ function showSingleYear(year) {
             $.getJSON('/lister/years_data/' + year.toString(), function(years) {
                 var html = Mustache.render(template, years);
                 $('#content-frame').html(html);
-                trackList = years.years_list;
+                trackList = years.songs_list;
             });
         }
     );

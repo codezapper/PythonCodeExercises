@@ -31,7 +31,7 @@ def data_for_songs_list(request, search_string='', album='', artist='', year='')
     while (row):
         row_type = track_index % 2
         songs_list.append(
-            {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': '/static/' + row[3], 'path': '/static/' + row[4], 'year': row[5], 'track': row[6], 'row_type': row_type, 'track_index': track_index})
+            {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3], 'path': row[4], 'year': row[5], 'track': row[6], 'row_type': row_type, 'track_index': track_index})
         track_index += 1
         row = cursor.fetchone()
 
@@ -52,7 +52,7 @@ def data_for_albums_list(request):
     while (row):
         row_type = album_index % 2
         albums_list.append(
-            {'album_id': row[0], 'album': row[1], 'image_file': '/static/' + row[2], 'artist': row[3], 'year': row[4], 'row_type': row_type})
+            {'album_id': row[0], 'album': row[1], 'image_file': row[2], 'artist': row[3], 'year': row[4], 'row_type': row_type})
         album_index += 1
         row = cursor.fetchone()
     context = {'albums_list': albums_list,
