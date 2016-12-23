@@ -11,11 +11,11 @@
             Albums
             <span style="float:right">({{ counters.albums }})</span></a></li>
             <li class="{% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}">
-            <a class=" {% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}" href="/lister/artists/">
+            <a class=" {% if section == 'artist' %} active-menu {% else %} row-1 {% endif %}" href="#" onclick="showArtists();return false;">
             Artists
             <span style="float:right">({{ counters.artists }})</span></a></li>
             <li class="{% if section == 'year' %} active-menu {% else %} row-1 {% endif %}">
-            <a class=" {% if section == 'year' %} active-menu {% else %} row-1 {% endif %}" href="/lister/years/">
+            <a class=" {% if section == 'year' %} active-menu {% else %} row-1 {% endif %}" href="#" onclick="showYears();return false;">
             Years
             <span style="float:right">({{ counters.years }})</span></a></li>
         </ul>

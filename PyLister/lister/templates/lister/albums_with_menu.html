@@ -8,7 +8,7 @@
             {% verbatim %}{{#albums_list}}
                 <ul class="albums-container row-{{row_type}}">
                     <li class="album-item truncate">
-                        <a class="album-link" href="#"  onclick="showSingleAlbum({{ album_id }});return false;"><img class="cover" src="{{ image_file }}"> {{album}} - {{artist}} ({{year}})</a>
+                        <a class="album-link" href="#" onclick="showSingleAlbum({{ album_id }});return false;"><img class="cover" src="{{ image_file }}"> {{album}} - {{artist}} ({{year}})</a>
                     </li>
                 </ul>
             {{/albums_list}}{% endverbatim %}

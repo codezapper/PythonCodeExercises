@@ -1,41 +1,18 @@
-{% extends "lister/left_menu.html" %} {% block content %}
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>Available songs</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'lister/main.css' %}" />
-</head>
-
-<body>
-    {{ block.super }}
-    <div class="right-frame">
-        {% if years_list %}
-        <ul class="root-list">
-            <div class="main-container">
-                <div id="header">
-                    <ul class="standard-header">
-                        <li>Year</li>
-                    </ul>
-                    <div>
-                        {% load mathfilters %} {% load static %} {% for year in years_list %}
-                        <ul class="years-container row-{{ forloop.counter|mod:2 }}">
-                            <li class="year-item truncate">
-                                <a class="year-link" href="/lister/years/{{ year.year }}">{{ year.year }} ({{ year.count }})</a>
-                            </li>
-                        </ul>
-                        {% endfor %}
-                    </div>
-                </div>
+<ul class="root-list">
+    <div class="main-container">
+        <div id="header">
+            <ul class="standard-header">
+                <li>Year</li>
+            </ul>
+            <div>
+                {% load mathfilters %} {% load static %} {% for year in years_list %}
+                <ul class="years-container row-{{ forloop.counter|mod:2 }}">
+                    <li class="year-item truncate">
+                        <a class="year-link" href="#" onclick="showSingleYear({{ year.year }});return false;">{{ year.year }} ({{ year.count }})</a>
+                    </li>
+                </ul>
+                {% endfor %}
             </div>
-        </ul>
-        {% else %}
-        <p>No years are available.</p>
-        {% endif %}
+        </div>
     </div>
-</body>
-
-</html>
-{% endblock %}
+</ul>

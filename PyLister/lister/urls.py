@@ -19,4 +19,8 @@ urlpatterns = [
     url(r'^search/$', views.search, name='search'),
     url(r'^albums_data/([0-9]+)/$', views.albums_data, name='albums_data'),
     url(r'^albums_data/$', views.albums_data, name='albums_data'),
+    url(r'^artists_data/([0-9]+)/$', views.artists_data, name='artists_data'),
+    url(r'^artists_data/$', views.artists_data, name='artists_data'),
+    url(r'^years_data/([0-9]+)/$', views.years_data, name='years_data'),
+    url(r'^years_data/$', views.years_data, name='years_data'),
 ]

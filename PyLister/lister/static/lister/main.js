@@ -231,6 +231,30 @@ function showAlbums() {
     );
 }
 
+function showArtists() {
+    $.get('/lister/artists/',
+        function(template) {
+            $.getJSON('/lister/artists_data/', function(artists) {
+                var html = Mustache.render(template, artists);
+                $('#content-frame').html(html);
+                trackList = artists.artists_list;
+            });
+        }
+    );
+}
+
+function showYears() {
+    $.get('/lister/years/',
+        function(template) {
+            $.getJSON('/lister/years_data/', function(years) {
+                var html = Mustache.render(template, years);
+                $('#content-frame').html(html);
+                trackList = years.years_list;
+            });
+        }
+    );
+}
+
 function showSingleAlbum(albumId) {
     songs = [];
     $.get('/lister/songs/',
@@ -239,6 +263,32 @@ function showSingleAlbum(albumId) {
                 var html = Mustache.render(template, albums);
                 $('#content-frame').html(html);
                 trackList = albums.albums_list;
+            });
+        }
+    );
+}
+
+function showSingleArtist(artistId) {
+    songs = [];
+    $.get('/lister/songs/',
+        function(template) {
+            $.getJSON('/lister/artists_data/' + artistId.toString(), function(artists) {
+                var html = Mustache.render(template, artists);
+                $('#content-frame').html(html);
+                trackList = artists.artists_list;
+            });
+        }
+    );
+}
+
+function showSingleYear(year) {
+    songs = [];
+    $.get('/lister/songs/',
+        function(template) {
+            $.getJSON('/lister/years_data/' + year.toString(), function(years) {
+                var html = Mustache.render(template, years);
+                $('#content-frame').html(html);
+                trackList = years.years_list;
             });
         }
     );

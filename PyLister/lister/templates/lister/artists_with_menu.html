@@ -1,41 +1,18 @@
-{% extends "lister/left_menu.html" %} {% block content %}
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html lang="en">
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>Available songs</title>
-    {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'lister/main.css' %}" />
-</head>
-
-<body>
-    {{ block.super }}
-    <div class="right-frame">
-        {% if artists_list %}
-        <ul class="root-list">
-            <div class="main-container">
-                <div id="header">
-                    <ul class="standard-header">
-                        <li>Artist</li>
-                    </ul>
-                    <div>
-                        {% load mathfilters %} {% load static %} {% for artist in artists_list %}
-                        <ul class="artists-container row-{{ forloop.counter|mod:2 }}">
-                            <li class="artist-item truncate">
-                                <a class="artist-link" href="/lister/artists/{{ artist.artist_id }}">{{ artist.artist }} ({{ artist.count }})</a>
-                            </li>
-                        </ul>
-                        {% endfor %}
-                    </div>
-                </div>
+<ul class="root-list">
+    <div class="main-container">
+        <div id="header">
+            <ul class="standard-header">
+                <li>Artist</li>
+            </ul>
+            <div>
+                {% load mathfilters %} {% load static %} {% for artist in artists_list %}
+                <ul class="artists-container row-{{ forloop.counter|mod:2 }}">
+                    <li class="artist-item truncate">
+                        <a class="artist-link" href="/lister/artists/{{ artist.artist_id }}">{{ artist.artist }} ({{ artist.count }})</a>
+                    </li>
+                </ul>
+                {% endfor %}
             </div>
-        </ul>
-        {% else %}
-        <p>No artists are available.</p>
-        {% endif %}
+        </div>
     </div>
-</body>
-
-</html>
-{% endblock %}
+</ul>

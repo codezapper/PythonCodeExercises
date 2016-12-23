@@ -18,6 +18,18 @@ def albums_data(request, album_id=''):
     return HttpResponse(du.data_for_songs_list(request, '', album_id))
 
 
+def artists_data(request, artist_id=''):
+    if (artist_id == ''):
+        return HttpResponse(du.data_for_artists_list(request))
+    return HttpResponse(du.data_for_songs_list(request, '', artist_id))
+
+
+def years_data(request, year_id=''):
+    if (year_id == ''):
+        return HttpResponse(du.data_for_years_list(request))
+    return HttpResponse(du.data_for_songs_list(request, '', '', '', year_id))
+
+
 def index(request):
     return HttpResponse(tu.render_wrapper(request))
 

@@ -60,7 +60,7 @@ def data_for_albums_list(request):
     return JsonResponse(context)
 
 
-def render_for_artists_list(request):
+def data_for_artists_list(request):
     print request
     cursor = connection.cursor()
     cursor.execute(
@@ -72,13 +72,12 @@ def render_for_artists_list(request):
         artists_list.append(
             {'artist_id': row[0], 'artist': row[1], 'count': row[2]})
         row = cursor.fetchone()
-    template = loader.get_template('lister/artists_with_menu.html')
     context = {'artists_list': artists_list,
                'counters': get_counters(), 'section': 'artist'}
-    return template.render(context, request)
+    return JsonResponse(context)
 
 
-def render_for_years_list(request):
+def data_for_years_list(request):
     cursor = connection.cursor()
     cursor.execute(
         '''SELECT year, count(year) FROM lister_song GROUP BY year ORDER BY year''')
@@ -89,10 +88,9 @@ def render_for_years_list(request):
         years_list.append(
             {'year': row[0], 'count': row[1]})
         row = cursor.fetchone()
-    template = loader.get_template('lister/years_with_menu.html')
     context = {'years_list': years_list,
                'counters': get_counters(), 'section': 'year'}
-    return template.render(context, request)
+    return JsonResponse(context)
 
 
 def get_counters():
