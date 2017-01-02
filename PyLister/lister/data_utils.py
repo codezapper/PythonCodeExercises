@@ -97,9 +97,12 @@ def data_for_artists_list(request):
     row = cursor.fetchone()
 
     artists_list = []
+    artist_index = 0
     while (row):
+        row_type = artist_index % 2
         artists_list.append(
-            {'artist_id': row[0], 'artist': row[1], 'count': row[2]})
+            {'artist_id': row[0], 'artist': row[1], 'count': row[2], 'row_type': row_type})
+        artist_index += 1
         row = cursor.fetchone()
     context = {'artists_list': artists_list,
                'counters': get_counters(), 'section': 'artist'}
