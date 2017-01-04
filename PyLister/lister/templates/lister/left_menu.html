@@ -1,6 +1,12 @@
 {% block content %} {% load static %}
+<ul class="top-navigation">
+    <li class="navigation-element">Songs</li>
+    <li class="navigation-element">Albums</li>
+    <li class="navigation-element">Artists</li>
+    <li class="navigation-element">Years</li>
+    <li class="finder-box"><input type="text" name="finder" class="finder-box"></li>
+</ul>
 <div class="left-frame">
-    <input type="text" name="finder" class="finder-box">
     <ul class="menu-container">
         <li class="row-1">
             <a class="row-1" href="#" onclick="showSongs();return false;">
