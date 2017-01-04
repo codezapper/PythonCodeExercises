@@ -1,64 +1,64 @@
 {% block content %} {% load static %}
-    <div class="left-frame">
+<div class="left-frame">
     <input type="text" name="finder" class="finder-box">
-        <ul class="menu-container">
-            <li class="row-1">
+    <ul class="menu-container">
+        <li class="row-1">
             <a class="row-1" href="#" onclick="showSongs();return false;">
             Songs
             <span style="float:right">({{ counters.songs }})</span></a></li>
-            <li class="row-1">
+        <li class="row-1">
             <a class="row-1" href="#" onclick="showAlbums();return false;">
             Albums
             <span style="float:right">({{ counters.albums }})</span></a></li>
-            <li class="row-1">
+        <li class="row-1">
             <a class="row-1" href="#" onclick="showArtists();return false;">
             Artists
             <span style="float:right">({{ counters.artists }})</span></a></li>
-            <li class="row-1">
+        <li class="row-1">
             <a class="row-1" href="#" onclick="showYears();return false;">
             Years
             <span style="float:right">({{ counters.years }})</span></a></li>
-        </ul>
-        <audio id="audioplayer" preload="true">
-            <source src="">
-        </audio>
-        <div class="player-border">
-            <div class="player-header">
-                <button id="play-button" class="play" onclick="playOrPause()"></button>
-                <div id="timeline">
-                    <div id="play-head">
-                    </div>
+    </ul>
+    <audio id="audioplayer" preload="true">
+        <source src="">
+    </audio>
+    <div class="player-border">
+        <div class="player-header">
+            <button id="play-button" class="play" onclick="playOrPause()"></button>
+            <div id="timeline">
+                <div id="play-head">
                 </div>
             </div>
-            <div id="current-track">
-                <ul class="navigation-buttons-container">
-                    <li class="navigation-buttons"><img class="prev-track" src="{% static 'lister/images/prev_track.png' %}" onclick="goToPrevTrack()"></img>
-                    </li>
-                    <li id="song-time" class="navigation-buttons">00:00</li>
-                    <li class="navigation-buttons"><img class="next-track" src="{% static 'lister/images/next_track.png' %}" onclick="goToNextTrack()"></img>
-                    </li>
-                </ul>
-            </div>
-            <ul class="option-buttons-container">
-                <li>
-                    <button id="shuffle-button" class="shuffle-button-off" onclick="toggleShuffle()"></button>
+        </div>
+        <div id="current-track">
+            <ul class="navigation-buttons-container">
+                <li class="navigation-buttons"><img class="prev-track" src="{% static 'lister/images/prev_track.png' %}" onclick="goToPrevTrack()"></img>
                 </li>
-                <li>
-                    <button id="cycle-button" class="cycle-button-on" onclick="toggleCycle()"></button>
-                </li>
-                <li>
-                    <button class="volume-up-button" onclick="volumeUp()"></button>
-                </li>
-                <li>
-                    <button class="volume-down-button" onclick="volumeDown()"></button>
+                <li id="song-time" class="navigation-buttons">00:00</li>
+                <li class="navigation-buttons"><img class="next-track" src="{% static 'lister/images/next_track.png' %}" onclick="goToNextTrack()"></img>
                 </li>
             </ul>
         </div>
-        <div id="current-track-title" class="truncate-current-track">
-            None
-        </div>
-        <div id="current-album">
-            <img id="current-track-cover" src="">
-        </div>
+        <ul class="option-buttons-container">
+            <li>
+                <button id="shuffle-button" class="shuffle-button-off" onclick="toggleShuffle()"></button>
+            </li>
+            <li>
+                <button id="cycle-button" class="cycle-button-on" onclick="toggleCycle()"></button>
+            </li>
+            <li>
+                <button class="volume-up-button" onclick="volumeUp()"></button>
+            </li>
+            <li>
+                <button class="volume-down-button" onclick="volumeDown()"></button>
+            </li>
+        </ul>
     </div>
+    <div id="current-track-title" class="truncate-current-track">
+        None
+    </div>
+    <div id="current-album">
+        <img id="current-track-cover" src="">
+    </div>
+</div>
 {% endblock %}

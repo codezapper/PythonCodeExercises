@@ -9,7 +9,7 @@ from streaming_utils import StreamWrapper
 
 
 def search(request, search_string=''):
-    return HttpResponse(du.data_for_songs_list(request))
+    return HttpResponse(du.data_for_songs_list(request, search_string))
 
 
 def albums_data(request, album_id=''):

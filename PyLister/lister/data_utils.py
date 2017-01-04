@@ -3,14 +3,21 @@ from django.http import JsonResponse
 
 
 def data_for_songs_list(request, search_string='', album='', artist='', year=''):
+    if (search_string == '' and album == '' and artist == '' and year == ''):
+        return JsonResponse({})
+
+    print(search_string)
     section = ''
     cursor = connection.cursor()
-    print('-' + str(album) + '-')
-    if (album != ''):
+    if (search_string != ''):
+        section = 'songs'
+        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND ( title like %s or lister_album.description like %s or lister_artist.description like %s) ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
+        search_string = '%' + search_string + '%'
+        cursor.execute(sql, [search_string, search_string, search_string])
+    elif (album != ''):
         section = 'album'
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_album.album_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
         cursor.execute(sql, [album])
-        print('14')
     elif (artist != ''):
         section = 'artist'
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_artist.artist_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
@@ -90,7 +97,6 @@ def data_for_albums_list(request):
 
 
 def data_for_artists_list(request):
-    print request
     cursor = connection.cursor()
     cursor.execute(
         '''SELECT lister_artist.artist_id, lister_artist.description, count(*) FROM lister_song, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id GROUP BY lister_artist.artist_id, lister_artist.description ORDER BY lister_artist.description''')

@@ -12,6 +12,7 @@ var cycleButton = $('#cycle-button');
 var onPlayHead = false;
 var timeline = document.getElementById('timeline');
 var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
+var finderBox = $('.finder-box')[0]
 var trackList = {};
 var shuffledList = [];
 var currentTrack = 0;
@@ -49,6 +50,10 @@ function timeUpdate() {
         playButton.className = 'play';
     }
 }
+
+finderBox.addEventListener('keydown', function(event) {
+    console.log(event);
+});
 
 timeline.addEventListener('click', function(event) {
     movePlayHead(event);
