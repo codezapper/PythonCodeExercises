@@ -11,7 +11,7 @@ var shuffleButton = $('#shuffle-button');
 var cycleButton = $('#cycle-button');
 var onPlayHead = false;
 var timeline = document.getElementById('timeline');
-var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
+// var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
 var finderBox = $('.finder-box')[0]
 var trackList = {};
 var shuffledList = [];
@@ -32,15 +32,15 @@ Number.prototype.toMMSS = function() {
     return minutes + ':' + seconds;
 }
 
-player.addEventListener('timeupdate', timeUpdate, false);
+// player.addEventListener('timeupdate', timeUpdate, false);
 
-player.addEventListener('ended', function(e) {
-    goToNextTrack();
-});
+// player.addEventListener('ended', function(e) {
+//     goToNextTrack();
+// });
 
-player.addEventListener('canplaythrough', function() {
-    duration = player.duration;
-}, false);
+// player.addEventListener('canplaythrough', function() {
+//     duration = player.duration;
+// }, false);
 
 function timeUpdate() {
     var playPercent = timelineWidth * (player.currentTime / duration);
@@ -51,20 +51,20 @@ function timeUpdate() {
     }
 }
 
-finderBox.addEventListener('keydown', function(event) {
-    console.log(event);
-});
+// finderBox.addEventListener('keydown', function(event) {
+//     console.log(event);
+// });
 
-timeline.addEventListener('click', function(event) {
-    movePlayHead(event);
-    player.currentTime = duration * clickPercent(event);
-}, false);
+// timeline.addEventListener('click', function(event) {
+//     movePlayHead(event);
+//     player.currentTime = duration * clickPercent(event);
+// }, false);
 
 function clickPercent(e) {
     return (e.pageX - timeline.offsetLeft) / timelineWidth;
 }
 
-playHead.addEventListener('mousedown', mouseDownOnPlayHead, false);
+// playHead.addEventListener('mousedown', mouseDownOnPlayHead, false);
 
 function mouseDownOnPlayHead() {
     onPlayHead = true;
@@ -309,9 +309,10 @@ function showSongs() {
     setCurrentSection(0);
     songs = [];
     $.get('/lister/songs/', function(template) {
-        $.getJSON('/lister/search/', function(songs) {
+        $.getJSON('/lister/search/metallica', function(songs) {
             var html = Mustache.render(template, songs);
-            $('#content-frame').html(html);
+            console.log(html);
+            $('#container-frame').html(html);
             trackList = songs.songs_list;
         });
     });
