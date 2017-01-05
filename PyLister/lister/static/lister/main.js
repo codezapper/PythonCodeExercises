@@ -311,7 +311,6 @@ function showSongs() {
     $.get('/lister/songs/', function(template) {
         $.getJSON('/lister/search/metallica', function(songs) {
             var html = Mustache.render(template, songs);
-            console.log(html);
             $('#container-frame').html(html);
             trackList = songs.songs_list;
         });
