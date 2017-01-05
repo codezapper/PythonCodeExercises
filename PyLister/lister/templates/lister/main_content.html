@@ -1,0 +1,42 @@
+{% block content %} {% load static %}
+<div class="flexsearch">
+        <div class="flexsearch--wrapper">
+            <form class="flexsearch--form" action="#" method="post">
+                <div class="flexsearch--input-wrapper">
+                    <input class="flexsearch--input" type="search" placeholder="search">
+                </div>
+                <input class="flexsearch--submit" type="submit" value="&#10140;"/>
+            </form>
+        </div>
+</div>
+
+<div class="main-container" id="container-frame">
+    <ul class="root-list">
+        <div class="main-content">
+            <div id="header">
+                <ul class="standard-header">
+                    <li>Title</li>
+                    <li>Artist</li>
+                    <li>Album</li>
+                    <li>Year</li>
+                    <li>Track</li>
+                </ul>
+            </div>
+            <div id="playlist">
+            {% verbatim %}{{#songs_list}}
+                <ul class="row-{{row_type}}">
+                    <li>
+                        <a onclick="playTrack({{track_index}});return false;" data-index="{{track_index}}" href="#">{{title}}</a>
+                    </li>
+                    <li>{{artist}}</li>
+                    <li>{{album}}</li>
+                    <li>{{year}}</li>
+                    <li>{{track}}</li>
+                </ul>
+            {{/songs_list}}{% endverbatim %}
+            </div>
+        </div>
+    </ul>
+</div>
+
+{% endblock %}

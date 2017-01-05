@@ -1,18 +1,20 @@
-{% extends "lister/left_menu.html" %} {% block content %}
+{% extends "lister/main_content.html" %} {% block content %}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html lang="en">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    <title>Available songs</title>
+    <title>Search Player</title>
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'lister/main.css' %}" />
 </head>
 
 <body>
-    {{ block.super }}
-    <div class="right-frame" id="content-frame">
-    </div>
+    <div class="main-wrapper">
+        <div class="wrapper-content">
+            {{ block.super }}
+        </div>
+    </div>    
 </body>
 <script src="{% static 'lister/jquery-3.1.1.min.js' %}"></script>
 <script src="{% static 'lister/main.js' %}"></script>

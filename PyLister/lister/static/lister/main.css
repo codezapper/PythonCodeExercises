@@ -3,35 +3,6 @@ body {
     font-family: sans-serif;
 }
 
-ul {
-    list-style-type: none;
-    text-align: top;
-    -webkit-padding-start: 0;
-}
-
-li {
-    font-size: 12px;
-}
-
-a {
-    text-decoration: none;
-    font-size: 12px;
-    color: #444;
-    padding: 0px;
-}
-
-.left-frame {
-    width: 10%;
-    float:  left;
-    border-radius: 3px;
-    border: 1px solid #788;
-}
-
-.right-frame {
-    width: 89%;
-    float: right;
-}
-
 .truncate {
     width: 100%;
     white-space: nowrap;
@@ -41,35 +12,7 @@ a {
     -ms-text-overflow: ellipsis;
 }
 
-.menu-container {
-    text-align: left;
-    align-content: left;
-    width: 100%;
-    border-bottom: 1px solid #788;
-    margin-top: 0px;
-    margin-bottom: -1px;
-}
-
-.menu-container > li {
-    font-weight: bold;
-    margin-bottom: 0px;
-    padding: 3px;
-    width: 96%;
-    text-align: left;
-}
-
-.active-menu {
-    background-color: #2E8AF7;
-    border-radius: 1px;
-    color: #FFFFFF;
-}
-
-.standard-header {
-    background-color: #788;
-    padding: 1px;
-}
-
-.standard-header > li {
+li {
     margin-left: 10px;
     margin-bottom: 5px;
     display: inline-block;
@@ -78,113 +21,12 @@ a {
     color: #DDD;
 }
 
-.main-container {
-    border: 1px solid #788;
-    border-radius: 3px;
-    width: 60%;
-}
-
-.main-content > ul {
-    margin: 0 0 0 0;
-    padding: 3px;
-}
-
-.main-content > ul > li {
-    display: inline-block;
-    width: 18%;
-    margin-left: 5px;
-    padding: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
-    -ms-text-overflow: ellipsis;
-}
-
-.root-list {
-    margin-top: 0px;
-}
-
-.song-track-number {
-    padding: 3px;
-    display: inline-block;
-    border-spacing: 0px;
-    margin-left: -6px;
-    width: 5%;
-}
-
-.songs-container {
-    border-radius: 3px;
-    background-color: #BCC;
-}
-
-.song-item {
-    padding: 3px;
-    display: inline-block;
-}
-
 .row-0 {
     background-color: #CDD;
 }
 
 .row-1 {
     background-color: #BCC;
-}
-
-.cover {
-    width: 40px;
-    height: 40px;
-    text-align: left;
-    vertical-align: middle;
-}
-
-.albums-container {
-    width: 99.4%;
-    padding: 3px;
-}
-
-.album-item {
-    padding: 3px;
-    display: inline-block;
-}
-
-.album-track-number {
-    padding: 3px;
-    display: inline-block;
-    border-spacing: 0px;
-    margin-left: -6px;
-    width: 5%;
-}
-
-.artists-container {
-    border-radius: 3px;
-    margin-right: 20px;
-    width: 99%;
-    padding: 5px;
-}
-
-.artist-link {
-    margin-left: 5px;
-    padding: 3px;
-}
-
-.artist-item {
-    padding: 3px;
-    display: inline-block;
-    border-spacing: 0px;
-    margin-left: -6px;
-}
-
-.year-link {
-    margin-left: 5px;
-    padding: 3px;
-}
-
-.years-container {
-    border-radius: 3px;
-    margin-right: 20px;
-    width: 99%;
-    padding: 5px;
 }
 
 .player-header {
@@ -417,4 +259,128 @@ a {
     margin-left: -5px;
     padding: 8px;
     background-color: #91BAEA;
+}
+
+/*
+ Main content styling
+*/
+
+#container-frame {
+    width: 50%;
+    margin: 0 auto;
+    background-color: #BBC2C2;
+    border-radius: 35px;
+}
+
+.root-list {
+}
+
+/*
+ Search box styling
+*/
+
+.flexsearch--wrapper {
+    height: auto;
+    width: auto;
+    max-width: 50%;
+    overflow: hidden;
+    background: transparent;
+    margin: 0;
+    position: static;
+    -webkit-padding-start: 0;
+    margin: 0 auto;
+}
+    
+.flexsearch--form {
+    overflow: hidden;
+    position: relative;
+}
+    
+.flexsearch--input-wrapper {
+    padding: 0 66px 0 0;
+    overflow: hidden;
+}
+
+.flexsearch--input {
+  width: 100%;
+}
+
+/***********************
+ * Configurable Styles *
+ ***********************/
+.flexsearch {
+  padding: 0 0px 0 0px; /* Padding for other horizontal elements */
+}
+
+.flexsearch--input {
+  -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    height: 40px;
+  padding: 0 46px 0 10px;
+    border-color: #888;
+  border-radius: 35px; /* (height/2) + border-width */
+  border-style: solid;
+    border-width: 5px;
+  margin-top: 15px;
+  color: #333;
+  font-family: 'Helvetica', sans-serif;
+    font-size: 26px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+    
+.flexsearch--submit {
+  position: absolute;
+    right: 0;
+    top: 0;
+    display: block;
+    width: 60px;
+    height: 60px;
+  padding: 0;
+  border: none;
+    margin-top: 9px;
+  margin-right: 5px;
+    background: transparent;
+  color: #888;
+  font-family: 'Helvetica', sans-serif;
+  font-size: 40px;
+  line-height: 60px;
+}
+
+.flexsearch--input:focus {
+  outline: none;
+  border-color: #333;
+}
+
+.flexsearch--input:focus.flexsearch--submit {
+    color: #333; 
+}
+
+.flexsearch--submit:hover {
+  color: #333;
+  cursor: pointer;
+}
+
+::-webkit-input-placeholder {
+    color: #888;  
+}
+
+input:-moz-placeholder {
+  color: #888
+}
+
+
+/****************
+ * Pretify demo *
+ ****************/
+.h1 {
+  float: left;
+  margin: 25px;
+  color: #333;
+  font-family: 'Helvetica', sans-serif;
+  font-size: 45px;
+  font-weight: bold;
+  line-height: 45px;
+  text-align: center;
 }
