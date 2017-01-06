@@ -12,7 +12,8 @@ var cycleButton = $('#cycle-button');
 var onPlayHead = false;
 var timeline = document.getElementById('timeline');
 // var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
-var finderBox = $('.finder-box')[0]
+var finderBox = $('.flexsearch')[0];
+var inputBox = $('.flexsearch--input')[0];
 var trackList = {};
 var shuffledList = [];
 var currentTrack = 0;
@@ -50,10 +51,6 @@ function timeUpdate() {
         playButton.className = 'play';
     }
 }
-
-// finderBox.addEventListener('keydown', function(event) {
-//     console.log(event);
-// });
 
 // timeline.addEventListener('click', function(event) {
 //     movePlayHead(event);
@@ -305,17 +302,21 @@ function showSingleYear(year) {
     );
 }
 
-function showSongs() {
+function showSongs(searchTerm) {
     setCurrentSection(0);
     songs = [];
     $.get('/lister/songs/', function(template) {
-        $.getJSON('/lister/search/metallica', function(songs) {
+        $.getJSON('/lister/search/' + searchTerm, function(songs) {
             var html = Mustache.render(template, songs);
             $('#container-frame').html(html);
             trackList = songs.songs_list;
         });
     });
 }
+
+finderBox.addEventListener('keyup', function(event) {
+    showSongs(inputBox.value);
+});
 
 function initTrackListIfNeeded() {
 
@@ -347,3 +348,6 @@ function setCurrentSection(index) {
 
 window.addEventListener('load', showSongs, false);
 window.addEventListener('mouseup', mouseUp, false);
+window.addEventListener('submit', function(event) {
+    event.preventDefault();
+});
