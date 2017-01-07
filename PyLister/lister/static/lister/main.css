@@ -50,22 +50,32 @@ body {
     margin: 0;
 }
 
-#play-button {
-    border-radius: 50%;
-    border: 5px solid #888;
-    width: 50px;
-    height: 50px;
-    margin: 5px auto;
+.play-button {
+    background: url('/static/lister/images/play.png');
+    width: 64px;
+    height: 64px;
 }
 
-#play-triangle {
-    width: 0;
-    height: 0;
-    border-top: 15px solid transparent;
-    border-left: 30px solid #888;
-    border-bottom: 15px solid transparent;
-    margin: 10px 0px 10px 13px;
-    /*margin-left: 13px;*/
+.next-button {
+    background: url('/static/lister/images/next_track.png');
+    width: 64px;
+    height: 64px;
+}
+
+.prev-button {
+    background: url('/static/lister/images/prev_track.png');
+    width: 64px;
+    height: 64px;
+}
+
+.player-controls > div {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.player-controls {
+    margin: 0px auto;
+    width: 50%;
 }
 
 /*li {
