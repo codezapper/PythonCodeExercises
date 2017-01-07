@@ -2,7 +2,7 @@
 
 var playlist = $('#playlist');
 var player = $('#audioplayer')[0];
-var playButton = $('#play-button')[0];
+var playButton = $('#play-pause-button');
 var playHead = $('#play-head')[0];
 var currentTime = $('li#song-time');
 var currentTrackText = $('div#current-track-title');
@@ -32,6 +32,11 @@ Number.prototype.toMMSS = function() {
 
     return minutes + ':' + seconds;
 }
+
+playButton[0].addEventListener('click', function() {
+    playButton.toggleClass('play-button');
+    playButton.toggleClass('pause-button');
+});
 
 // player.addEventListener('timeupdate', timeUpdate, false);
 

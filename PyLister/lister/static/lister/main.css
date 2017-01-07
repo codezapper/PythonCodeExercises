@@ -50,14 +50,36 @@ body {
     margin: 0;
 }
 
+.player-controls > div {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.player-controls {
+    margin: 0px auto;
+    width: 50%;
+}
+
 .play-button {
     background: url('/static/lister/images/play.png');
     width: 64px;
     height: 64px;
 }
 
-.next-button {
-    background: url('/static/lister/images/next_track.png');
+.play-button:hover {
+    background: url('/static/lister/images/play_hover.png');
+    width: 64px;
+    height: 64px;
+}
+
+.pause-button {
+    background: url('/static/lister/images/pause.png');
+    width: 64px;
+    height: 64px;
+}
+
+.pause-button:hover {
+    background: url('/static/lister/images/pause_hover.png');
     width: 64px;
     height: 64px;
 }
@@ -68,14 +90,41 @@ body {
     height: 64px;
 }
 
-.player-controls > div {
-    display: inline-block;
-    margin-top: 5px;
+.prev-button:hover {
+    background: url('/static/lister/images/prev_track_hover.png');
+    width: 64px;
+    height: 64px;
 }
 
-.player-controls {
-    margin: 0px auto;
-    width: 50%;
+.next-button {
+    background: url('/static/lister/images/next_track.png');
+    width: 64px;
+    height: 64px;
+}
+
+.next-button:hover {
+    background: url('/static/lister/images/next_track_hover.png');
+    width: 64px;
+    height: 64px;
+}
+
+#timeline-container {
+    height: 64px;
+    width: 77.5%;
+}
+
+
+#timeline {
+    background-color: #CCC;
+    border: 5px solid #888;
+    width: 100%;
+    height: 5px;
+    border-radius: 15px;
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
 }
 
 /*li {
