@@ -1,17 +1,15 @@
-// Adapted from http://codepen.io/katzkode/pen/Kfgix
-
 var playlist = $('#playlist');
 var player = $('#audioplayer')[0];
 var playButton = $('#play-pause-button');
-var playHead = $('#play-head')[0];
+var timeLineHead = $('#timeline-head');
 var currentTime = $('li#song-time');
 var currentTrackText = $('div#current-track-title');
 var currentTrackCover = $('img#current-track-cover');
 var shuffleButton = $('#shuffle-button');
 var cycleButton = $('#cycle-button');
-var onPlayHead = false;
+var onTimeLineHead = false;
 var timeline = document.getElementById('timeline');
-// var timelineWidth = timeline.offsetWidth - playHead.offsetWidth;
+// var timelineWidth = timeline.offsetWidth - TimeLineHead.offsetWidth;
 var finderBox = $('.flexsearch')[0];
 var inputBox = $('.flexsearch--input')[0];
 var trackList = {};
@@ -33,6 +31,15 @@ Number.prototype.toMMSS = function() {
     return minutes + ':' + seconds;
 }
 
+$('#timeline-head').draggable({
+    appendTo: $('#timeline'),
+    axis: "x",
+    containment: $('#timeline'),
+    stop: function( event, ui ) {
+        console.log((ui.position.left * 100) / $('#timeline')[0].offsetWidth);
+    }
+});
+
 playButton[0].addEventListener('click', function() {
     playButton.toggleClass('play-button');
     playButton.toggleClass('pause-button');
@@ -51,14 +58,14 @@ playButton[0].addEventListener('click', function() {
 function timeUpdate() {
     var playPercent = timelineWidth * (player.currentTime / duration);
     currentTime[0].innerHTML = player.currentTime.toMMSS();
-    playHead.style.marginLeft = playPercent + 'px';
+    timeLineHead.style.marginLeft = playPercent + 'px';
     if (player.currentTime == duration) {
         playButton.className = 'play';
     }
 }
 
 // timeline.addEventListener('click', function(event) {
-//     movePlayHead(event);
+//     moveTimeLineHead(event);
 //     player.currentTime = duration * clickPercent(event);
 // }, false);
 
@@ -66,34 +73,34 @@ function clickPercent(e) {
     return (e.pageX - timeline.offsetLeft) / timelineWidth;
 }
 
-// playHead.addEventListener('mousedown', mouseDownOnPlayHead, false);
+// TimeLineHead.addEventListener('mousedown', mouseDownOnTimeLineHead, false);
 
-function mouseDownOnPlayHead() {
-    onPlayHead = true;
-    window.addEventListener('mousemove', movePlayHead, true);
+function mouseDownOnTimeLineHead() {
+    onTimeLineHead = true;
+    window.addEventListener('mousemove', moveTimeLineHead, true);
     player.removeEventListener('timeupdate', timeUpdate, false);
 }
 
 function mouseUp(e) {
-    if (onPlayHead == true) {
-        movePlayHead(e);
-        window.removeEventListener('mousemove', movePlayHead, true);
+    if (onTimeLineHead == true) {
+        moveTimeLineHead(e);
+        window.removeEventListener('mousemove', moveTimeLineHead, true);
         player.currentTime = duration * clickPercent(e);
         player.addEventListener('timeupdate', timeUpdate, false);
     }
-    onPlayHead = false;
+    onTimeLineHead = false;
 }
 
-function movePlayHead(e) {
+function moveTimeLineHead(e) {
     var newMarginLeft = e.pageX - timeline.offsetLeft;
     if (newMarginLeft >= 0 && newMarginLeft <= timelineWidth) {
-        playHead.style.marginLeft = newMarginLeft + 'px';
+        timeLineHead.style.marginLeft = newMarginLeft + 'px';
     }
     if (newMarginLeft < 0) {
-        playHead.style.marginLeft = '0px';
+        timeLineHead.style.marginLeft = '0px';
     }
     if (newMarginLeft > timelineWidth) {
-        playHead.style.marginLeft = timelineWidth + 'px';
+        timeLineHead.style.marginLeft = timelineWidth + 'px';
     }
 }
 

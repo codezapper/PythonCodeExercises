@@ -110,7 +110,7 @@ body {
 
 #timeline-container {
     height: 64px;
-    width: 76%;
+    width: 74%;
 }
 
 #timeline {
@@ -132,10 +132,7 @@ body {
     border: 10px solid #888;
     border-radius: 50%;
     background-color: #888;
-    top: 50%;
-    -webkit-transform: translateY(2px);
-    -ms-transform: translateY(2px);
-    transform: translateY(2px);
+    top: 2px;
 }
 
 #playlist > ul > li {
