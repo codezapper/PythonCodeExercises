@@ -3,11 +3,6 @@ var player = $('#audioplayer')[0];
 var playButton = $('#play-pause-button');
 var timeLineHead = $('#timeline-head');
 var currentTime = $('li#song-time');
-var currentTrackText = $('div#current-track-title');
-var currentTrackCover = $('img#current-track-cover');
-var shuffleButton = $('#shuffle-button');
-var cycleButton = $('#cycle-button');
-var onTimeLineHead = false;
 var timeline = document.getElementById('timeline');
 // var timelineWidth = timeline.offsetWidth - TimeLineHead.offsetWidth;
 var finderBox = $('.flexsearch')[0];
@@ -45,7 +40,6 @@ playButton[0].addEventListener('click', function() {
     playButton.toggleClass('pause-button');
 });
 
-// player.addEventListener('timeupdate', timeUpdate, false);
 
 // player.addEventListener('ended', function(e) {
 //     goToNextTrack();
@@ -54,15 +48,6 @@ playButton[0].addEventListener('click', function() {
 // player.addEventListener('canplaythrough', function() {
 //     duration = player.duration;
 // }, false);
-
-function timeUpdate() {
-    var playPercent = timelineWidth * (player.currentTime / duration);
-    currentTime[0].innerHTML = player.currentTime.toMMSS();
-    timeLineHead.style.marginLeft = playPercent + 'px';
-    if (player.currentTime == duration) {
-        playButton.className = 'play';
-    }
-}
 
 // timeline.addEventListener('click', function(event) {
 //     moveTimeLineHead(event);
@@ -94,6 +79,16 @@ function playSongs() {
 finderBox.addEventListener('keyup', function(event) {
     showSongs(inputBox.value);
 });
+
+
+player.addEventListener('timeupdate', function() {
+    var playPercent = timelineWidth * (player.currentTime / duration);
+    currentTime[0].innerHTML = player.currentTime.toMMSS();
+    timeLineHead.style.marginLeft = playPercent + 'px';
+    if (player.currentTime == duration) {
+        playButton.className = 'play';
+    }
+}, false);
 
 window.addEventListener('load', showSongs, false);
 window.addEventListener('submit', function(event) {
