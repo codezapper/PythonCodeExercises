@@ -4,10 +4,11 @@ var playButton = $('#play-pause-button');
 var timeLineHead = $('#timeline-head');
 var currentTime = $('#song-time');
 var timeline = document.getElementById('timeline');
-var timelineWidth = $('#timeline')[0].offsetWidth;
+var timelineWidth = $('#timeline-container')[0].offsetWidth - 16; //Need to compensate for head size
 var finderBox = $('.flexsearch')[0];
 var inputBox = $('.flexsearch--input')[0];
-var trackList = {};
+var trackList = [];
+var searchResults = [];
 var shuffledList = [];
 var currentTrack = 0;
 var currentTrackIndex = 0;
@@ -64,7 +65,7 @@ function showSongs(searchTerm) {
         $.getJSON('/lister/search/' + searchTerm, function(songs) {
             var html = Mustache.render(template, songs);
             $('#container-frame').html(html);
-            trackList = songs.songs_list;
+            searchResults = songs.songs_list;
         });
     });
 }
@@ -97,5 +98,8 @@ window.addEventListener('resize', function() {
 
 window.addEventListener('submit', function(event) {
     event.preventDefault();
+    console.log(searchResults);
+    trackList = trackList.concat(searchResults);
+    console.log(trackList);
     playSongs();
 });
