@@ -4,7 +4,7 @@ var playButton = $('#play-pause-button');
 var timeLineHead = $('#timeline-head');
 var currentTime = $('li#song-time');
 var timeline = document.getElementById('timeline');
-// var timelineWidth = timeline.offsetWidth - TimeLineHead.offsetWidth;
+var timelineWidth = $('#timeline')[0].offsetWidth;
 var finderBox = $('.flexsearch')[0];
 var inputBox = $('.flexsearch--input')[0];
 var trackList = {};
@@ -31,7 +31,7 @@ $('#timeline-head').draggable({
     axis: "x",
     containment: $('#timeline'),
     stop: function( event, ui ) {
-        console.log((ui.position.left * 100) / $('#timeline')[0].offsetWidth);
+        console.log((ui.position.left * 100) / timelineWidth);
     }
 });
 
@@ -65,13 +65,12 @@ function showSongs(searchTerm) {
             var html = Mustache.render(template, songs);
             $('#container-frame').html(html);
             trackList = songs.songs_list;
-            console.log(trackList);
         });
     });
 }
 
 function playSongs() {
-    player.src = songs.songs_list[0].path;
+    player.src = trackList[0].path;
     player.play();
     playButton.className = 'pause-button';
 }
@@ -82,15 +81,21 @@ finderBox.addEventListener('keyup', function(event) {
 
 
 player.addEventListener('timeupdate', function() {
-    var playPercent = timelineWidth * (player.currentTime / duration);
-    currentTime[0].innerHTML = player.currentTime.toMMSS();
-    timeLineHead.style.marginLeft = playPercent + 'px';
-    if (player.currentTime == duration) {
-        playButton.className = 'play';
-    }
+    var playPercent = timelineWidth * (player.currentTime / player.duration);
+    console.log(playPercent);
+    // currentTime[0].innerHTML = player.currentTime.toMMSS();
+    timeLineHead.css('left', playPercent + 'px');
+
+    // if (player.currentTime == duration) {
+    //     playButton.className = 'play';
+    // }
 }, false);
 
 window.addEventListener('load', showSongs, false);
+window.addEventListener('resize', function() {
+    timelineWidth = $('#timeline')[0].offsetWidth;
+});
+
 window.addEventListener('submit', function(event) {
     event.preventDefault();
     playSongs();
