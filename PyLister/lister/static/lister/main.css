@@ -110,7 +110,7 @@ body {
 
 #timeline-container {
     height: 64px;
-    width: 74%;
+    width: 72%;
 }
 
 #timeline {
@@ -133,6 +133,20 @@ body {
     border-radius: 50%;
     background-color: #888;
     top: 2px;
+}
+
+#song-time-container {
+    height: 64px;
+    float: right;
+}
+
+#song-time {
+    width: 2%;
+    margin-top: 24px;
+    margin-left: 10px;
+    font-family: 'Helvetica', sans-serif;
+    font-weight: bold;
+    font-size: 18;
 }
 
 #playlist > ul > li {

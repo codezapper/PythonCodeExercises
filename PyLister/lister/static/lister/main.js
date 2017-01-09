@@ -2,7 +2,7 @@ var playlist = $('#playlist');
 var player = $('#audioplayer')[0];
 var playButton = $('#play-pause-button');
 var timeLineHead = $('#timeline-head');
-var currentTime = $('li#song-time');
+var currentTime = $('#song-time');
 var timeline = document.getElementById('timeline');
 var timelineWidth = $('#timeline')[0].offsetWidth;
 var finderBox = $('.flexsearch')[0];
@@ -82,8 +82,7 @@ finderBox.addEventListener('keyup', function(event) {
 
 player.addEventListener('timeupdate', function() {
     var playPercent = timelineWidth * (player.currentTime / player.duration);
-    console.log(playPercent);
-    // currentTime[0].innerHTML = player.currentTime.toMMSS();
+    currentTime[0].innerHTML = player.currentTime.toMMSS();
     timeLineHead.css('left', playPercent + 'px');
 
     // if (player.currentTime == duration) {
