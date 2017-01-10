@@ -48,6 +48,31 @@ body {
 
 #playlist > ul {
     margin: 0;
+    margin-right: 10px;
+    border-radius: 35px;
+}
+
+#playlist > ul:hover {
+    background-color: #BBCCCC;
+    font-weight: bold;
+}
+
+.active-track {
+    background-color: #BBCCCC;
+    font-weight: bold;
+}
+
+#playlist > ul > li {
+    display: inline-block;
+    width: 18%;
+    padding: 10px 5px;
+    border-bottom: 1px solid #999;
+    margin-left: -5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
 }
 
 .player-controls > div {
@@ -147,14 +172,6 @@ body {
     font-family: 'Helvetica', sans-serif;
     font-weight: bold;
     font-size: 18;
-}
-
-#playlist > ul > li {
-    display: inline-block;
-    width: 18%;
-    padding: 10px 5px;
-    border-bottom: 1px solid #999;
-    margin-left: -5px;
 }
 
 a {

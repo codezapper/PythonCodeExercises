@@ -53,8 +53,7 @@ player.addEventListener('ended', function(e) {
 });
 
 function goToNextTrack() {
-    currentTrack++;
-    playTrack(currentTrack);
+    playTrack(currentTrack + 1);
 }
 
 // player.addEventListener('canplaythrough', function() {
@@ -83,11 +82,13 @@ function showSongs(searchTerm) {
 }
 
 function playTrack(track) {
+    $('[data-index=' + currentTrack + ']').closest('ul').removeClass('active-track');
     currentTrack = track; // Needed when clicking directly on the track
 
     player.src = trackList[track].path;
     player.play();
     playButton[0].className = 'pause-button';
+    $('[data-index=' + currentTrack + ']').closest('ul').addClass('active-track');
 }
 
 finderBox.addEventListener('keyup', function(event) {
