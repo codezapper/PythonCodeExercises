@@ -15,6 +15,7 @@ var currentTrackIndex = 0;
 var useShuffled = false;
 var useCycled = true;
 var duration;
+var playListTemplate;
 
 Number.prototype.toMMSS = function() {
     var roundedTime = Math.round(this);
@@ -42,9 +43,14 @@ playButton[0].addEventListener('click', function() {
 });
 
 
-// player.addEventListener('ended', function(e) {
-//     goToNextTrack();
-// });
+player.addEventListener('ended', function(e) {
+    goToNextTrack();
+});
+
+function goToNextTrack() {
+    currentTrack++;
+    playTrack(currentTrack);
+}
 
 // player.addEventListener('canplaythrough', function() {
 //     duration = player.duration;
@@ -62,6 +68,7 @@ function clickPercent(e) {
 function showSongs(searchTerm) {
     songs = [];
     $.get('/lister/songs/', function(template) {
+        playListTemplate = template;
         $.getJSON('/lister/search/' + searchTerm, function(songs) {
             var html = Mustache.render(template, songs);
             $('#container-frame').html(html);
@@ -70,14 +77,25 @@ function showSongs(searchTerm) {
     });
 }
 
-function playSongs() {
-    player.src = trackList[0].path;
+function playTrack(track) {
+    player.src = trackList[track].path;
     player.play();
     playButton.className = 'pause-button';
 }
 
 finderBox.addEventListener('keyup', function(event) {
-    showSongs(inputBox.value);
+    if (event.key != "Enter") {
+        showSongs(inputBox.value);
+    } else {
+        console.log(event);
+        trackList = trackList.concat(searchResults);
+        var html = Mustache.render(playListTemplate, {"songs_list": trackList});
+        $('#container-frame').html(html);
+
+        if (player.paused || !player.currentTime) {
+            playTrack(currentTrack);
+        }
+    }
 });
 
 
@@ -98,8 +116,4 @@ window.addEventListener('resize', function() {
 
 window.addEventListener('submit', function(event) {
     event.preventDefault();
-    console.log(searchResults);
-    trackList = trackList.concat(searchResults);
-    console.log(trackList);
-    playSongs();
 });
