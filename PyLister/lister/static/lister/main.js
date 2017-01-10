@@ -38,8 +38,13 @@ $('#timeline-head').draggable({
 });
 
 playButton[0].addEventListener('click', function() {
-    playButton.toggleClass('play-button');
-    playButton.toggleClass('pause-button');
+    if (player.paused || !player.currentTime) {
+        player.play();
+        playButton[0].className = 'pause-button';
+    } else {
+        player.pause();
+        playButton[0].className = 'play-button';
+    }
 });
 
 
@@ -78,16 +83,17 @@ function showSongs(searchTerm) {
 }
 
 function playTrack(track) {
+    currentTrack = track; // Needed when clicking directly on the track
+
     player.src = trackList[track].path;
     player.play();
-    playButton.className = 'pause-button';
+    playButton[0].className = 'pause-button';
 }
 
 finderBox.addEventListener('keyup', function(event) {
     if (event.key != "Enter") {
         showSongs(inputBox.value);
     } else {
-        console.log(event);
         trackList = trackList.concat(searchResults);
         var html = Mustache.render(playListTemplate, {"songs_list": trackList});
         $('#container-frame').html(html);
@@ -103,10 +109,6 @@ player.addEventListener('timeupdate', function() {
     var playPercent = timelineWidth * (player.currentTime / player.duration);
     currentTime[0].innerHTML = player.currentTime.toMMSS();
     timeLineHead.css('left', playPercent + 'px');
-
-    // if (player.currentTime == duration) {
-    //     playButton.className = 'play';
-    // }
 }, false);
 
 window.addEventListener('load', showSongs, false);

@@ -16,37 +16,6 @@ def render_for_songs_list(request, album='', artist='', year=''):
     return template.render(context, request)
 
 
-def template_for_albums_overview(request):
-    template = loader.get_template('lister/albums_with_menu.html')
-    context = {'albums_list': du.data_for_albums_overview(),
-               'counters': get_counters(), 'section': 'album'}
-    return template.render(context, request)
-
-
-def template_for_artists_overview(request):
-    template = loader.get_template('lister/artists_with_menu.html')
-    context = {'artists_list': du.data_for_artists_overview(),
-               'counters': get_counters(), 'section': 'artist'}
-    return template.render(context, request)
-
-
-def render_for_years_list(request):
-    cursor = connection.cursor()
-    cursor.execute(
-        '''SELECT year, count(year) FROM lister_song GROUP BY year ORDER BY year''')
-    row = cursor.fetchone()
-
-    years_list = []
-    while (row):
-        years_list.append(
-            {'year': row[0], 'count': row[1]})
-        row = cursor.fetchone()
-    template = loader.get_template('lister/years_with_menu.html')
-    context = {'years_list': years_list,
-               'counters': get_counters(), 'section': 'year'}
-    return template.render(context, request)
-
-
 def get_counters():
     counters = {}
     cursor = connection.cursor()
