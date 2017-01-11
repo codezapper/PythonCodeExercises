@@ -109,25 +109,25 @@ body {
     height: 64px;
 }
 
-.prev-button {
+#prev-button {
     background: url('/static/lister/images/prev_track.png');
     width: 64px;
     height: 64px;
 }
 
-.prev-button:hover {
+#prev-button:hover {
     background: url('/static/lister/images/prev_track_hover.png');
     width: 64px;
     height: 64px;
 }
 
-.next-button {
+#next-button {
     background: url('/static/lister/images/next_track.png');
     width: 64px;
     height: 64px;
 }
 
-.next-button:hover {
+#next-button:hover {
     background: url('/static/lister/images/next_track_hover.png');
     width: 64px;
     height: 64px;

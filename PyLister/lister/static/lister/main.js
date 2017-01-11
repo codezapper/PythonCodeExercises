@@ -1,6 +1,8 @@
 var playlist = $('#playlist');
 var player = $('#audioplayer')[0];
 var playButton = $('#play-pause-button');
+var prevButton = $('#prev-button');
+var nextButton = $('#next-button');
 var timeLineHead = $('#timeline-head');
 var currentTime = $('#song-time');
 var timeline = document.getElementById('timeline');
@@ -47,14 +49,17 @@ playButton[0].addEventListener('click', function() {
     }
 });
 
-
-player.addEventListener('ended', function(e) {
-    goToNextTrack();
+prevButton[0].addEventListener('click', function() {
+    playTrack(currentTrack - 1);
 });
 
-function goToNextTrack() {
+nextButton[0].addEventListener('click', function() {
     playTrack(currentTrack + 1);
-}
+});
+
+player.addEventListener('ended', function(e) {
+    playTrack(currentTrack + 1);
+});
 
 // player.addEventListener('canplaythrough', function() {
 //     duration = player.duration;
@@ -82,6 +87,11 @@ function showSongs(searchTerm) {
 }
 
 function playTrack(track) {
+    if (track < 0) {
+        track = trackList.length - 1;
+    } else if (track > trackList.length - 1) {
+        track = 0;
+    }
     $('[data-index=' + currentTrack + ']').closest('ul').removeClass('active-track');
     currentTrack = track; // Needed when clicking directly on the track
 
