@@ -18,6 +18,8 @@ var useShuffled = false;
 var useCycled = true;
 var duration;
 var playListTemplate;
+var prevSearchTerm;
+var currentSearchTerm;
 
 Number.prototype.toMMSS = function() {
     var roundedTime = Math.round(this);
@@ -76,14 +78,17 @@ function clickPercent(e) {
 
 function showSongs(searchTerm) {
     songs = [];
-    $.get('/lister/songs/', function(template) {
-        playListTemplate = template;
-        $.getJSON('/lister/search/' + searchTerm, function(songs) {
-            var html = Mustache.render(template, songs);
-            $('#container-frame').html(html);
-            searchResults = songs.songs_list;
+    if (currentSearchTerm !== searchTerm) {
+        currentSearchTerm = searchTerm;
+        $.get('/lister/songs/', function(template) {
+            playListTemplate = template;
+            $.getJSON('/lister/search/' + searchTerm, function(songs) {
+                var html = Mustache.render(template, songs);
+                $('#container-frame').html(html);
+                searchResults = songs.songs_list;
+            });
         });
-    });
+    }
 }
 
 function playTrack(track) {
@@ -105,10 +110,13 @@ finderBox.addEventListener('keyup', function(event) {
     if (event.key != "Enter") {
         showSongs(inputBox.value);
     } else {
-        trackList = trackList.concat(searchResults);
-        var html = Mustache.render(playListTemplate, {"songs_list": trackList});
-        $('#container-frame').html(html);
-
+        if (prevSearchTerm !== currentSearchTerm) {
+            prevSearchTerm = currentSearchTerm;
+            trackList = trackList.concat(searchResults);
+            //TODO: This can be optimized to only render the new data and append it
+            var html = Mustache.render(playListTemplate, {"songs_list": trackList});
+            $('#container-frame').html(html);
+        }
         if (player.paused || !player.currentTime) {
             playTrack(currentTrack);
         }
