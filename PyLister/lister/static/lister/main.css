@@ -47,8 +47,6 @@ body {
 }
 
 #playlist > ul {
-    margin: 0;
-    margin-right: 10px;
     border-radius: 35px;
 }
 
@@ -68,6 +66,7 @@ body {
     padding: 10px 5px;
     border-bottom: 1px solid #999;
     margin-left: -5px;
+    margin-bottom: -4px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
