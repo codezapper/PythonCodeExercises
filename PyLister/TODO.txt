@@ -2,7 +2,6 @@
 - Cleanup python code
 
 - Fix playing when not submitted (e.g. when clicking with the mouse before pressing enter)
-- Add prev/next track buttons
 - Add list shuffling
 - Add keyboard shortcuts:
   - Shift + Enter inserts results at the top of the list
