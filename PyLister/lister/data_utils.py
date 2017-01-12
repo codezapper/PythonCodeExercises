@@ -6,14 +6,26 @@ def data_for_songs_list(request, search_string='', album='', artist='', year='')
     if (search_string == '' and album == '' and artist == '' and year == ''):
         return JsonResponse({})
 
-    print(search_string)
+    search_words = search_string.split()
+
+    print(search_words)
     section = ''
     cursor = connection.cursor()
     if (search_string != ''):
         section = 'songs'
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND ( title like %s or lister_album.description like %s or lister_artist.description like %s) ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
-        search_string = '%' + search_string + '%'
-        cursor.execute(sql, [search_string, search_string, search_string])
+        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND '''
+        string_conditions = []
+        for i in (range(len(search_words))):
+            string_conditions.append(
+                '( title like %s or lister_album.description like %s or lister_artist.description like %s)')
+        search_condition = '(' + ' OR '.join(string_conditions) + ')'
+        sql += search_condition + \
+            'ORDER BY lister_song.artist_id, lister_album.album_id, track_number'
+        search_strings = []
+        for search_word in search_words:
+            for i in range(0, 3):
+                search_strings.append('%' + search_word + '%')
+        cursor.execute(sql, search_strings)
     elif (album != ''):
         section = 'album'
         sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_album.album_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
