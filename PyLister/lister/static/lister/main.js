@@ -16,7 +16,7 @@ var currentTrack = 0;
 var currentTrackIndex = 0;
 var useShuffled = false;
 var useCycled = true;
-var duration;
+var duration = -1;
 var playListTemplate;
 var prevSearchTerm;
 var currentSearchTerm;
@@ -36,9 +36,21 @@ $('#timeline-head').draggable({
     appendTo: $('#timeline'),
     axis: "x",
     containment: $('#timeline'),
-    stop: function( event, ui ) {
-        console.log((ui.position.left * 100) / timelineWidth);
+    start: function(event, ui) {
+        player.removeEventListener('timeupdate', timeUpdate);
+    },
+    stop: function(event, ui) {
+        result = parseInt(player.duration * clickPercent(event));
+        console.log(result);
+        if (duration > 0) {
+            player.currentTime = result;
+        }
+        player.addEventListener('timeupdate', timeUpdate, false);
     }
+});
+
+player.addEventListener('canplaythrough', function() {
+    duration = player.duration;
 });
 
 playButton[0].addEventListener('click', function() {
@@ -63,14 +75,11 @@ player.addEventListener('ended', function(e) {
     playTrack(currentTrack + 1);
 });
 
-// player.addEventListener('canplaythrough', function() {
-//     duration = player.duration;
-// }, false);
-
-// timeline.addEventListener('click', function(event) {
-//     moveTimeLineHead(event);
-//     player.currentTime = duration * clickPercent(event);
-// }, false);
+timeline.addEventListener('click', function(event) {
+    if (duration > 0) {
+        player.currentTime = parseInt(player.duration * clickPercent(event));
+    }
+}, false);
 
 function clickPercent(e) {
     return (e.pageX - timeline.offsetLeft) / timelineWidth;
@@ -100,6 +109,7 @@ function playTrack(track) {
     $('[data-index=' + currentTrack + ']').closest('ul').removeClass('active-track');
     currentTrack = track; // Needed when clicking directly on the track
 
+    duration = -1;
     player.src = trackList[track].path;
     player.play();
     playButton[0].className = 'pause-button';
@@ -129,12 +139,13 @@ finderBox.addEventListener('keyup', function(event) {
     }
 });
 
-
-player.addEventListener('timeupdate', function() {
+function timeUpdate() {
     var playPercent = timelineWidth * (player.currentTime / player.duration);
     currentTime[0].innerHTML = player.currentTime.toMMSS();
     timeLineHead.css('left', playPercent + 'px');
-}, false);
+}
+
+player.addEventListener('timeupdate', timeUpdate, false);
 
 window.addEventListener('load', showSongs, false);
 window.addEventListener('resize', function() {
