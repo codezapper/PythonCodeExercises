@@ -249,6 +249,9 @@ a {
   font-family: 'Helvetica', sans-serif;
   font-size: 40px;
   line-height: 60px;
+    -webkit-transform: rotate(-45deg); 
+    -moz-transform: rotate(-45deg); 
+    -o-transform: rotate(-45deg);
 }
 
 .flexsearch--input:focus {
