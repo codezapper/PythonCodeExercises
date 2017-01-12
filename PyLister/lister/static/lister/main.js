@@ -112,7 +112,13 @@ finderBox.addEventListener('keyup', function(event) {
     } else {
         if (prevSearchTerm !== currentSearchTerm) {
             prevSearchTerm = currentSearchTerm;
-            trackList = trackList.concat(searchResults);
+            if (event.ctrlKey) {
+                trackList = searchResults;
+            } else if (event.shiftKey) {
+                trackList = searchResults.concat(trackList);
+            } else {
+                trackList = trackList.concat(searchResults);
+            }
             //TODO: This can be optimized to only render the new data and append it
             var html = Mustache.render(playListTemplate, {"songs_list": trackList});
             $('#container-frame').html(html);
