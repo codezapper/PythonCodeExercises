@@ -91,13 +91,14 @@ function clickPercent(e) {
 
 function showSongs(searchTerm) {
     songs = [];
-    if (currentSearchTerm !== searchTerm) {
+    if ((searchTerm !== "") && (currentSearchTerm !== searchTerm)) {
         currentSearchTerm = searchTerm;
         $.get('/lister/songs/', function(template) {
             playListTemplate = template;
             $.getJSON('/lister/search/' + searchTerm, function(songs) {
-                var html = Mustache.render(template, songs);
+                var html = Mustache.render(template, {"search_results": songs.songs_list});
                 $('#container-frame').html(html);
+                $('#container-frame').show();
                 searchResults = songs.songs_list;
             });
         });
@@ -130,7 +131,7 @@ finderBox.addEventListener('keyup', function(event) {
         hasSubmitted = false;
         showSongs(inputBox.value);
     } else {
-        if (searchTerm === "") {
+        if (currentSearchTerm === "") {
             setCurrentTrackList("", trackList, trackListOperations.REPLACE);
             $('[data-index=' + currentTrack + ']').closest('ul').addClass('active-track');
         } else if (prevSearchTerm !== currentSearchTerm) {
@@ -143,7 +144,7 @@ finderBox.addEventListener('keyup', function(event) {
                 setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.APPEND);
             }
             //TODO: This can be optimized to only render the new data and append it
-            var html = Mustache.render(playListTemplate, {"songs_list": trackList});
+            var html = Mustache.render(playListTemplate, {"search_results": trackList});
             $('#container-frame').html(html);
         }
         if (player.paused || !player.currentTime) {
@@ -162,7 +163,7 @@ function setCurrentTrackList(searchTerm, searchResults, operation = trackListOpe
         trackList = trackList.concat(searchResults);
     }
     //TODO: This can be optimized to only render the new data and append it
-    var html = Mustache.render(playListTemplate, {"songs_list": trackList});
+    var html = Mustache.render(playListTemplate, {"search_results": trackList});
     $('#container-frame').html(html);
 }
 
@@ -174,7 +175,7 @@ function timeUpdate() {
 
 player.addEventListener('timeupdate', timeUpdate, false);
 
-window.addEventListener('load', showSongs, false);
+// window.addEventListener('load', showSongs, false);
 window.addEventListener('resize', function() {
     timelineWidth = $('#timeline')[0].offsetWidth;
 });

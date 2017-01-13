@@ -9,8 +9,8 @@
                 <li>Track</li>
             </ul>
         </div>
-        <div id="playlist" class="main-content">
-        {% verbatim %}{{#songs_list}}
+        <div id="search-results" class="main-content">
+        {% verbatim %}{{#search_results}}
             <ul class="row-{{row_type}}">
                 <li>
                     <a onclick="playTrack({{track_index}});return false;" data-index="{{track_index}}" data-path="" href="#">{{title}}</a>
@@ -20,7 +20,20 @@
                 <li>{{year}}</li>
                 <li>{{track}}</li>
             </ul>
-        {{/songs_list}}{% endverbatim %}
+        {{/search_results}}{% endverbatim %}
+        </div>
+        <div id="playlist" class="main-content">
+        {% verbatim %}{{#playlist}}
+            <ul class="row-{{row_type}}">
+                <li>
+                    <a onclick="playTrack({{track_index}});return false;" data-index="{{track_index}}" data-path="" href="#">{{title}}</a>
+                </li>
+                <li>{{artist}}</li>
+                <li>{{album}}</li>
+                <li>{{year}}</li>
+                <li>{{track}}</li>
+            </ul>
+        {{/playlist}}{% endverbatim %}
         </div>
     </div>
 </ul>
