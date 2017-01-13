@@ -6,7 +6,7 @@ var nextButton = $('#next-button');
 var timeLineHead = $('#timeline-head');
 var currentTime = $('#song-time');
 var timeline = document.getElementById('timeline');
-var timelineWidth = $('#timeline-container')[0].offsetWidth - 16; //Need to compensate for head size
+var timelineWidth = $('#timeline-container')[0].offsetWidth - 20; //Need to compensate for head size
 var finderBox = $('.flexsearch')[0];
 var inputBox = $('.flexsearch--input')[0];
 var trackList = [];
@@ -111,6 +111,7 @@ function playTrack(track) {
 
     duration = -1;
     player.src = trackList[track].path;
+    player.load();
     player.play();
     playButton[0].className = 'pause-button';
     $('[data-index=' + currentTrack + ']').closest('ul').addClass('active-track');
