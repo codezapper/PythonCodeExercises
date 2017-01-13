@@ -20,6 +20,13 @@ var duration = -1;
 var playListTemplate;
 var prevSearchTerm;
 var currentSearchTerm;
+var hasSubmitted = false;
+
+var trackListOperations = {
+    REPLACE: 1,
+    APPEND: 2,
+    PREPEND: 3
+}
 
 Number.prototype.toMMSS = function() {
     var roundedTime = Math.round(this);
@@ -40,10 +47,8 @@ $('#timeline-head').draggable({
         player.removeEventListener('timeupdate', timeUpdate);
     },
     stop: function(event, ui) {
-        result = parseInt(player.duration * clickPercent(event));
-        console.log(result);
         if (duration > 0) {
-            player.currentTime = result;
+            player.currentTime = parseInt(player.duration * clickPercent(event));
         }
         player.addEventListener('timeupdate', timeUpdate, false);
     }
@@ -101,6 +106,10 @@ function showSongs(searchTerm) {
 }
 
 function playTrack(track) {
+    if (!hasSubmitted) {
+        setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.PREPEND);
+    }
+
     if (track < 0) {
         track = trackList.length - 1;
     } else if (track > trackList.length - 1) {
@@ -119,16 +128,17 @@ function playTrack(track) {
 
 finderBox.addEventListener('keyup', function(event) {
     if (event.key != "Enter") {
+        hasSubmitted = false;
         showSongs(inputBox.value);
     } else {
         if (prevSearchTerm !== currentSearchTerm) {
-            prevSearchTerm = currentSearchTerm;
+            hasSubmitted = true;
             if (event.ctrlKey) {
-                trackList = searchResults;
+                setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.REPLACE);
             } else if (event.shiftKey) {
-                trackList = searchResults.concat(trackList);
+                setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.PREPEND);
             } else {
-                trackList = trackList.concat(searchResults);
+                setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.APPEND);
             }
             //TODO: This can be optimized to only render the new data and append it
             var html = Mustache.render(playListTemplate, {"songs_list": trackList});
@@ -139,6 +149,20 @@ finderBox.addEventListener('keyup', function(event) {
         }
     }
 });
+
+function setCurrentTrackList(searchTerm, searchResults, operation = trackListOperations.APPEND ) {
+    prevSearchTerm = searchTerm;
+    if (operation === trackListOperations.REPLACE) {
+        trackList = searchResults;
+    } else if (operation === trackListOperations.PREPEND) {
+        trackList = searchResults.concat(trackList);
+    } else {
+        trackList = trackList.concat(searchResults);
+    }
+    //TODO: This can be optimized to only render the new data and append it
+    var html = Mustache.render(playListTemplate, {"songs_list": trackList});
+    $('#container-frame').html(html);
+}
 
 function timeUpdate() {
     var playPercent = timelineWidth * (player.currentTime / player.duration);
