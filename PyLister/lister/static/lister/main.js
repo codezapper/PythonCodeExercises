@@ -1,11 +1,10 @@
-var playlist = $('#playlist');
 var player = $('#audioplayer')[0];
 var playButton = $('#play-pause-button');
 var prevButton = $('#prev-button');
 var nextButton = $('#next-button');
-var timeLineHead = $('#timeline-head');
 var currentTime = $('#song-time');
 var timeline = document.getElementById('timeline');
+var timeLineHead = $('#timeline-head');
 var timelineWidth = $('#timeline-container')[0].offsetWidth - 20; //Need to compensate for head size
 var finderBox = $('.flexsearch')[0];
 var inputBox = $('.flexsearch--input')[0];
@@ -131,7 +130,10 @@ finderBox.addEventListener('keyup', function(event) {
         hasSubmitted = false;
         showSongs(inputBox.value);
     } else {
-        if (prevSearchTerm !== currentSearchTerm) {
+        if (searchTerm === "") {
+            setCurrentTrackList("", trackList, trackListOperations.REPLACE);
+            $('[data-index=' + currentTrack + ']').closest('ul').addClass('active-track');
+        } else if (prevSearchTerm !== currentSearchTerm) {
             hasSubmitted = true;
             if (event.ctrlKey) {
                 setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.REPLACE);
