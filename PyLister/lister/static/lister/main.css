@@ -16,6 +16,10 @@ body {
  Main content styling
 */
 
+.wrapper-content {
+    position: relative;
+}
+
 #container-frame {
     width: 50%;
     margin: 5px auto;
@@ -23,6 +27,7 @@ body {
     border-radius: 35px;
     border: 5px solid #888;
     color: #444;
+    position: relative;
 }
 
 .standard-header {
