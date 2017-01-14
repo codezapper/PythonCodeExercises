@@ -130,7 +130,7 @@ finderBox.addEventListener('keyup', function(event) {
         hasSubmitted = false;
         showSongs(inputBox.value);
     } else {
-        if (searchTerm === "") {
+        if (currentSearchTerm === "") {
             setCurrentTrackList("", trackList, trackListOperations.REPLACE);
             $('[data-index=' + currentTrack + ']').closest('ul').addClass('active-track');
         } else if (prevSearchTerm !== currentSearchTerm) {
