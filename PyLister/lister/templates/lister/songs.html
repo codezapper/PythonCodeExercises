@@ -2,23 +2,23 @@
     <div class="main-container">
         <div id="header">
             <ul class="standard-header">
-                <li>Title</li>
-                <li>Artist</li>
-                <li>Album</li>
-                <li>Year</li>
-                <li>Track</li>
+                <li class="title">Title</li>
+                <li class="artist">Artist</li>
+                <li class="album">Album</li>
+                <li class="year">Year</li>
+                <li class="track">Track</li>
             </ul>
         </div>
         <div id="playlist" class="main-content">
         {% verbatim %}{{#songs_list}}
             <ul class="row-{{row_type}}">
-                <li>
+                <li class="title">
                     <a onclick="playTrack({{track_index}});return false;" data-index="{{track_index}}" data-path="" href="#">{{title}}</a>
                 </li>
-                <li>{{artist}}</li>
-                <li>{{album}}</li>
-                <li>{{year}}</li>
-                <li>{{track}}</li>
+                <li class="artist">{{artist}}</li>
+                <li class="album">{{album}}</li>
+                <li class="year">{{year}}</li>
+                <li class="track">{{track}}</li>
             </ul>
         {{/songs_list}}{% endverbatim %}
         </div>

@@ -39,12 +39,31 @@ body {
 }
 
 .standard-header > li {
+    display: inline-block;
     color: #444;
     font-weight: bold;
-    display: inline-block;
-    width: 18%;
     padding: 10px 5px;
     margin-left: -5px;
+}
+
+.title {
+    width: 33%;
+}
+
+.artist {
+    width: 15%;
+}
+
+.album {
+    width: 25%;
+}
+
+.year {
+    width: 10%;
+}
+
+.track {
+    width: 7%;
 }
 
 #playlist {
@@ -67,7 +86,7 @@ body {
 
 #playlist > ul > li {
     display: inline-block;
-    width: 18%;
+    /* width: 18%; */
     padding: 10px 5px;
     border-bottom: 1px solid #999;
     margin-left: -5px;
@@ -169,12 +188,22 @@ body {
 #current-track {
     position: relative;
     left: 7%;
+    width: 20%;
 }
 
 #current-track > img {
     width: 64px;
     height: 64px;
     border-radius: 15px;
+}
+
+#current-track > #title {
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 5px;
+    /* left: 64px; */
+    width: 100%;
+    font-weight: bold;
 }
 
 #song-time-container {
