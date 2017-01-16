@@ -6,6 +6,9 @@ var currentTime = $('#song-time');
 var timeline = document.getElementById('timeline');
 var timeLineHead = $('#timeline-head');
 var timelineWidth = $('#timeline-container')[0].offsetWidth - 20; //Need to compensate for head size
+var currentTrackCover = $('#current-track-cover');
+var currentTitle = $('#current-title');
+var currentArtist = $('#current-artist');
 var finderBox = $('.flexsearch')[0];
 var inputBox = $('.flexsearch--input')[0];
 var trackList = [];
@@ -118,11 +121,18 @@ function playTrack(track) {
     currentTrack = track; // Needed when clicking directly on the track
 
     duration = -1;
+    currentTrackCover.attr('src', getCoverPathFromSongPath(trackList[track].path));
+    currentTitle.html(trackList[track].title);
+    currentArtist.html(trackList[track].artist);
     player.src = trackList[track].path;
     player.load();
     player.play();
     playButton[0].className = 'pause-button';
     $('[data-index=' + currentTrack + ']').closest('ul').addClass('active-track');
+}
+
+function getCoverPathFromSongPath(songPath) {
+    return songPath.substring(0, songPath.lastIndexOf('/')) + '/Folder.jpg';
 }
 
 finderBox.addEventListener('keyup', function(event) {

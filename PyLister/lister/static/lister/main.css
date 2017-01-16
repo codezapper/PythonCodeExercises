@@ -159,7 +159,7 @@ body {
 
 #timeline-container {
     height: 64px;
-    width: 40%;
+    width: 50%;
     margin-right: -1px;
 }
 
@@ -197,13 +197,18 @@ body {
     border-radius: 15px;
 }
 
-#current-track > #title {
+#current-track > #current-title {
     position: absolute;
     margin-top: 5px;
     margin-left: 5px;
-    /* left: 64px; */
-    width: 100%;
-    font-weight: bold;
+    font-size: 14px;
+}
+
+#current-track > #current-artist {
+    position: absolute;
+    top: 60%;
+    margin-left: 5px;
+    font-size: 14px;
 }
 
 #song-time-container {
