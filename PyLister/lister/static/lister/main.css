@@ -66,15 +66,16 @@ body {
     width: 7%;
 }
 
-#playlist {
+.main-content {
     margin-left: -30px;
+    display: none;
 }
 
-#playlist > ul {
+.main-content > ul {
     border-radius: 35px;
 }
 
-#playlist > ul:hover {
+.main-content > ul:hover {
     background-color: #BBCCCC;
     font-weight: bold;
 }
@@ -84,7 +85,7 @@ body {
     font-weight: bold;
 }
 
-#playlist > ul > li {
+.main-content > ul > li {
     display: inline-block;
     /* width: 18%; */
     padding: 10px 5px;
@@ -201,14 +202,16 @@ body {
     position: absolute;
     margin-top: 5px;
     margin-left: 5px;
-    font-size: 14px;
+    font-size: 16px;
+    width: 72%;
 }
 
 #current-track > #current-artist {
     position: absolute;
     top: 60%;
     margin-left: 5px;
-    font-size: 14px;
+    font-size: 16px;
+    width: 72%;
 }
 
 #song-time-container {

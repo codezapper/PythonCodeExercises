@@ -99,19 +99,17 @@ function showSongs(searchTerm) {
         $.get('/lister/songs/', function(template) {
             playListTemplate = template;
             $.getJSON('/lister/search/' + searchTerm, function(songs) {
-                var html = Mustache.render(template, songs);
-                $('#container-frame').html(html);
                 searchResults = songs.songs_list;
+                var html = Mustache.render(playListTemplate, {"search_results": searchResults});
+                $('#container-frame').html(html);
+                $('#search-results').css({display: 'block'});
+                $('#playlist').css({display: 'none'});
             });
         });
     }
 }
 
 function playTrack(track) {
-    if (!hasSubmitted) {
-        setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.PREPEND);
-    }
-
     if (track < 0) {
         track = trackList.length - 1;
     } else if (track > trackList.length - 1) {
@@ -138,12 +136,11 @@ function getCoverPathFromSongPath(songPath) {
 finderBox.addEventListener('keyup', function(event) {
     if (event.key != "Enter") {
         hasSubmitted = false;
-        showSongs(inputBox.value);
+        if (inputBox.value !== '') {
+            showSongs(inputBox.value);
+        }
     } else {
-        if (currentSearchTerm === "") {
-            setCurrentTrackList("", trackList, trackListOperations.REPLACE);
-            $('[data-index=' + currentTrack + ']').closest('ul').addClass('active-track');
-        } else if (prevSearchTerm !== currentSearchTerm) {
+        if (prevSearchTerm !== currentSearchTerm) {
             hasSubmitted = true;
             if (event.ctrlKey) {
                 setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.REPLACE);
@@ -152,9 +149,6 @@ finderBox.addEventListener('keyup', function(event) {
             } else {
                 setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.APPEND);
             }
-            //TODO: This can be optimized to only render the new data and append it
-            var html = Mustache.render(playListTemplate, {"songs_list": trackList});
-            $('#container-frame').html(html);
         }
         if (player.paused || !player.currentTime) {
             playTrack(currentTrack);
@@ -172,8 +166,10 @@ function setCurrentTrackList(searchTerm, searchResults, operation = trackListOpe
         trackList = trackList.concat(searchResults);
     }
     //TODO: This can be optimized to only render the new data and append it
-    var html = Mustache.render(playListTemplate, {"songs_list": trackList});
+    var html = Mustache.render(playListTemplate, {"playlist": trackList});
     $('#container-frame').html(html);
+    $('#search-results').css({display: 'none'});
+    $('#playlist').css({display: 'block'});
 }
 
 function timeUpdate() {
