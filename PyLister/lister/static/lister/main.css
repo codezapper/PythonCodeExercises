@@ -1,6 +1,6 @@
 body {
     background-color: #BBCCCC;
-    font-family: sans-serif;
+    font-family: 'Enriqueta', arial;
 }
 
 .truncate {
@@ -222,7 +222,7 @@ body {
     width: 2%;
     margin-top: 24px;
     margin-left: 20px;
-    font-family: 'Helvetica', sans-serif;
+    font-family: 'Enriqueta', arial;
     font-weight: bold;
     font-size: 18;
     position: absolute;
@@ -283,7 +283,7 @@ a {
     border-width: 5px;
   margin-top: 15px;
   color: #333;
-  font-family: 'Helvetica', sans-serif;
+  font-family: 'Enriqueta', arial;
     font-size: 26px;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -302,7 +302,7 @@ a {
   margin-right: 5px;
     background: transparent;
   color: #888;
-  font-family: 'Helvetica', sans-serif;
+  font-family: 'Enriqueta', arial;
   font-size: 40px;
   line-height: 60px;
     -webkit-transform: rotate(-45deg); 
