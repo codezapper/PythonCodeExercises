@@ -1,9 +1,7 @@
 var player = $('#audioplayer')[0];
 var playButton = $('#play-pause-button');
-var prevButton = $('#prev-button');
-var nextButton = $('#next-button');
 var currentTime = $('#song-time');
-var timeline = document.getElementById('timeline');
+var timeline = $('#timeline');
 var timeLineHead = $('#timeline-head');
 var timelineWidth = $('#timeline-container')[0].offsetWidth - 20; //Need to compensate for head size
 var currentTrackCover = $('#current-track-cover');
@@ -23,7 +21,7 @@ var playListTemplate;
 var prevSearchTerm;
 var currentSearchTerm;
 var hasSubmitted = false;
-
+console.log(timeline);
 var trackListOperations = {
     REPLACE: 1,
     APPEND: 2,
@@ -60,21 +58,25 @@ player.addEventListener('canplaythrough', function() {
     duration = player.duration;
 });
 
-playButton[0].addEventListener('click', function() {
+playButton.bind('click', function() {
+    if (trackList.length === 0) {
+        return;
+    }
+
     if (player.paused || !player.currentTime) {
         player.play();
-        playButton[0].className = 'pause-button';
     } else {
         player.pause();
-        playButton[0].className = 'play-button';
     }
+    playButton.toggleClass('pause-button');
+    playButton.toggleClass('play-button');
 });
 
-prevButton[0].addEventListener('click', function() {
+$('#prev-button').bind('click', function() {
     playTrack(currentTrack - 1);
 });
 
-nextButton[0].addEventListener('click', function() {
+$('#next-button').bind('click', function() {
     playTrack(currentTrack + 1);
 });
 
@@ -82,14 +84,16 @@ player.addEventListener('ended', function(e) {
     playTrack(currentTrack + 1);
 });
 
-timeline.addEventListener('click', function(event) {
+timeline.bind('click', function(event) {
+    console.log('click');
     if (duration > 0) {
         player.currentTime = parseInt(player.duration * clickPercent(event));
     }
 }, false);
 
 function clickPercent(e) {
-    return (e.pageX - timeline.offsetLeft) / timelineWidth;
+    console.log(timeline.offset().left);
+    return (e.pageX - timeline.offset().left) / timelineWidth;
 }
 
 function showSongs(searchTerm) {
@@ -115,7 +119,7 @@ function playTrack(track) {
     } else if (track > trackList.length - 1) {
         track = 0;
     }
-    $('[data-index=' + currentTrack + ']').closest('ul').removeClass('active-track');
+    $('[data-index-playlist=' + currentTrack + ']').closest('ul').removeClass('active-track');
     currentTrack = track; // Needed when clicking directly on the track
 
     duration = -1;
@@ -125,8 +129,9 @@ function playTrack(track) {
     player.src = trackList[track].path;
     player.load();
     player.play();
-    playButton[0].className = 'pause-button';
-    $('[data-index=' + currentTrack + ']').closest('ul').addClass('active-track');
+    playButton.removeClass('play-button');
+    playButton.addClass('pause-button');
+    $('[data-index-playlist=' + currentTrack + ']').closest('ul').addClass('active-track');
 }
 
 function getCoverPathFromSongPath(songPath) {
