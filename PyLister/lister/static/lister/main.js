@@ -100,7 +100,7 @@ function showSongs(searchTerm) {
             playListTemplate = template;
             $.getJSON('/lister/search/' + searchTerm, function(songs) {
                 searchResults = songs.songs_list;
-                var html = Mustache.render(playListTemplate, {"search_results": searchResults});
+                var html = Mustache.render(playListTemplate, {"search_results": searchResults, "playlist": trackList});
                 $('#container-frame').html(html);
                 $('#search-results').css({display: 'block'});
                 $('#playlist').css({display: 'none'});
@@ -138,6 +138,9 @@ finderBox.addEventListener('keyup', function(event) {
         hasSubmitted = false;
         if (inputBox.value !== '') {
             showSongs(inputBox.value);
+        } else {
+            $('#search-results').css({display: 'none'});
+            $('#playlist').css({display: 'block'});
         }
     } else {
         if (prevSearchTerm !== currentSearchTerm) {
