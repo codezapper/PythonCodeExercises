@@ -1,4 +1,5 @@
 var player = $('#audioplayer');
+var playerElement = $('#audioplayer')[0];
 var playButton = $('#play-pause-button');
 var currentTime = $('#song-time');
 var timeline = $('#timeline');
@@ -73,9 +74,9 @@ function playTrack(track) {
     currentTrackCover.attr('src', getCoverPathFromSongPath(trackList[track].path));
     currentTitle.html(trackList[track].title);
     currentArtist.html(trackList[track].artist);
-    player.src = trackList[track].path;
-    player.load();
-    player.play();
+    playerElement.src = trackList[track].path;
+    playerElement.load();
+    playerElement.play();
     playButton.removeClass('play-button');
     playButton.addClass('pause-button');
     $('[data-index-playlist=' + currentTrack + ']').closest('ul').addClass('active-track');
@@ -89,6 +90,7 @@ function setCurrentTrackList(searchTerm, searchResults, operation = trackListOpe
     prevSearchTerm = searchTerm;
     if (operation === trackListOperations.REPLACE) {
         trackList = searchResults;
+        playTrack(0);
     } else if (operation === trackListOperations.PREPEND) {
         trackList = searchResults.concat(trackList);
     } else {
@@ -102,8 +104,8 @@ function setCurrentTrackList(searchTerm, searchResults, operation = trackListOpe
 }
 
 function timeUpdate() {
-    var playPercent = timelineWidth * (player.currentTime / player.duration);
-    currentTime[0].innerHTML = player.currentTime.toMMSS();
+    var playPercent = timelineWidth * (playerElement.currentTime / playerElement.duration);
+    currentTime[0].innerHTML = playerElement.currentTime.toMMSS();
     timeLineHead.css('left', playPercent + 'px');
 }
 
@@ -117,11 +119,12 @@ window.addEventListener('submit', function(event) {
 });
 
 function bindUI() {
+    playerElement.load();
     finderBox.bind('keyup', function(event) {
         if (event.key != "Enter") {
             hasSubmitted = false;
-            if (inputBox.val !== '') {
-                showSongs(inputBox.val);
+            if (inputBox.val() !== '') {
+                showSongs(inputBox.val());
             } else {
                 $('#search-results').css({display: 'none'});
                 $('#playlist').css({display: 'block'});
@@ -138,7 +141,7 @@ function bindUI() {
                         setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.APPEND);
                     }
                 }
-                if (player.paused || !player.currentTime) {
+                if (playerElement.paused || !playerElement.currentTime) {
                     playTrack(currentTrack);
                 }
             }
@@ -146,7 +149,7 @@ function bindUI() {
     });
 
     player.bind('canplaythrough', function() {
-        duration = player.duration;
+        duration = playerElement.duration;
     });
 
     player.bind('timeupdate', timeUpdate);
@@ -160,10 +163,10 @@ function bindUI() {
             return;
         }
 
-        if (player.paused || !player.currentTime) {
-            player.play();
+        if (playerElement.paused || !playerElement.currentTime) {
+            playerElement.play();
         } else {
-            player.pause();
+            playerElement.pause();
         }
         playButton.toggleClass('pause-button');
         playButton.toggleClass('play-button');
@@ -179,7 +182,7 @@ function bindUI() {
 
     timeline.bind('click', function(event) {
         if (duration > 0) {
-            player.currentTime = parseInt(player.duration * clickPercent(event));
+            playerElement.currentTime = parseInt(playerElement.duration * clickPercent(event));
         }
     });
 
@@ -188,11 +191,11 @@ function bindUI() {
         axis: "x",
         containment: $('#timeline'),
         start: function(event, ui) {
-            player.removeEventListener('timeupdate', timeUpdate);
+            player.unbind('timeupdate', timeUpdate);
         },
         stop: function(event, ui) {
             if (duration > 0) {
-                player.currentTime = parseInt(player.duration * clickPercent(event));
+                playerElement.currentTime = parseInt(playerElement.duration * clickPercent(event));
             }
             player.bind('timeupdate', timeUpdate);
         }
