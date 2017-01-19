@@ -193,6 +193,11 @@ function bindUI() {
         start: function(event, ui) {
             player.unbind('timeupdate', timeUpdate);
         },
+        drag: function(event, ui) {
+            if (playerElement.duration > 0) {
+                currentTime.html(parseInt(playerElement.duration * clickPercent(event)).toMMSS());
+            }
+        },
         stop: function(event, ui) {
             if (duration > 0) {
                 playerElement.currentTime = parseInt(playerElement.duration * clickPercent(event));
