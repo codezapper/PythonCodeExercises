@@ -238,7 +238,7 @@ a {
  Search box styling
 */
 
-.flexsearch--wrapper {
+.mainsearch-wrapper {
     height: auto;
     width: auto;
     max-width: 50%;
@@ -250,28 +250,28 @@ a {
     margin: 0 auto;
 }
     
-.flexsearch--form {
+.mainsearch-form {
     overflow: hidden;
     position: relative;
 }
     
-.flexsearch--input-wrapper {
+.mainsearch-input-wrapper {
     padding: 0 66px 0 0;
     overflow: hidden;
 }
 
-.flexsearch--input {
+.mainsearch-input {
   width: 100%;
 }
 
 /***********************
  * Configurable Styles *
  ***********************/
-.flexsearch {
+.mainsearch {
   padding: 0 0px 0 0px; /* Padding for other horizontal elements */
 }
 
-.flexsearch--input {
+.mainsearch-input {
   -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
@@ -289,7 +289,7 @@ a {
     -moz-appearance: none;
 }
     
-.flexsearch--submit {
+.mainsearch-submit {
   position: absolute;
     right: 0;
     top: 0;
@@ -310,16 +310,16 @@ a {
     -o-transform: rotate(-45deg);
 }
 
-.flexsearch--input:focus {
+.mainsearch-input:focus {
   outline: none;
   border-color: #333;
 }
 
-.flexsearch--input:focus.flexsearch--submit {
+.mainsearch-input:focus.mainsearch-submit {
     color: #333; 
 }
 
-.flexsearch--submit:hover {
+.mainsearch-submit:hover {
   color: #333;
   cursor: pointer;
 }

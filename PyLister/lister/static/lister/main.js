@@ -8,8 +8,8 @@ var timelineWidth = $('#timeline-container').outerWidth() - 20; //Need to compen
 var currentTrackCover = $('#current-track-cover');
 var currentTitle = $('#current-title');
 var currentArtist = $('#current-artist');
-var finderBox = $('.flexsearch');
-var inputBox = $('.flexsearch--input');
+var finderBox = $('.mainsearch');
+var inputBox = $('.mainsearch-input');
 var trackList = [];
 var searchResults = [];
 var shuffledList = [];
@@ -133,6 +133,7 @@ function bindUI() {
             if (searchResults.length > 0) {
                 if (prevSearchTerm !== currentSearchTerm) {
                     hasSubmitted = true;
+                    inputBox.val('');
                     if (event.ctrlKey) {
                         setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.REPLACE);
                     } else if (event.shiftKey) {
