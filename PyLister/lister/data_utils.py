@@ -6,46 +6,51 @@ def data_for_songs_list(request, search_string='', album='', artist='', year='')
     if (search_string == '' and album == '' and artist == '' and year == ''):
         return JsonResponse({})
 
-    search_words = search_string.split()
+    all_search_words = search_string.split()
+    search_filters = []
 
-    print(search_words)
+    if ':' in search_string:
+        search_filters = [search_word.split(':')
+                          for search_word in all_search_words if ':' in search_word]
+    search_words = [
+        search_word for search_word in all_search_words if ':' not in search_word]
+
     section = ''
+    search_params = []
     cursor = connection.cursor()
-    if (search_string != ''):
+    sql = 'SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id '''
+
+    if (len(search_filters) > 0):
+        query_strings = []
+        for search_filter in search_filters:
+            query_strings.append(
+                '((artist like %s or album like %s) and title like %s)')
+        full_query = ' AND (' + ' OR '.join(query_strings) + ')'
+
+        sql += full_query
+        for search_filter in search_filters:
+            search_params.append('%' + search_filter[0] + '%')
+            search_params.append('%' + search_filter[0] + '%')
+            search_params.append('%' + search_filter[1] + '%')
+
+    if (len(search_words) > 0):
         section = 'songs'
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND '''
         string_conditions = []
         for i in (range(len(search_words))):
             string_conditions.append(
                 '( title like %s or lister_album.description like %s or lister_artist.description like %s)')
         search_condition = '(' + ' OR '.join(string_conditions) + ')'
-        sql += search_condition + \
-            'ORDER BY lister_song.artist_id, lister_album.album_id, track_number'
-        search_strings = []
+        sql += ' OR ' + search_condition
         for search_word in search_words:
             for i in range(0, 3):
-                search_strings.append('%' + search_word + '%')
-        cursor.execute(sql, search_strings)
-    elif (album != ''):
-        section = 'album'
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_album.album_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
-        cursor.execute(sql, [album])
-    elif (artist != ''):
-        section = 'artist'
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_artist.artist_id = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
-        cursor.execute(sql, [artist])
-    elif (year != ''):
-        section = 'year'
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND lister_song.year = %s ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
-        cursor.execute(sql, [year])
-    else:
-        section = 'songs'
-        sql = '''SELECT title, lister_album.description, lister_artist.description, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id ORDER BY lister_song.artist_id, lister_album.album_id, track_number'''
-        cursor.execute(sql)
-    row = cursor.fetchone()
+                search_params.append('%' + search_word + '%')
+
+    sql += ' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'
 
     songs_list = []
     track_index = 0
+    cursor.execute(sql, search_params)
+    row = cursor.fetchone()
     while (row):
         row_type = track_index % 2
         songs_list.append(
