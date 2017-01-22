@@ -25,9 +25,8 @@ def data_for_songs_list(request, search_string='', album='', artist='', year='')
         for search_filter in search_filters:
             query_strings.append(
                 '((artist like %s or album like %s) and title like %s)')
-        full_query = ' AND (' + ' OR '.join(query_strings) + ')'
+        filter_query = ' (' + ' OR '.join(query_strings) + ') '
 
-        sql += full_query
         for search_filter in search_filters:
             search_params.append('%' + search_filter[0] + '%')
             search_params.append('%' + search_filter[0] + '%')
@@ -39,11 +38,17 @@ def data_for_songs_list(request, search_string='', album='', artist='', year='')
         for i in (range(len(search_words))):
             string_conditions.append(
                 '( title like %s or lister_album.description like %s or lister_artist.description like %s)')
-        search_condition = '(' + ' OR '.join(string_conditions) + ')'
-        sql += ' OR ' + search_condition
+        word_query = '(' + ' OR '.join(string_conditions) + ')'
         for search_word in search_words:
             for i in range(0, 3):
                 search_params.append('%' + search_word + '%')
+
+    if (len(search_filters) > 0) and (len(search_words) > 0):
+        sql += ' AND (' + filter_query + ' OR ' + word_query + ')'
+    elif len(search_filters) > 0:
+        sql += ' AND ' + filter_query
+    elif len(search_words) > 0:
+        sql += ' AND ' + word_query
 
     sql += ' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'
 

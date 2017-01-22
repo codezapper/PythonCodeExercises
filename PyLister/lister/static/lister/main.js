@@ -50,6 +50,13 @@ function showSongs(searchTerm) {
         currentSearchTerm = searchTerm;
         $.get('/lister/songs/', function(template) {
             playListTemplate = template;
+            if (searchTerm === '') {
+                var html = Mustache.render(playListTemplate, {"search_results": [], "playlist": trackList});
+                $('#container-frame').html(html);
+                $('#search-results').css({display: 'block'});
+                $('#playlist').css({display: 'none'});
+                return;
+            }
             $.getJSON('/lister/search/' + searchTerm, function(songs) {
                 searchResults = songs.songs_list;
                 var html = Mustache.render(playListTemplate, {"search_results": searchResults, "playlist": trackList});
@@ -109,7 +116,7 @@ function timeUpdate() {
     timeLineHead.css('left', playPercent + 'px');
 }
 
-window.addEventListener('load', showSongs, false);
+window.addEventListener('load', function() {showSongs('')}, false);
 window.addEventListener('resize', function() {
     timelineWidth = $('#timeline-container').outerWidth() - 20; //Need to compensate for head size
 });
