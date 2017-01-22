@@ -2,8 +2,8 @@ from django.db import connection
 from django.http import JsonResponse
 
 
-def data_for_songs_list(request, search_string='', album='', artist='', year=''):
-    if (search_string == '' and album == '' and artist == '' and year == ''):
+def data_for_songs_list(request, search_string=''):
+    if (search_string == ''):
         return JsonResponse({})
 
     all_search_words = search_string.split()
