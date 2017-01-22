@@ -21,27 +21,12 @@ def data_for_songs_list(request, search_string=''):
     sql = 'SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id '''
 
     if (len(search_filters) > 0):
-        query_strings = []
-        for search_filter in search_filters:
-            query_strings.append(
-                '((artist like %s or album like %s) and title like %s)')
-        filter_query = ' (' + ' OR '.join(query_strings) + ') '
-
-        for search_filter in search_filters:
-            search_params.append('%' + search_filter[0] + '%')
-            search_params.append('%' + search_filter[0] + '%')
-            search_params.append('%' + search_filter[1] + '%')
+        (filter_query, query_params) = get_data_for_search_filters(search_filters)
+        search_params.extend(query_params)
 
     if (len(search_words) > 0):
-        section = 'songs'
-        string_conditions = []
-        for i in (range(len(search_words))):
-            string_conditions.append(
-                '( title like %s or lister_album.description like %s or lister_artist.description like %s)')
-        word_query = '(' + ' OR '.join(string_conditions) + ')'
-        for search_word in search_words:
-            for i in range(0, 3):
-                search_params.append('%' + search_word + '%')
+        (word_query, query_params) = get_data_for_search_words(search_words)
+        search_params.extend(query_params)
 
     if (len(search_filters) > 0) and (len(search_words) > 0):
         sql += ' AND (' + filter_query + ' OR ' + word_query + ')'
@@ -66,6 +51,35 @@ def data_for_songs_list(request, search_string=''):
     context = {'songs_list': songs_list,
                'counters': get_counters(), 'section': section}
     return JsonResponse(context)
+
+
+def get_data_for_search_filters(search_filters):
+    query_strings = []
+    for search_filter in search_filters:
+        query_strings.append(
+            '((artist like %s or album like %s) and title like %s)')
+    filter_query = ' (' + ' OR '.join(query_strings) + ') '
+
+    search_params = []
+    for search_filter in search_filters:
+        search_params.append('%' + search_filter[0] + '%')
+        search_params.append('%' + search_filter[0] + '%')
+        search_params.append('%' + search_filter[1] + '%')
+
+    return (filter_query, search_params)
+
+
+def get_data_for_search_words(search_words):
+    string_conditions = []
+    for i in (range(len(search_words))):
+        string_conditions.append(
+            '( title like %s or lister_album.description like %s or lister_artist.description like %s)')
+    word_query = '(' + ' OR '.join(string_conditions) + ')'
+    search_params = []
+    for search_word in search_words:
+        for i in range(0, 3):
+            search_params.append('%' + search_word + '%')
+    return (word_query, search_params)
 
 
 def get_counters():
