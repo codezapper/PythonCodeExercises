@@ -54,17 +54,17 @@ def data_for_songs_list(request, search_string=''):
 
 
 def get_data_for_search_filters(search_filters):
-    query_strings = []
+    single_queries = []
     for search_filter in search_filters:
-        query_strings.append(
-            '((artist like %s or album like %s) and title like %s)')
-    filter_query = ' (' + ' OR '.join(query_strings) + ') '
+        query_strings = ['(artist like %s or album like %s or title like %s)'] * len(search_filter)
+        single_queries.append(' AND '.join(query_strings))
+
+    filter_query = ' (' + ' OR '.join(single_queries) + ') '
 
     search_params = []
     for search_filter in search_filters:
-        search_params.append('%' + search_filter[0] + '%')
-        search_params.append('%' + search_filter[0] + '%')
-        search_params.append('%' + search_filter[1] + '%')
+        for filter_term in search_filter:
+            search_params.extend(['%' + filter_term + '%'] * 3)
 
     return (filter_query, search_params)
 
