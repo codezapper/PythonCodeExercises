@@ -18,26 +18,27 @@ def data_for_songs_list(request, search_string=''):
     section = ''
     search_params = []
     cursor = connection.cursor()
-    # sql = 'SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id '''
     sql = ''
+    filter_query_sql = ''
+    word_query_sql = ''
 
     if (len(search_filters) > 0):
-        (filter_query, query_params) = get_search_filters_sql(search_filters)
+        (filter_query_sql, query_params) = get_search_filters_sql(search_filters)
         search_params.extend(query_params)
-        sql = filter_query
 
-    # if (len(search_words) > 0):
-    #     (word_query, query_params) = get_data_for_search_words(search_words)
-    #     search_params.extend(query_params)
+    if (len(search_words) > 0):
+        (word_query_sql, query_params) = get_word_query_sql(search_words)
+        search_params.extend(query_params)
 
-    # if (len(search_filters) > 0) and (len(search_words) > 0):
-    #     sql += ' AND (' + filter_query + ' OR ' + word_query + ')'
-    # elif len(search_filters) > 0:
-    #     sql += ' AND ' + filter_query
-    # elif len(search_words) > 0:
-    #     sql += ' AND ' + word_query
+    print filter_query_sql
+    print word_query_sql
 
-    # sql += ' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'
+    if (len(search_filters) > 0) and (len(search_words) > 0):
+        sql += filter_query_sql + ' UNION ' + word_query_sql
+    elif len(search_filters) > 0:
+        sql += filter_query_sql
+    elif len(search_words) > 0:
+        sql += word_query_sql
 
     songs_list = []
     track_index = 0
@@ -88,12 +89,12 @@ def get_search_filters_sql(search_filters):
     return (filter_query, search_params)
 
 
-def get_data_for_search_words(search_words):
-    string_conditions = []
+def get_word_query_sql(search_words):
+    single_statements = []
     for i in (range(len(search_words))):
-        string_conditions.append(
-            '( title like %s or lister_album.description like %s or lister_artist.description like %s)')
-    word_query = '(' + ' OR '.join(string_conditions) + ')'
+        single_statements.append(
+            'SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND ( title like %s or lister_album.description like %s or lister_artist.description like %s)')
+    word_query = ' UNION '.join(single_statements)
     search_params = []
     for search_word in search_words:
         for i in range(0, 3):
