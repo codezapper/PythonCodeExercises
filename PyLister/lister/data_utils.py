@@ -18,24 +18,26 @@ def data_for_songs_list(request, search_string=''):
     section = ''
     search_params = []
     cursor = connection.cursor()
-    sql = 'SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id '''
+    # sql = 'SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id '''
+    sql = ''
 
     if (len(search_filters) > 0):
-        (filter_query, query_params) = get_data_for_search_filters(search_filters)
+        (filter_query, query_params) = get_search_filters_sql(search_filters)
         search_params.extend(query_params)
+        sql = filter_query
 
-    if (len(search_words) > 0):
-        (word_query, query_params) = get_data_for_search_words(search_words)
-        search_params.extend(query_params)
+    # if (len(search_words) > 0):
+    #     (word_query, query_params) = get_data_for_search_words(search_words)
+    #     search_params.extend(query_params)
 
-    if (len(search_filters) > 0) and (len(search_words) > 0):
-        sql += ' AND (' + filter_query + ' OR ' + word_query + ')'
-    elif len(search_filters) > 0:
-        sql += ' AND ' + filter_query
-    elif len(search_words) > 0:
-        sql += ' AND ' + word_query
+    # if (len(search_filters) > 0) and (len(search_words) > 0):
+    #     sql += ' AND (' + filter_query + ' OR ' + word_query + ')'
+    # elif len(search_filters) > 0:
+    #     sql += ' AND ' + filter_query
+    # elif len(search_words) > 0:
+    #     sql += ' AND ' + word_query
 
-    sql += ' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'
+    # sql += ' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'
 
     songs_list = []
     track_index = 0
@@ -53,13 +55,30 @@ def data_for_songs_list(request, search_string=''):
     return JsonResponse(context)
 
 
-def get_data_for_search_filters(search_filters):
+def get_search_filters_sql(search_filters):
     single_queries = []
+    must_shuffle = []
     for search_filter in search_filters:
-        query_strings = ['(artist like %s or album like %s or title like %s)'] * len(search_filter)
+        if (search_filter[0] == 'shuffle'):
+            search_filter.pop(0)
+            must_shuffle.append(True)
+        else:
+            must_shuffle.append(False)
+        query_strings = [
+            '(artist like %s or album like %s or title like %s)'] * len(search_filter)
         single_queries.append(' AND '.join(query_strings))
 
-    filter_query = ' (' + ' OR '.join(single_queries) + ') '
+    single_statements = []
+    index = 0
+    for single_query in single_queries:
+        sql = 'SELECT * FROM (SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id  AND ' + single_query
+        if (must_shuffle[index]):
+            sql += ' ORDER BY RANDOM() '
+        sql += ')'
+        single_statements.append(sql)
+        index += 1
+
+    filter_query = ' UNION '.join(single_statements)
 
     search_params = []
     for search_filter in search_filters:
