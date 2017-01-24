@@ -15,7 +15,6 @@ def data_for_songs_list(request, search_string=''):
     search_words = [
         search_word for search_word in all_search_words if ':' not in search_word]
 
-    section = ''
     search_params = []
     cursor = connection.cursor()
     sql = ''
@@ -23,15 +22,12 @@ def data_for_songs_list(request, search_string=''):
     word_query_sql = ''
 
     if (len(search_filters) > 0):
-        (filter_query_sql, query_params) = get_search_filters_sql(search_filters)
+        (filter_query_sql, query_params, _) = get_search_filters_sql(search_filters)
         search_params.extend(query_params)
 
     if (len(search_words) > 0):
         (word_query_sql, query_params) = get_word_query_sql(search_words)
         search_params.extend(query_params)
-
-    print filter_query_sql
-    print word_query_sql
 
     if (len(search_filters) > 0) and (len(search_words) > 0):
         sql += filter_query_sql + ' UNION ' + word_query_sql
@@ -52,7 +48,7 @@ def data_for_songs_list(request, search_string=''):
         row = cursor.fetchone()
 
     context = {'songs_list': songs_list,
-               'counters': get_counters(), 'section': section}
+               'counters': get_counters()}
     return JsonResponse(context)
 
 
@@ -72,10 +68,7 @@ def get_search_filters_sql(search_filters):
     single_statements = []
     index = 0
     for single_query in single_queries:
-        sql = 'SELECT * FROM (SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id  AND ' + single_query
-        if (must_shuffle[index]):
-            sql += ' ORDER BY RANDOM() '
-        sql += ')'
+        sql = 'SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id  AND ' + single_query
         single_statements.append(sql)
         index += 1
 
@@ -86,7 +79,7 @@ def get_search_filters_sql(search_filters):
         for filter_term in search_filter:
             search_params.extend(['%' + filter_term + '%'] * 3)
 
-    return (filter_query, search_params)
+    return (filter_query, search_params, must_shuffle)
 
 
 def get_word_query_sql(search_words):
