@@ -29,20 +29,21 @@ def data_for_songs_list(request, search_string=''):
     songs_list = []
     track_index = 0
 
-    results = []
+    results_lookup = {}
 
     if (len(search_filters) > 0):
         (sql_queries, query_params, must_shuffle) = get_search_filters_sql(search_filters)
         query_index = 0
         for sql_query in sql_queries:
-            print sql_query
-            print query_params[query_index]
             cursor.execute(sql_query, query_params[query_index])
             row = cursor.fetchone()
+            results = []
             while (row):
                 row_type = track_index % 2
-                results.append(
-                    {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3], 'path': row[4], 'year': row[5], 'track': row[6], 'row_type': row_type, 'track_index': track_index})
+                if (results_lookup.get(row[7]) == None):
+                    results_lookup[row[7]] = 1
+                    results.append(
+                        {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3], 'path': row[4], 'year': row[5], 'track': row[6], 'row_type': row_type, 'track_index': track_index})
                 track_index += 1
                 row = cursor.fetchone()
             if (must_shuffle[query_index]):
@@ -60,8 +61,10 @@ def data_for_songs_list(request, search_string=''):
     row = cursor.fetchone()
     while (row):
         row_type = track_index % 2
-        songs_list.append(
-            {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3], 'path': row[4], 'year': row[5], 'track': row[6], 'row_type': row_type, 'track_index': track_index})
+        if (results_lookup.get(row[7]) == None):
+            results_lookup[row[7]] = 1
+            songs_list.append(
+                {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3], 'path': row[4], 'year': row[5], 'track': row[6], 'row_type': row_type, 'track_index': track_index})
         track_index += 1
         row = cursor.fetchone()
 
@@ -86,7 +89,8 @@ def get_search_filters_sql(search_filters):
     single_statements = []
     index = 0
     for single_query in single_queries:
-        sql = 'SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id  AND ' + single_query
+        sql = 'SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number, lister_song.id song_id FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id  AND ' + \
+            single_query + ' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'
         single_statements.append(sql)
         index += 1
 
@@ -107,8 +111,9 @@ def get_word_query_sql(search_words):
     single_statements = []
     for i in (range(len(search_words))):
         single_statements.append(
-            'SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND ( title like %s or lister_album.description like %s or lister_artist.description like %s)')
-    word_query = ' UNION '.join(single_statements)
+            'SELECT title, lister_album.description album, lister_artist.description artist, image_file, path, year, track_number, lister_song.id song_id FROM lister_song, lister_album, lister_artist WHERE lister_artist.artist_id = lister_song.artist_id AND lister_album.album_id = lister_song.album_id AND ( title like %s or lister_album.description like %s or lister_artist.description like %s)')
+    word_query = ' UNION '.join(
+        single_statements) + ' ORDER BY lister_song.artist_id, lister_album.album_id, track_number'
     search_params = []
     for search_word in search_words:
         for i in range(0, 3):
