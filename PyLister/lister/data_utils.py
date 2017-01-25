@@ -1,5 +1,6 @@
 from django.db import connection
 from django.http import JsonResponse
+import random
 
 
 def data_for_songs_list(request, search_string=''):
@@ -10,34 +11,51 @@ def data_for_songs_list(request, search_string=''):
     search_filters = []
 
     if ':' in search_string:
-        search_filters = [search_word.split(':')
-                          for search_word in all_search_words if ':' in search_word]
+        for search_word in all_search_words:
+            if ':' in search_word:
+                tmp_filter = []
+                for search_filter in search_word.split(':'):
+                    if (search_filter != ''):
+                        tmp_filter.append(search_filter)
+                search_filters.append(tmp_filter)
+
     search_words = [
         search_word for search_word in all_search_words if ':' not in search_word]
 
     search_params = []
     cursor = connection.cursor()
     sql = ''
-    filter_query_sql = ''
     word_query_sql = ''
+    songs_list = []
+    track_index = 0
+
+    results = []
 
     if (len(search_filters) > 0):
-        (filter_query_sql, query_params, _) = get_search_filters_sql(search_filters)
-        search_params.extend(query_params)
+        (sql_queries, query_params, must_shuffle) = get_search_filters_sql(search_filters)
+        query_index = 0
+        for sql_query in sql_queries:
+            print sql_query
+            print query_params[query_index]
+            cursor.execute(sql_query, query_params[query_index])
+            row = cursor.fetchone()
+            while (row):
+                row_type = track_index % 2
+                results.append(
+                    {'title': row[0], 'album': row[1], 'artist': row[2], 'image_file': row[3], 'path': row[4], 'year': row[5], 'track': row[6], 'row_type': row_type, 'track_index': track_index})
+                track_index += 1
+                row = cursor.fetchone()
+            if (must_shuffle[query_index]):
+                songs_list.extend(random.shuffle(results))
+            else:
+                songs_list.extend(results)
+            query_index += 1
 
     if (len(search_words) > 0):
         (word_query_sql, query_params) = get_word_query_sql(search_words)
         search_params.extend(query_params)
+        sql = word_query_sql
 
-    if (len(search_filters) > 0) and (len(search_words) > 0):
-        sql += filter_query_sql + ' UNION ' + word_query_sql
-    elif len(search_filters) > 0:
-        sql += filter_query_sql
-    elif len(search_words) > 0:
-        sql += word_query_sql
-
-    songs_list = []
-    track_index = 0
     cursor.execute(sql, search_params)
     row = cursor.fetchone()
     while (row):
@@ -63,7 +81,7 @@ def get_search_filters_sql(search_filters):
             must_shuffle.append(False)
         query_strings = [
             '(artist like %s or album like %s or title like %s)'] * len(search_filter)
-        single_queries.append(' AND '.join(query_strings))
+        single_queries.append('(' + ' AND '.join(query_strings) + ') ')
 
     single_statements = []
     index = 0
@@ -72,14 +90,17 @@ def get_search_filters_sql(search_filters):
         single_statements.append(sql)
         index += 1
 
-    filter_query = ' UNION '.join(single_statements)
-
     search_params = []
+    new_search_params = []
     for search_filter in search_filters:
+        temp_params = []
         for filter_term in search_filter:
             search_params.extend(['%' + filter_term + '%'] * 3)
+            temp_params.extend(['%' + filter_term + '%'] * 3)
+        new_search_params.append(temp_params)
 
-    return (filter_query, search_params, must_shuffle)
+    return (single_statements, new_search_params, must_shuffle)
+    # return (filter_query, search_params, must_shuffle)
 
 
 def get_word_query_sql(search_words):
