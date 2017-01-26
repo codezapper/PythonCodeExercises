@@ -19,7 +19,6 @@ def data_for_songs_list(request, search_string=''):
     search_filters = get_search_filters(search_string)
     search_words = [word for word in search_string.split() if ':' not in word]
 
-    cursor = connection.cursor()
     results_lookup = {}
     songs_list = []
 
