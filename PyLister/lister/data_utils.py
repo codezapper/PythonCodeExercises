@@ -88,33 +88,34 @@ def get_filters_queries(search_filters):
     single_statements = []
     index = 0
     for single_query in single_queries:
-        sql = 'SELECT ' + ','.join(selecting_fields) + ' FROM ' + \
-            ','.join(selecting_tables) + ' WHERE ' + \
-            ' AND '.join(common_conditions) + ' AND ' + \
-            single_query + ' ORDER BY ' + ','.join(sorting_fields)
+        sql = 'SELECT ' + ','.join(selecting_fields) + \
+              ' FROM ' + ','.join(selecting_tables) + \
+              ' WHERE ' + ' AND '.join(common_conditions) + \
+              ' AND ' + single_query + \
+              ' ORDER BY ' + ','.join(sorting_fields)
         single_statements.append(sql)
         index += 1
 
     search_params = []
-    new_search_params = []
-    for search_filter in search_filters:
-        temp_params = []
-        for filter_term in search_filter:
+    ret_search_params = []
+    for search_filter_terms in search_filters:
+        search_params = []
+        for filter_term in search_filter_terms:
             search_params.extend(['%' + filter_term + '%'] * 3)
-            temp_params.extend(['%' + filter_term + '%'] * 3)
-        new_search_params.append(temp_params)
+        ret_search_params.append(search_params)
 
-    return (single_statements, new_search_params, must_shuffle)
+    return (single_statements, ret_search_params, must_shuffle)
 
 
 def get_word_query_sql(search_words):
     global inner_sql
-    single_statements = []
-    for i in (range(len(search_words))):
-        single_statements.append(
-            'SELECT ' + ','.join(selecting_fields) + ' FROM ' +
-            ','.join(selecting_tables) + ' WHERE ' +
-            ' AND '.join(common_conditions) + ' AND ' + inner_sql)
+
+    single_statements = [
+        'SELECT ' + ','.join(selecting_fields) +
+        ' FROM ' + ','.join(selecting_tables) +
+        ' WHERE ' + ' AND '.join(common_conditions) +
+        ' AND ' + inner_sql
+    ] * len(search_words)
     word_query = ' UNION '.join(
         single_statements) + ' ORDER BY ' + ','.join(sorting_fields)
     search_params = []
@@ -130,8 +131,8 @@ def _row_as_dict(row):
 
     return {
         'title': row[0], 'album': row[1], 'artist': row[2],
-        'image_file': row[3], 'path': row[4], 'year': row[5], 'track': row[6],
-        'song_id': row[7]
+        'image_file': row[3], 'path': row[4], 'year': row[5],
+        'track': row[6], 'song_id': row[7]
     }
 
 
