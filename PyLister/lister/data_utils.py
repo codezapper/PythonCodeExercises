@@ -9,48 +9,26 @@ selecting_fields = ['title', 'lister_album.description album',
                     'path', 'year', 'track_number', 'lister_song.id song_id']
 common_conditions = ['lister_artist.artist_id = lister_song.artist_id',
                      'lister_album.album_id = lister_song.album_id']
-sorting_fields = ['lister_song.artist_id',
-                  'lister_album.album_id', 'track_number']
+sorting_fields = ['artist', 'album', 'track_number']
 
 
 def data_for_songs_list(request, search_string=''):
     if (search_string == ''):
         return JsonResponse({})
 
-    all_words = search_string.split()
-    search_filters = []
+    search_filters = get_search_filters(search_string)
+    search_words = [word for word in search_string.split() if ':' not in word]
 
-    if ':' in search_string:
-        for search_word in all_words:
-            if ':' in search_word:
-                tmp_filter = []
-                for search_filter in search_word.split(':'):
-                    if (search_filter != ''):
-                        tmp_filter.append(search_filter)
-                search_filters.append(tmp_filter)
-
-    search_words = [
-        search_word for search_word in all_words if ':' not in search_word]
-
-    search_params = []
     cursor = connection.cursor()
-    sql = ''
-    word_query_sql = ''
-    songs_list = []
     results_lookup = {}
+    songs_list = []
 
     if (len(search_filters) > 0):
-        (sql_queries, params, must_shuffle) = get_filters_sql(search_filters)
+        (queries, params, must_shuffle) = get_filters_queries(search_filters)
         query_index = 0
-        for sql_query in sql_queries:
-            cursor.execute(sql_query, params[query_index])
-            row = cursor.fetchone()
-            results = []
-            while (row):
-                if (results_lookup.get(row[7]) is None):
-                    results_lookup[row[7]] = 1
-                    results.append(_row_as_dict(row))
-                row = cursor.fetchone()
+        for query in queries:
+            results = get_rows_as_dict(
+                query, params[query_index], results_lookup)
             if (must_shuffle[query_index]):
                 songs_list.extend(random.shuffle(results))
             else:
@@ -58,32 +36,43 @@ def data_for_songs_list(request, search_string=''):
             query_index += 1
 
     if (len(search_words) > 0):
-        (word_query_sql, params) = get_word_query_sql(search_words)
-        search_params.extend(params)
-        sql = word_query_sql
+        songs_list.extend(get_rows_as_dict(*get_word_query_sql(search_words),
+                                           lookup=results_lookup))
 
-    cursor.execute(sql, search_params)
-    row = cursor.fetchone()
-    while (row):
-        if (results_lookup.get(row[7]) is None):
-            results_lookup[row[7]] = 1
-            songs_list.append({
-                'title': row[0],
-                'album': row[1],
-                'artist': row[2],
-                'image_file': row[3],
-                'path': row[4],
-                'year': row[5],
-                'track': row[6],
-            })
-        row = cursor.fetchone()
-
-    context = {'songs_list': songs_list,
-               'counters': get_counters()}
-    return JsonResponse(context)
+    return JsonResponse({
+        'songs_list': songs_list,
+        'counters': get_counters()
+    })
 
 
-def get_filters_sql(search_filters):
+def get_rows_as_dict(sql, params, lookup={}):
+    results = []
+    cursor = connection.cursor()
+    cursor.execute(sql, params)
+    row_dict = _row_as_dict(cursor.fetchone())
+    while (row_dict is not None):
+        if (lookup.get(row_dict['song_id']) is None):
+            lookup[row_dict['song_id']] = 1
+            results.append(row_dict)
+        row_dict = _row_as_dict(cursor.fetchone())
+
+    return results
+
+
+def get_search_filters(search_string):
+    search_filters = []
+    if ':' in search_string:
+        for search_word in search_string.split():
+            if ':' in search_word:
+                tmp_filter = []
+                for search_filter in search_word.split(':'):
+                    if (search_filter != ''):
+                        tmp_filter.append(search_filter)
+                search_filters.append(tmp_filter)
+    return search_filters
+
+
+def get_filters_queries(search_filters):
     global inner_sql
     single_queries = []
     must_shuffle = []
@@ -136,9 +125,13 @@ def get_word_query_sql(search_words):
 
 
 def _row_as_dict(row):
+    if (row is None):
+        return None
+
     return {
         'title': row[0], 'album': row[1], 'artist': row[2],
-        'image_file': row[3], 'path': row[4], 'year': row[5], 'track': row[6]
+        'image_file': row[3], 'path': row[4], 'year': row[5], 'track': row[6],
+        'song_id': row[7]
     }
 
 
