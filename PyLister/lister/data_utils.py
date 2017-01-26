@@ -37,8 +37,6 @@ def data_for_songs_list(request, search_string=''):
     sql = ''
     word_query_sql = ''
     songs_list = []
-    track_index = 0
-
     results_lookup = {}
 
     if (len(search_filters) > 0):
@@ -49,21 +47,9 @@ def data_for_songs_list(request, search_string=''):
             row = cursor.fetchone()
             results = []
             while (row):
-                row_type = track_index % 2
                 if (results_lookup.get(row[7]) is None):
                     results_lookup[row[7]] = 1
-                    results.append({
-                        'title': row[0],
-                        'album': row[1],
-                        'artist': row[2],
-                        'image_file': row[3],
-                        'path': row[4],
-                        'year': row[5],
-                        'track': row[6],
-                        'row_type': row_type,
-                        'track_index': track_index
-                    })
-                track_index += 1
+                    results.append(_row_as_dict(row))
                 row = cursor.fetchone()
             if (must_shuffle[query_index]):
                 songs_list.extend(random.shuffle(results))
@@ -79,7 +65,6 @@ def data_for_songs_list(request, search_string=''):
     cursor.execute(sql, search_params)
     row = cursor.fetchone()
     while (row):
-        row_type = track_index % 2
         if (results_lookup.get(row[7]) is None):
             results_lookup[row[7]] = 1
             songs_list.append({
@@ -90,10 +75,7 @@ def data_for_songs_list(request, search_string=''):
                 'path': row[4],
                 'year': row[5],
                 'track': row[6],
-                'row_type': row_type,
-                'track_index': track_index
             })
-        track_index += 1
         row = cursor.fetchone()
 
     context = {'songs_list': songs_list,
@@ -117,7 +99,9 @@ def get_filters_sql(search_filters):
     single_statements = []
     index = 0
     for single_query in single_queries:
-        sql = 'SELECT ' + ','.join(selecting_fields) + ' FROM ' + ','.join(selecting_tables) + ' WHERE ' + ' AND '.join(common_conditions) + ' AND ' + \
+        sql = 'SELECT ' + ','.join(selecting_fields) + ' FROM ' + \
+            ','.join(selecting_tables) + ' WHERE ' + \
+            ' AND '.join(common_conditions) + ' AND ' + \
             single_query + ' ORDER BY ' + ','.join(sorting_fields)
         single_statements.append(sql)
         index += 1
@@ -135,10 +119,13 @@ def get_filters_sql(search_filters):
 
 
 def get_word_query_sql(search_words):
+    global inner_sql
     single_statements = []
     for i in (range(len(search_words))):
         single_statements.append(
-            'SELECT ' + ','.join(selecting_fields) + ' FROM ' + ','.join(selecting_tables) + ' WHERE ' + ' AND '.join(common_conditions) + 'AND ( title like %s or lister_album.description like %s or lister_artist.description like %s)')
+            'SELECT ' + ','.join(selecting_fields) + ' FROM ' +
+            ','.join(selecting_tables) + ' WHERE ' +
+            ' AND '.join(common_conditions) + ' AND ' + inner_sql)
     word_query = ' UNION '.join(
         single_statements) + ' ORDER BY ' + ','.join(sorting_fields)
     search_params = []
@@ -146,6 +133,13 @@ def get_word_query_sql(search_words):
         for i in range(0, 3):
             search_params.append('%' + search_word + '%')
     return (word_query, search_params)
+
+
+def _row_as_dict(row):
+    return {
+        'title': row[0], 'album': row[1], 'artist': row[2],
+        'image_file': row[3], 'path': row[4], 'year': row[5], 'track': row[6]
+    }
 
 
 def get_counters():
