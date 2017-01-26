@@ -1,11 +1,11 @@
 - Cleanup main.js
 - Cleanup python code
 
+- Fix sorting when mixing filters and search words
+- Remove duplicates also on client side
 - Fix playing when not submitted (e.g. when clicking with the mouse before pressing enter)
-- Add list shuffling
 - Add prefixes:
-  - "shuffle:" adds shuffled results to the playlist
   - "repeat:" adds results and repeats them. This replaces the current list
-  - "artist:", "album:", "title:" restrict search to related fields
+  - "random:" adds a single track randomly chosen from current filter
 - Add history of recently played songs
 - Implement callback to play through shown items instead of having the path saved in the template
