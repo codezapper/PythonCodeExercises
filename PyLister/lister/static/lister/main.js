@@ -21,7 +21,7 @@ var duration = -1;
 var playListTemplate;
 var prevSearchTerm;
 var currentSearchTerm;
-var hasSubmitted = false;
+var displayedSongIDs = {};
 
 var trackListOperations = {
     REPLACE: 1,
@@ -99,9 +99,15 @@ function setCurrentTrackList(searchTerm, searchResults, operation = trackListOpe
         trackList = searchResults;
         playTrack(0);
     } else if (operation === trackListOperations.PREPEND) {
-        trackList = searchResults.concat(trackList);
+        filteredSearchResults = searchResults.filter(function(song) {
+            return displayedSongIDs[song.song_id] != null;
+        });
+        trackList = filteredSearchResults.concat(trackList);
     } else {
-        trackList = trackList.concat(searchResults);
+        filteredSearchResults = searchResults.filter(function(song) {
+            return displayedSongIDs[song.song_id] != null;
+        });
+        trackList = trackList.concat(filteredSearchResults);
     }
     //TODO: This can be optimized to only render the new data and append it
     var html = Mustache.render(playListTemplate, {"playlist": trackList});
@@ -129,7 +135,6 @@ function bindUI() {
     playerElement.load();
     finderBox.bind('keyup', function(event) {
         if (event.key != "Enter") {
-            hasSubmitted = false;
             if (inputBox.val() !== '') {
                 showSongs(inputBox.val());
             } else {
@@ -143,7 +148,6 @@ function bindUI() {
         } else {
             if (searchResults.length > 0) {
                 if (prevSearchTerm !== currentSearchTerm) {
-                    hasSubmitted = true;
                     inputBox.val('');
                     if (event.ctrlKey) {
                         setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.REPLACE);
