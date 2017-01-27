@@ -13,7 +13,7 @@
         {% verbatim %}{{#search_results}}
             <ul class="row-{{row_type}}">
                 <li class="title">
-                    <a onclick="playTrack({{track_index}});return false;" data-index-search-results="{{track_index}}" data-path="" href="#">{{title}}</a>
+                    <a onclick="playTrack({{song_id}});return false;" data-index-search-results="{{song_id}}" data-path="" href="#">{{title}}</a>
                 </li>
                 <li class="artist">{{artist}}</li>
                 <li class="album">{{album}}</li>
@@ -26,7 +26,7 @@
         {% verbatim %}{{#playlist}}
             <ul class="row-{{row_type}}">
                 <li class="title">
-                    <a onclick="playTrack({{track_index}});return false;" data-index-playlist="{{track_index}}" data-path="" href="#">{{title}}</a>
+                    <a onclick="playTrack({{song_id}});return false;" data-index-playlist="{{song_id}}" data-path="" href="#">{{title}}</a>
                 </li>
                 <li class="artist">{{artist}}</li>
                 <li class="album">{{album}}</li>

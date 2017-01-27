@@ -150,7 +150,7 @@ function bindUI() {
                 $('#playlist').css({display: 'block'});
 
                 if (!playerElement.paused || playerElement.currentTime) {
-                    $('[data-index-playlist=' + currentTrack + ']').closest('ul').addClass('active-track');
+                    $('[data-index-playlist=' + trackList[currentTrack].song_id + ']').closest('ul').addClass('active-track');
                 }
             }
         } else {
