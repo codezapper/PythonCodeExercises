@@ -100,12 +100,20 @@ function setCurrentTrackList(searchTerm, searchResults, operation = trackListOpe
         playTrack(0);
     } else if (operation === trackListOperations.PREPEND) {
         filteredSearchResults = searchResults.filter(function(song) {
-            return displayedSongIDs[song.song_id] != null;
+            if (displayedSongIDs[song.song_id] == null) {
+                displayedSongIDs[song.song_id] = 1;
+                return true;
+            }
+            return false;
         });
         trackList = filteredSearchResults.concat(trackList);
     } else {
         filteredSearchResults = searchResults.filter(function(song) {
-            return displayedSongIDs[song.song_id] != null;
+            if (displayedSongIDs[song.song_id] == null) {
+                displayedSongIDs[song.song_id] = 1;
+                return true;
+            }
+            return false;
         });
         trackList = trackList.concat(filteredSearchResults);
     }
@@ -148,7 +156,6 @@ function bindUI() {
         } else {
             if (searchResults.length > 0) {
                 if (prevSearchTerm !== currentSearchTerm) {
-                    inputBox.val('');
                     if (event.ctrlKey) {
                         setCurrentTrackList(currentSearchTerm, searchResults, trackListOperations.REPLACE);
                     } else if (event.shiftKey) {
@@ -160,6 +167,7 @@ function bindUI() {
                 if (playerElement.paused || !playerElement.currentTime) {
                     playTrack(currentTrack);
                 }
+                inputBox.val('');
             }
         }
     });
