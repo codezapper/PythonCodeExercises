@@ -12,6 +12,21 @@ common_conditions = ['lister_artist.artist_id = lister_song.artist_id',
 sorting_fields = ['artist', 'album', 'track_number']
 
 
+def get_single_random(songs_list):
+    return [random.choice(songs_list)]
+
+
+def get_shuffled_list(songs_list):
+    random.shuffle(songs_list)
+    return songs_list
+
+
+do_something = {
+    'random': get_single_random,
+    'shuffle': get_shuffled_list
+}
+
+
 def data_for_songs_list(request, search_string=''):
     if (search_string == ''):
         return JsonResponse({})
@@ -23,15 +38,17 @@ def data_for_songs_list(request, search_string=''):
     songs_list = []
 
     if (len(search_filters) > 0):
-        (queries, params, must_shuffle) = get_filters_queries(search_filters)
+        (queries, params, filter_actions) = get_filters_queries(search_filters)
         query_index = 0
         for query in queries:
             results = get_rows_as_dict(
                 query, params[query_index], results_lookup)
-            if (must_shuffle[query_index]):
-                songs_list.extend(random.shuffle(results))
-            else:
-                songs_list.extend(results)
+            if (len(results) > 0):
+                if (filter_actions[query_index]):
+                    songs_list.extend(
+                        do_something[filter_actions[query_index]](results))
+                else:
+                    songs_list.extend(results)
             query_index += 1
 
     if (len(search_words) > 0):
@@ -74,13 +91,13 @@ def get_search_filters(search_string):
 def get_filters_queries(search_filters):
     global inner_sql
     single_queries = []
-    must_shuffle = []
+    filter_actions = []
     for search_filter in search_filters:
-        if (search_filter[0] == 'shuffle'):
+        if (search_filter[0] in do_something.keys()):
+            filter_actions.append(search_filter[0])
             search_filter.pop(0)
-            must_shuffle.append(True)
         else:
-            must_shuffle.append(False)
+            filter_actions.append(None)
         query_strings = [inner_sql] * len(search_filter)
         single_queries.append('(' + ' AND '.join(query_strings) + ') ')
 
@@ -103,7 +120,7 @@ def get_filters_queries(search_filters):
             search_params.extend(['%' + filter_term + '%'] * 3)
         ret_search_params.append(search_params)
 
-    return (single_statements, ret_search_params, must_shuffle)
+    return (single_statements, ret_search_params, filter_actions)
 
 
 def get_word_query_sql(search_words):
