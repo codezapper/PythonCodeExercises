@@ -12,6 +12,7 @@ class Song(models.Model):
     title = models.CharField(max_length=256)
     track_number = models.CharField(max_length=256, default='')
     path = models.CharField(max_length=256, default='')
+    search_key = models.CharField(max_length=1024, default='')
 
     def __str__(self):
         return '{} ({}) by {}'.format(self.title, self.year or '----', self.artist)
