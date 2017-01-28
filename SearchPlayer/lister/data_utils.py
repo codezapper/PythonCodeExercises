@@ -2,7 +2,7 @@ from django.db import connection
 from django.http import JsonResponse
 import random
 
-inner_sql = '(artist like %s or album like %s or title like %s)'
+inner_sql = '(search_key like %s)'
 selecting_tables = ['lister_song', 'lister_album', 'lister_artist']
 selecting_fields = ['title', 'lister_album.description album',
                     'lister_artist.description artist', 'image_file',
@@ -118,7 +118,7 @@ def get_filters_queries(search_filters):
     for search_filter_terms in search_filters:
         search_params = []
         for filter_term in search_filter_terms:
-            search_params.extend(['%' + filter_term + '%'] * 3)
+            search_params.extend(['%' + filter_term + '%'])
         ret_search_params.append(search_params)
 
     return (single_statements, ret_search_params, filter_actions)
@@ -137,8 +137,7 @@ def get_word_query_sql(search_words):
         single_statements) + ' ORDER BY ' + ','.join(sorting_fields)
     search_params = []
     for search_word in search_words:
-        for i in range(0, 3):
-            search_params.append('%' + search_word + '%')
+        search_params.append('%' + search_word + '%')
     return (word_query, search_params)
 
 
