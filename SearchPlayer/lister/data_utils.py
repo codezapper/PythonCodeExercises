@@ -31,8 +31,9 @@ def data_for_songs_list(request, search_string=''):
     if (search_string == ''):
         return JsonResponse({})
 
-    search_filters = get_search_filters(search_string)
-    search_words = [word for word in search_string.split() if ':' not in word]
+    search_filters = []
+    for search_word in search_string.split():
+        search_filters.append(get_search_filter(search_word))
 
     results_lookup = {}
     songs_list = []
@@ -50,10 +51,6 @@ def data_for_songs_list(request, search_string=''):
                 else:
                     songs_list.extend(results)
             query_index += 1
-
-    if (len(search_words) > 0):
-        songs_list.extend(get_rows_as_dict(*get_word_query_sql(search_words),
-                                           lookup=results_lookup))
 
     return JsonResponse({
         'songs_list': songs_list,
@@ -75,16 +72,17 @@ def get_rows_as_dict(sql, params, lookup={}):
     return results
 
 
-def get_search_filters(search_string):
+def get_search_filter(search_word):
     search_filters = []
-    if ':' in search_string:
-        for search_word in search_string.split():
-            if ':' in search_word:
-                tmp_filter = []
-                for search_filter in search_word.split(':'):
-                    if (search_filter != ''):
-                        tmp_filter.append(search_filter)
-                search_filters.append(tmp_filter)
+
+    for search_filter in search_word.split():
+        if (':' in search_word):
+            search_filters.extend(
+                [refinement for refinement in
+                    search_word.split(':') if refinement != ''])
+        else:
+            search_filters.append(search_filter)
+
     return search_filters
 
 
@@ -122,23 +120,6 @@ def get_filters_queries(search_filters):
         ret_search_params.append(search_params)
 
     return (single_statements, ret_search_params, filter_actions)
-
-
-def get_word_query_sql(search_words):
-    global inner_sql
-
-    single_statements = [
-        'SELECT ' + ','.join(selecting_fields) +
-        ' FROM ' + ','.join(selecting_tables) +
-        ' WHERE ' + ' AND '.join(common_conditions) +
-        ' AND ' + inner_sql
-    ] * len(search_words)
-    word_query = ' UNION '.join(
-        single_statements) + ' ORDER BY ' + ','.join(sorting_fields)
-    search_params = []
-    for search_word in search_words:
-        search_params.append('%' + search_word + '%')
-    return (word_query, search_params)
 
 
 def _row_as_dict(row):
