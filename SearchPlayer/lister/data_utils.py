@@ -94,8 +94,9 @@ def get_filters_queries(search_filters):
     filter_actions = []
     for search_filter in search_filters:
         if (search_filter[0] in do_something.keys()):
-            filter_actions.append(search_filter[0])
-            search_filter.pop(0)
+            if (len(search_filter) > 1):
+                filter_actions.append(search_filter[0])
+                search_filter.pop(0)
         else:
             filter_actions.append(None)
         query_strings = [inner_sql] * len(search_filter)
