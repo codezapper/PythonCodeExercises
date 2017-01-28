@@ -74,7 +74,7 @@ function playTrack(track) {
     } else if (track > trackList.length - 1) {
         track = 0;
     }
-    $('[data-index-playlist=' + currentTrack + ']').closest('ul').removeClass('active-track');
+    $('[data-index-playlist=' + trackList[currentTrack].song_id + ']').closest('ul').removeClass('active-track');
     currentTrack = track; // Needed when clicking directly on the track
 
     duration = -1;
@@ -86,7 +86,7 @@ function playTrack(track) {
     playerElement.play();
     playButton.removeClass('play-button');
     playButton.addClass('pause-button');
-    $('[data-index-playlist=' + currentTrack + ']').closest('ul').addClass('active-track');
+    $('[data-index-playlist=' + trackList[currentTrack].song_id + ']').closest('ul').addClass('active-track');
 }
 
 function getCoverPathFromSongPath(songPath) {
