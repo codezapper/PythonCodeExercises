@@ -43,6 +43,13 @@ def update_db():
     cursor.executemany(
         'INSERT INTO lister_artist (artist_id, description) VALUES(?, ?)', artists)
 
+    cursor.execute('''
+        UPDATE lister_song SET search_key = (SELECT replace(lower(title||al.description||ar.description),' ','')
+                                             FROM lister_song so, lister_album al, lister_artist ar
+                                             WHERE ar.artist_id = so.artist_id
+                                                 AND al.album_id = so.album_id
+                                                 AND lister_song.id = so.id )
+    ''')
     db_main.commit()
 
 
