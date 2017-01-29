@@ -1,6 +1,5 @@
 - Cleanup main.js
 
-- Add transition on cover when prev/next track clicked
-- Fix playing when not submitted (e.g. when clicking with the mouse before pressing enter)
-- Add history of recently played songs
-- Implement callback to play through shown items instead of having the path saved in the template
+- Keep track of how many times each song has been played
+- Add "suggest:" filter based on most played songs
+- Add "regex:" filter
