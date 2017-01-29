@@ -90,7 +90,7 @@ function playTrack(track) {
 }
 
 function getCoverPathFromSongPath(songPath) {
-    return songPath.substring(0, songPath.lastIndexOf('/')) + '/Folder.jpg';
+    return songPath.substring(0, songPath.lastIndexOf('/')) + '/Cover.png';
 }
 
 function setCurrentTrackList(searchTerm, searchResults, operation = trackListOperations.APPEND ) {
@@ -142,6 +142,14 @@ window.addEventListener('submit', function(event) {
 function bindUI() {
     playerElement.load();
     finderBox.bind('keyup', function(event) {
+        if (event.key == "ArrowDown") {
+            playTrack(currentTrack + 1);
+            return;
+        }
+        if (event.key == "ArrowUp") {
+            playTrack(currentTrack - 1);
+            return;
+        }
         if (event.key != "Enter") {
             if (inputBox.val() !== '') {
                 showSongs(inputBox.val());

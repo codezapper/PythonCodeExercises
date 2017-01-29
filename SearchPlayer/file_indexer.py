@@ -28,7 +28,7 @@ def update_db():
             artist_id += 1
             artist_lookup[song.tags['ARTIST'][0]] = artist_id
             artists.append((artist_id, song.tags['ARTIST'][0]))
-        songs.append((album_id, artist_id, os.path.dirname(os.path.realpath(file)) + '/Folder.jpg',
+        songs.append((album_id, artist_id, os.path.dirname(os.path.realpath(file)) + '/Cover.png',
                       song.tags['DATE'][0], 0, song.tags['TITLE'][0], song.tags['TRACKNUMBER'][0], file))
 
     cursor.execute('DELETE FROM lister_song')
