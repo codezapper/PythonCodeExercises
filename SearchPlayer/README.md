@@ -28,3 +28,14 @@ Pressing the enter key will either:
 
 Pressing the arrow down button will move to the next track.
 Pressing the arrow up button will move to the prev track.
+
+## Setup
+
+This project is done entirely in Python+Django and Javascript, so a working Python+Django environment is needed.
+The database is a sqlite3 file, so it can be redistributed easily as a demo.
+
+The "file_indexer.py" script will insert in the database the titles and paths of the music files.
+It can be configured so that it reads files from a specific directory, the default one is "Music/" from where the script is run.
+It works by reading the MP3 files metadata, so if some fields are missing, check that the metadata in the MP3 files is correct.
+
+
