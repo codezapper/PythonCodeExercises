@@ -1,9 +1,6 @@
 - Cleanup main.js
-- Cleanup python code
 
-- Fix sorting when mixing filters and search words
+- Add transition on cover when prev/next track clicked
 - Fix playing when not submitted (e.g. when clicking with the mouse before pressing enter)
-- Add prefixes:
-  - "repeat:" adds results and repeats them. This replaces the current list
 - Add history of recently played songs
 - Implement callback to play through shown items instead of having the path saved in the template
