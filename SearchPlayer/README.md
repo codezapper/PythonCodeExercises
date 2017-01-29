@@ -18,6 +18,18 @@ For instance:
 The search is done on a search key based on the combination of the three elements, so that looking for multiple words
 in a single song can also be done by typing the title with no spaces (e.g. "blackice" will return the album "black ice").
 
+There are two reserved words in the search:
+  - "random" will pick a single result out of the current single query. This is done for a single search term. For instance:
+    - "random:meta" will return a random match for the word "meta"
+    - "random:meta:one" will return a random match for the word "meta" combined with the word "one"
+    - "random:meta:one mega" will return a random match for the word "meta" combined with the word "one" plus all the matches for the word "mega"
+  - "shuffle" will shuffle the results randomly for the current single query. By default, results are ordered by artist / album / track number. For instance:
+    - "shuffle:meta" will return all result for the word "meta", but they will be randomly shuffled.
+    - "shuffle:meta:one" will return all result for the word "meta:one", but they will be randomly shuffled.
+    - "shuffle:meta:one mega" will return all result for the word "meta:one", but they will be randomly shuffled plus all the matches for the word "mega" which will instead be ordered as default.
+
+The "random" and "shuffle" reserved words must be the first word in the current query.
+
 ## Keyboard
 
 Pressing the enter key will either:
