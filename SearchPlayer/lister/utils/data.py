@@ -12,7 +12,7 @@ common_conditions = ['lister_artist.artist_id = lister_song.artist_id',
                      'lister_album.album_id = lister_song.album_id']
 sorting_fields = ['artist', 'album', 'track_number']
 
-if os.environ.get('TESTING_DB'):
+if 'TESTING_DB' in os.environ:
     import sqlite3
     db_connection = sqlite3.connect(os.environ.get('TESTING_DB'))
 else:
