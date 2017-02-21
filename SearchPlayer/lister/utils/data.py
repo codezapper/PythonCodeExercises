@@ -1,5 +1,6 @@
 from django.db import connection
 from django.http import JsonResponse
+import os
 import random
 
 inner_sql = '(search_key like %s)'
@@ -11,6 +12,12 @@ common_conditions = ['lister_artist.artist_id = lister_song.artist_id',
                      'lister_album.album_id = lister_song.album_id']
 sorting_fields = ['artist', 'album', 'track_number']
 
+if os.environ.get('TESTING_DB'):
+    import sqlite3
+    db_connection = sqlite3.connect(os.environ.get('TESTING_DB'))
+else:
+    db_connection = connection
+
 
 def get_single_random(songs_list):
     return [random.choice(songs_list)]
@@ -21,7 +28,7 @@ def get_shuffled_list(songs_list):
     return songs_list
 
 
-do_something = {
+prefixes = {
     'random': get_single_random,
     'shuffle': get_shuffled_list
 }
@@ -47,7 +54,7 @@ def data_for_songs_list(request, search_string=''):
             if (len(results) > 0):
                 if (filter_actions[query_index]):
                     songs_list.extend(
-                        do_something[filter_actions[query_index]](results))
+                        prefixes[filter_actions[query_index]](results))
                 else:
                     songs_list.extend(results)
             query_index += 1
@@ -60,7 +67,7 @@ def data_for_songs_list(request, search_string=''):
 
 def get_rows_as_dict(sql, params, lookup={}):
     results = []
-    cursor = connection.cursor()
+    cursor = db_connection.cursor()
     cursor.execute(sql, params)
     row_dict = _row_as_dict(cursor.fetchone())
     while (row_dict is not None):
@@ -91,7 +98,7 @@ def get_filters_queries(search_filters):
     single_queries = []
     filter_actions = []
     for search_filter in search_filters:
-        if (search_filter[0] in do_something.keys()):
+        if (search_filter[0] in prefixes.keys()):
             if (len(search_filter) > 1):
                 filter_actions.append(search_filter[0])
                 search_filter.pop(0)
@@ -135,7 +142,7 @@ def _row_as_dict(row):
 
 def get_counters():
     counters = {}
-    cursor = connection.cursor()
+    cursor = db_connection.cursor()
     cursor.execute('''SELECT count(*) FROM lister_song''')
     counters['songs'] = cursor.fetchone()[0]
     cursor.execute('''SELECT count(*) FROM lister_album''')
