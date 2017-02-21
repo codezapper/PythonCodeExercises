@@ -1,11 +1,9 @@
-from django.http import HttpResponse, Http404
-from django.shortcuts import render
-from .models import Song
+from django.http import HttpResponse
 import os
-import utils
-import data_utils as du
-import templating_utils as tu
-from streaming_utils import StreamWrapper
+import utils.general as gu
+import utils.data as du
+import utils.templating as tu
+from utils.streaming import StreamWrapper
 
 
 def search(request, search_string=''):
@@ -21,7 +19,7 @@ def songs(request):
 
 
 def play(request, song_id):
-    file_path = utils.get_path_by_id(song_id)
+    file_path = gu.get_path_by_id(song_id)
     streaming_response = HttpResponse(StreamWrapper(
         file_path), content_type='audio/mpeg')
     streaming_response[

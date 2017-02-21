@@ -1,7 +1,3 @@
-from django.db import models
-from django.template import loader
-from .models import Song
-
 
 '''It is possible (and documented) to use a response like:
 HttpResponse(open('test.file')) but Django emits bytes using iter(),

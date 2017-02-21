@@ -1,5 +1,5 @@
 import glob2
-from .models import Song
+from ..models import Song
 
 
 def get_files():
