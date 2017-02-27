@@ -24,8 +24,9 @@ def get_single_random(songs_list):
 
 
 def get_shuffled_list(songs_list):
-    random.shuffle(songs_list)
-    return songs_list
+    songs_list_copy = list(songs_list)
+    random.shuffle(songs_list_copy)
+    return songs_list_copy
 
 
 prefixes = {
