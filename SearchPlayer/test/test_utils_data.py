@@ -30,5 +30,23 @@ class TestStringMethods(unittest.TestCase):
                 different = True
         self.assertTrue(different)
 
+    def test_get_search_filter(self):
+        test_data = [self.generate_random_string() for i in xrange(0, 10)]
+        cases = [{
+            'label': 'Single string does not return array with only one element',
+            'input': test_data[0],
+            'expected': [test_data[0]]
+        },
+        {
+            'label': 'Two strings do not return two separate strings',
+            'input': ' '.join((test_data[0], test_data[1])),
+            'expected': [test_data[0], test_data[1]]
+        }]
+
+        for case in cases:
+            result = du.get_search_filter(case['input'])
+            self.assertEqual(result, case['expected'], case['label'])
+
+
 if __name__ == '__main__':
     unittest.main()
