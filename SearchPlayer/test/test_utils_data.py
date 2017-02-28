@@ -32,20 +32,22 @@ class TestStringMethods(unittest.TestCase):
 
     def test_get_search_filter(self):
         test_data = [self.generate_random_string() for i in xrange(0, 10)]
-        cases = [{
-            'label': 'Single string does not return array with only one element',
-            'input': test_data[0],
-            'expected': [test_data[0]]
-        },
-        {
-            'label': 'Two strings do not return two separate strings',
-            'input': ' '.join((test_data[0], test_data[1])),
-            'expected': [test_data[0], test_data[1]]
-        }]
+        cases = [{'label': 'Single string does not return a 1-element array ',
+                  'input': test_data[0],
+                  'expected': [test_data[0]]},
+                 {'label': 'Two strings do not return two separate strings',
+                  'input': ' '.join((test_data[0], test_data[1])),
+                  'expected': [test_data[0], test_data[1]]},
+                 {'label': 'Single filter does not return correct count',
+                  'input': ':'.join((test_data[0], test_data[1])),
+                  'expected': [test_data[0], test_data[1]]},
+                 {'label': 'Multiple filter does not return correct count',
+                  'input': ':'.join((test_data[0], test_data[1], test_data[2])),
+                  'expected': [test_data[0], test_data[1], test_data[2]]}]
 
         for case in cases:
             result = du.get_search_filter(case['input'])
-            self.assertEqual(result, case['expected'], case['label'])
+            self.assertEqual(result, case['expected'], case['label'] + ' ' + str(result))
 
 
 if __name__ == '__main__':
