@@ -1,9 +1,9 @@
-from django.http import HttpResponse
 import os
-import utils.general as gu
-import utils.data as du
-import utils.templating as tu
-from utils.streaming import StreamWrapper
+from django.http import HttpResponse
+import lister.utils.general as gu
+import lister.utils.data as du
+import lister.utils.templating as tu
+from lister.utils.streaming import StreamWrapper
 
 
 def search(request, search_string=''):

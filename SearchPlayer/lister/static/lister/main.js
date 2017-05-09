@@ -51,18 +51,18 @@ function showSongs(searchTerm) {
         $.get('/lister/songs/', function(template) {
             playListTemplate = template;
             if (searchTerm === '') {
-                var html = Mustache.render(playListTemplate, {"search_results": [], "playlist": trackList});
+                var html = Mustache.render(playListTemplate, { "search_results": [], "playlist": trackList });
                 $('#container-frame').html(html);
-                $('#search-results').css({display: 'block'});
-                $('#playlist').css({display: 'none'});
+                $('#search-results').css({ display: 'block' });
+                $('#playlist').css({ display: 'none' });
                 return;
             }
             $.getJSON('/lister/search/' + searchTerm, function(songs) {
                 searchResults = songs.songs_list;
-                var html = Mustache.render(playListTemplate, {"search_results": searchResults, "playlist": trackList});
+                var html = Mustache.render(playListTemplate, { "search_results": searchResults, "playlist": trackList });
                 $('#container-frame').html(html);
-                $('#search-results').css({display: 'block'});
-                $('#playlist').css({display: 'none'});
+                $('#search-results').css({ display: 'block' });
+                $('#playlist').css({ display: 'none' });
             });
         });
     }
@@ -93,7 +93,7 @@ function getCoverPathFromSongPath(songPath) {
     return songPath.substring(0, songPath.lastIndexOf('/')) + '/Cover.png';
 }
 
-function setCurrentTrackList(searchTerm, searchResults, operation = trackListOperations.APPEND ) {
+function setCurrentTrackList(searchTerm, searchResults, operation = trackListOperations.APPEND) {
     prevSearchTerm = searchTerm;
     if (operation === trackListOperations.REPLACE) {
         trackList = searchResults;
@@ -118,10 +118,13 @@ function setCurrentTrackList(searchTerm, searchResults, operation = trackListOpe
         trackList = trackList.concat(filteredSearchResults);
     }
     //TODO: This can be optimized to only render the new data and append it
-    var html = Mustache.render(playListTemplate, {"playlist": trackList});
+    var html = Mustache.render(playListTemplate, { "playlist": trackList });
     $('#container-frame').html(html);
-    $('#search-results').css({display: 'none'});
-    $('#playlist').css({display: 'block'});
+    $('#search-results').css({ display: 'none' });
+    $('#playlist').css({ display: 'block' });
+    if (!playerElement.paused || playerElement.currentTime) {
+        $('[data-index-playlist=' + trackList[currentTrack].song_id + ']').closest('ul').addClass('active-track');
+    }
 }
 
 function timeUpdate() {
@@ -130,7 +133,7 @@ function timeUpdate() {
     timeLineHead.css('left', playPercent + 'px');
 }
 
-window.addEventListener('load', function() {showSongs('')}, false);
+window.addEventListener('load', function() { showSongs('') }, false);
 window.addEventListener('resize', function() {
     timelineWidth = $('#timeline-container').outerWidth() - 20; //Need to compensate for head size
 });
@@ -154,8 +157,8 @@ function bindUI() {
             if (inputBox.val() !== '') {
                 showSongs(inputBox.val());
             } else {
-                $('#search-results').css({display: 'none'});
-                $('#playlist').css({display: 'block'});
+                $('#search-results').css({ display: 'none' });
+                $('#playlist').css({ display: 'block' });
                 if (!playerElement.paused || playerElement.currentTime) {
                     $('[data-index-playlist=' + trackList[currentTrack].song_id + ']').closest('ul').addClass('active-track');
                 }
