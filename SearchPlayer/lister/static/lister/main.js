@@ -59,7 +59,8 @@ function showSongs(searchTerm) {
                 $('#playlist').css({ display: 'none' });
                 return;
             }
-            $.getJSON('/lister/search/' + searchTerm, function(songs) {
+            var getUrl = regexEnabled ? '/lister/search/regex/' : '/lister/search/';
+            $.getJSON(getUrl + searchTerm, function(songs) {
                 searchResults = songs.songs_list;
                 var html = Mustache.render(playListTemplate, { "search_results": searchResults, "playlist": trackList });
                 $('#container-frame').html(html);

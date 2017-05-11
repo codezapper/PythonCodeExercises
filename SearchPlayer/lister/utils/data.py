@@ -30,13 +30,13 @@ def get_shuffled_list(songs_list):
     return songs_list_copy
 
 
-prefixes = {
+PREFIXES = {
     'random': get_single_random,
     'shuffle': get_shuffled_list
 }
 
 
-def data_for_songs_list(request, search_string=''):
+def data_for_songs_list(request, search_string='', regex=False):
     if search_string == '':
         return JsonResponse({})
 
@@ -56,7 +56,7 @@ def data_for_songs_list(request, search_string=''):
             if results:
                 if filter_actions[query_index]:
                     songs_list.extend(
-                        prefixes[filter_actions[query_index]](results))
+                        PREFIXES[filter_actions[query_index]](results))
                 else:
                     songs_list.extend(results)
             query_index += 1
@@ -98,7 +98,7 @@ def get_filters_queries(search_filters):
     single_queries = []
     filter_actions = []
     for search_filter in search_filters:
-        if search_filter[0] in prefixes.keys():
+        if search_filter[0] in PREFIXES.keys():
             if len(search_filter) > 1:
                 filter_actions.append(search_filter[0])
                 search_filter.pop(0)

@@ -1,3 +1,8 @@
+'''
+Directs views request to the data utils
+'''
+
+
 import os
 from django.http import HttpResponse
 import lister.utils.general as gu
@@ -8,6 +13,10 @@ from lister.utils.streaming import StreamWrapper
 
 def search(request, search_string=''):
     return HttpResponse(du.data_for_songs_list(request, search_string))
+
+
+def search_regex(request, search_string=''):
+    return HttpResponse(du.data_for_songs_list(request, search_string, True))
 
 
 def index(request):
