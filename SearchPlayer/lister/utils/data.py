@@ -1,10 +1,16 @@
+'''
+Handles all data queries, including filters
+'''
+
+
 import random
 import os
 from django.db import connection
 from django.http import JsonResponse
 
 
-INNER_SQL = '(search_key like %s)'
+INNER_SQL = '(search_key LIKE %s)'
+INNER_SQL_REGEX = '(search_key REGEX %s)'
 SELECTING_TABLES = ['lister_song', 'lister_album', 'lister_artist']
 SELECTING_FIELDS = ['title', 'lister_album.description album',
                     'lister_artist.description artist', 'image_file',
@@ -94,7 +100,7 @@ def get_search_filter(search_word):
     return search_filters
 
 
-def get_filters_queries(search_filters):
+def get_filters_queries(search_filters, regex=False):
     single_queries = []
     filter_actions = []
     for search_filter in search_filters:
@@ -104,7 +110,10 @@ def get_filters_queries(search_filters):
                 search_filter.pop(0)
         else:
             filter_actions.append(None)
-        query_strings = [INNER_SQL] * len(search_filter)
+        if regex:
+            query_strings = [INNER_SQL_REGEX] * len(search_filter)
+        else:
+            query_strings = [INNER_SQL] * len(search_filter)
         single_queries.append('(' + ' AND '.join(query_strings) + ') ')
 
     single_statements = []
