@@ -10,6 +10,8 @@ var currentTitle = $('#current-title');
 var currentArtist = $('#current-artist');
 var finderBox = $('.mainsearch');
 var inputBox = $('.mainsearch-input');
+var regexStatus = $('#regex-status');
+var regexEnabled = false;
 var trackList = [];
 var searchResults = [];
 var shuffledList = [];
@@ -142,6 +144,16 @@ window.addEventListener('submit', function(event) {
     event.preventDefault();
 });
 
+function toggleRegex() {
+    if (regexEnabled) {
+        regexStatus.text('disabled');
+        regexEnabled = false;
+    } else {
+        regexStatus.text('enabled');
+        regexEnabled = true;
+    }
+}
+
 function bindUI() {
     playerElement.load();
     finderBox.bind('keyup', function(event) {
@@ -152,6 +164,9 @@ function bindUI() {
         if (event.key == "ArrowUp") {
             playTrack(currentTrack - 1);
             return;
+        }
+        if ((event.key == 'x') && (event.ctrlKey)) {
+            toggleRegex();
         }
         if (event.key != "Enter") {
             if (inputBox.val() !== '') {

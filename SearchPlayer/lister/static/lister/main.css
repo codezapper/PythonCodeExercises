@@ -12,6 +12,7 @@ body {
     -ms-text-overflow: ellipsis;
 }
 
+
 /*
  Main content styling
 */
@@ -38,7 +39,7 @@ body {
     border-radius: 19px;
 }
 
-.standard-header > li {
+.standard-header>li {
     display: inline-block;
     color: #444;
     font-weight: bold;
@@ -71,11 +72,11 @@ body {
     display: none;
 }
 
-.main-content > ul {
+.main-content>ul {
     border-radius: 35px;
 }
 
-.main-content > ul:hover {
+.main-content>ul:hover {
     background-color: #BBCCCC;
     font-weight: bold;
 }
@@ -85,7 +86,7 @@ body {
     font-weight: bold;
 }
 
-.main-content > ul > li {
+.main-content>ul>li {
     display: inline-block;
     /* width: 18%; */
     padding: 10px 5px;
@@ -99,7 +100,7 @@ body {
     -ms-text-overflow: ellipsis;
 }
 
-.player-controls > div {
+.player-controls>div {
     display: inline-block;
     margin-top: 5px;
 }
@@ -192,13 +193,13 @@ body {
     width: 20%;
 }
 
-#current-track > img {
+#current-track>img {
     width: 64px;
     height: 64px;
     border-radius: 15px;
 }
 
-#current-track > #current-title {
+#current-track>#current-title {
     position: absolute;
     margin-top: 5px;
     margin-left: 5px;
@@ -206,7 +207,7 @@ body {
     width: 72%;
 }
 
-#current-track > #current-artist {
+#current-track>#current-artist {
     position: absolute;
     top: 60%;
     margin-left: 5px;
@@ -234,6 +235,16 @@ a {
     color: #444;
 }
 
+.regex-hint-container {
+    margin-left: 20px;
+}
+
+.regex-hint {
+    font-size: 13px;
+    color: #7d7d7d;
+}
+
+
 /*
  Search box styling
 */
@@ -249,85 +260,89 @@ a {
     -webkit-padding-start: 0;
     margin: 0 auto;
 }
-    
+
 .mainsearch-form {
     overflow: hidden;
     position: relative;
 }
-    
+
 .mainsearch-input-wrapper {
     padding: 0 66px 0 0;
     overflow: hidden;
 }
 
 .mainsearch-input {
-  width: 100%;
+    width: 100%;
 }
+
 
 /***********************
  * Configurable Styles *
  ***********************/
+
 .mainsearch {
-  padding: 0 0px 0 0px; /* Padding for other horizontal elements */
+    padding: 0 0px 0 0px;
+    /* Padding for other horizontal elements */
 }
 
 .mainsearch-input {
-  -webkit-box-sizing: content-box;
+    -webkit-box-sizing: content-box;
     -moz-box-sizing: content-box;
     box-sizing: content-box;
     height: 40px;
-  padding: 0 46px 0 10px;
+    padding: 0 46px 0 10px;
     border-color: #888;
-  border-radius: 35px; /* (height/2) + border-width */
-  border-style: solid;
+    border-radius: 35px;
+    /* (height/2) + border-width */
+    border-style: solid;
     border-width: 5px;
-  margin-top: 15px;
-  color: #333;
-  font-family: 'Enriqueta', arial;
+    margin-top: 15px;
+    color: #333;
+    font-family: 'Enriqueta', arial;
     font-size: 26px;
     -webkit-appearance: none;
     -moz-appearance: none;
 }
-    
+
 .mainsearch-submit {
-  position: absolute;
+    position: absolute;
     right: 0;
     top: 0;
     display: block;
     width: 60px;
     height: 60px;
-  padding: 0;
-  border: none;
+    padding: 0;
+    border: none;
     margin-top: 9px;
-  margin-right: 5px;
+    margin-right: 5px;
     background: transparent;
-  color: #888;
-  font-family: 'Enriqueta', arial;
-  font-size: 40px;
-  line-height: 60px;
-    -webkit-transform: rotate(-45deg); 
-    -moz-transform: rotate(-45deg); 
+    color: #888;
+    font-family: 'Enriqueta', arial;
+    font-size: 40px;
+    line-height: 60px;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
     -o-transform: rotate(-45deg);
 }
 
 .mainsearch-input:focus {
-  outline: none;
-  border-color: #333;
+    outline: none;
+    border-color: #333;
 }
 
 .mainsearch-input:focus.mainsearch-submit {
-    color: #333; 
+    color: #333;
 }
 
 .mainsearch-submit:hover {
-  color: #333;
-  cursor: pointer;
+    color: #333;
+    cursor: pointer;
 }
 
 ::-webkit-input-placeholder {
-    color: #888;  
+    color: #888;
 }
 
 input:-moz-placeholder {
-  color: #888
+    color: #888
 }

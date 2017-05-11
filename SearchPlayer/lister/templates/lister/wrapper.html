@@ -13,14 +13,17 @@
     <div class="main-wrapper">
         <div class="wrapper-content">
             <div class="mainsearch">
-                    <div class="mainsearch-wrapper">
-                        <form class="mainsearch-form" action="#" method="post">
-                            <div class="mainsearch-input-wrapper">
-                                <input id="main-input" class="mainsearch-input" type="search" placeholder="search title, artist or album" autofocus>
-                            </div>
-                            <input class="mainsearch-submit" type="submit" value="&#9906;"/>
-                        </form>
+                <div class="mainsearch-wrapper">
+                    <form class="mainsearch-form" action="#" method="post">
+                        <div class="mainsearch-input-wrapper">
+                            <input id="main-input" class="mainsearch-input" type="search" placeholder="search title, artist or album" autofocus>
+                        </div>
+                        <input class="mainsearch-submit" type="submit" value="&#9906;" />
+                    </form>
+                    <div class="regex-hint-container">
+                        <span class="regex-hint">Hit Ctrl+X to toggle regex search. Currently: </span><span class="regex-hint" id="regex-status">disabled</span>
                     </div>
+                </div>
             </div>
             <div class="player-controls">
                 <audio id="audioplayer"></audio>
@@ -50,7 +53,7 @@
             </div>
             {{ block.super }}
         </div>
-    </div>    
+    </div>
 </body>
 <script src="{% static 'lister/jquery-3.1.1.min.js' %}"></script>
 <script src="{% static 'lister/jquery-ui.min.js' %}"></script>
