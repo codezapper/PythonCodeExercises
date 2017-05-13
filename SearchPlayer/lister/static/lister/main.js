@@ -105,7 +105,7 @@ function setCurrentTrackList(searchTerm, searchResults, operation = trackListOpe
         playTrack(0);
     } else if (operation === trackListOperations.PREPEND) {
         filteredSearchResults = searchResults.filter(function(song) {
-            if (displayedSongIDs[song.song_id] === null) {
+            if (displayedSongIDs[song.song_id] == null) {
                 displayedSongIDs[song.song_id] = 1;
                 return true;
             }
@@ -114,7 +114,7 @@ function setCurrentTrackList(searchTerm, searchResults, operation = trackListOpe
         trackList = filteredSearchResults.concat(trackList);
     } else {
         filteredSearchResults = searchResults.filter(function(song) {
-            if (displayedSongIDs[song.song_id] === null) {
+            if (displayedSongIDs[song.song_id] == null) {
                 displayedSongIDs[song.song_id] = 1;
                 return true;
             }
@@ -125,6 +125,10 @@ function setCurrentTrackList(searchTerm, searchResults, operation = trackListOpe
     //TODO: This can be optimized to only render the new data and append it
     var html = Mustache.render(playListTemplate, { "playlist": trackList });
     $('#container-frame').html(html);
+    updateDisplaySelectedTrack();
+}
+
+function updateDisplaySelectedTrack() {
     $('#search-results').css({ display: 'none' });
     $('#playlist').css({ display: 'block' });
     if (!playerElement.paused || playerElement.currentTime) {
@@ -179,11 +183,7 @@ function bindUI() {
                 showSongs(inputBox.val());
             } else {
                 mustRefresh = false;
-                $('#search-results').css({ display: 'none' });
-                $('#playlist').css({ display: 'block' });
-                if (!playerElement.paused || playerElement.currentTime) {
-                    $('[data-index-playlist=' + trackList[currentTrack].song_id + ']').closest('ul').addClass('active-track');
-                }
+                updateDisplaySelectedTrack();
             }
         } else {
             if (searchResults.length > 0) {
