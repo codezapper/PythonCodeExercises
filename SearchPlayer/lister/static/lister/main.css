@@ -19,6 +19,7 @@ body {
 
 .wrapper-content {
     position: relative;
+    display: inline;
 }
 
 #container-frame {
@@ -244,6 +245,16 @@ a {
     color: #7d7d7d;
 }
 
+#regex-status {
+    font-size: 33px;
+    position: absolute;
+    left: 94%;
+    top: 16px;
+    border-radius: 35px;
+    border: 5px solid #888;
+    color: #7d7d7d;
+}
+
 
 /*
  Search box styling
@@ -272,7 +283,7 @@ a {
 }
 
 .mainsearch-input {
-    width: 100%;
+    width: 93%;
 }
 
 
@@ -282,7 +293,7 @@ a {
 
 .mainsearch {
     padding: 0 0px 0 0px;
-    /* Padding for other horizontal elements */
+    display: inline;
 }
 
 .mainsearch-input {
@@ -306,7 +317,7 @@ a {
 
 .mainsearch-submit {
     position: absolute;
-    right: 0;
+    right: 6%;
     top: 0;
     display: block;
     width: 60px;

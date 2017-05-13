@@ -24,6 +24,7 @@ var playListTemplate;
 var prevSearchTerm;
 var currentSearchTerm;
 var displayedSongIDs = {};
+var mustRefresh = false;
 
 var trackListOperations = {
     REPLACE: 1,
@@ -48,7 +49,8 @@ function clickPercent(e) {
 
 function showSongs(searchTerm) {
     songs = [];
-    if (currentSearchTerm !== searchTerm) {
+    if ((currentSearchTerm !== searchTerm) || (mustRefresh)) {
+        mustRefresh = false;
         currentSearchTerm = searchTerm;
         $.get('/lister/songs/', function(template) {
             playListTemplate = template;
@@ -103,7 +105,7 @@ function setCurrentTrackList(searchTerm, searchResults, operation = trackListOpe
         playTrack(0);
     } else if (operation === trackListOperations.PREPEND) {
         filteredSearchResults = searchResults.filter(function(song) {
-            if (displayedSongIDs[song.song_id] == null) {
+            if (displayedSongIDs[song.song_id] === null) {
                 displayedSongIDs[song.song_id] = 1;
                 return true;
             }
@@ -112,7 +114,7 @@ function setCurrentTrackList(searchTerm, searchResults, operation = trackListOpe
         trackList = filteredSearchResults.concat(trackList);
     } else {
         filteredSearchResults = searchResults.filter(function(song) {
-            if (displayedSongIDs[song.song_id] == null) {
+            if (displayedSongIDs[song.song_id] === null) {
                 displayedSongIDs[song.song_id] = 1;
                 return true;
             }
@@ -147,32 +149,36 @@ window.addEventListener('submit', function(event) {
 
 function toggleRegex() {
     if (regexEnabled) {
-        regexStatus.text('disabled');
+        regexStatus.css('border-color', '#7D7D7D');
+        regexStatus.css('color', '#7D7D7D');
         regexEnabled = false;
     } else {
-        regexStatus.text('enabled');
+        regexStatus.css('border-color', '#FF8800');
+        regexStatus.css('color', '#FF8800');
         regexEnabled = true;
     }
+    mustRefresh = true;
 }
 
 function bindUI() {
     playerElement.load();
     finderBox.bind('keyup', function(event) {
-        if (event.key == "ArrowDown") {
+        if (event.key === "ArrowDown") {
             playTrack(currentTrack + 1);
             return;
         }
-        if (event.key == "ArrowUp") {
+        if (event.key === "ArrowUp") {
             playTrack(currentTrack - 1);
             return;
         }
-        if ((event.key == 'x') && (event.ctrlKey)) {
+        if ((event.key === 'x') && (event.ctrlKey)) {
             toggleRegex();
         }
-        if (event.key != "Enter") {
+        if ((event.key != "Enter") || (mustRefresh)) {
             if (inputBox.val() !== '') {
                 showSongs(inputBox.val());
             } else {
+                mustRefresh = false;
                 $('#search-results').css({ display: 'none' });
                 $('#playlist').css({ display: 'block' });
                 if (!playerElement.paused || playerElement.currentTime) {
