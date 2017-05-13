@@ -17,8 +17,10 @@ For instance:
   - "meta:one" will return all matches from the words "meta" *AND* "one" (e.g. song "one" by "metallica")
   - "meta:one mega" will return all matches from the words "meta" *AND* "one" plus all the matches from the word "mega" (e.g. song "one" by "metallica" plus all songs by "megadeth")
 
-The search is done on a search key based on the combination of the three elements, so that looking for multiple words
+The standard search is done on a search key based on the combination of the three elements, so that looking for multiple words
 in a single song can also be done by typing the title with no spaces (e.g. "blackice" will return the album "black ice").
+
+The regex search is done applying the regula expression to title, artist, album separately.
 
 There are two reserved words in the search:
   - "random" will pick a single result out of the current single query. This is done for a single search term. For instance:
@@ -42,6 +44,8 @@ Pressing the enter key will either:
 
 Pressing the arrow down button will move to the next track.
 Pressing the arrow up button will move to the prev track.
+
+Pressing the Ctrl+X combination will enable regex mode. This will apply regular expressions to title, artist, album and show the results of those three matches combined. It is still possible to filter using the ":" (colon) separator as specified above.
 
 ## Setup
 

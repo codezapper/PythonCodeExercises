@@ -1,5 +1,5 @@
 - Cleanup main.js
 
+- Add case sensitive search (maybe mapping Ctrl+M)
 - Keep track of how many times each song has been played
 - Add "suggest:" filter based on most played songs
-- Add "regex:" filter
