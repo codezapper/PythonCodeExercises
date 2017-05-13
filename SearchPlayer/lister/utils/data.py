@@ -4,26 +4,36 @@ Handles all data queries, including filters
 
 
 import random
+import re
 import os
 from django.db import connection
 from django.http import JsonResponse
 
 
-INNER_SQL = '(search_key LIKE %s)'
-INNER_SQL_REGEX = '(lower(search_key) REGEXP %s)'
 SELECTING_TABLES = ['lister_song', 'lister_album', 'lister_artist']
 SELECTING_FIELDS = ['title', 'lister_album.description album',
                     'lister_artist.description artist', 'image_file',
                     'path', 'year', 'track_number', 'lister_song.id song_id']
+REGEX_FIELDS = ['title', 'lister_album.description',
+                'lister_artist.description']
 COMMON_CONDITIONS = ['lister_artist.artist_id = lister_song.artist_id',
                      'lister_album.album_id = lister_song.album_id']
 SORTING_FIELDS = ['artist', 'album', 'track_number']
+
+INNER_SQL = '(search_key LIKE %s)'
+INNER_SQL_REGEX = '(' + ' OR '.join(
+    ['(lower(' + field + ') REGEXP %s)' for field in REGEX_FIELDS]) + ')'
 
 if 'TESTING_DB' in os.environ:
     import sqlite3
     DB_CONNECTION = sqlite3.connect(os.environ.get('TESTING_DB'))
 else:
     DB_CONNECTION = connection
+
+
+def regexp(expr, item):
+    reg = re.compile(expr)
+    return reg.search(item) is not None
 
 
 def get_single_random(songs_list):
@@ -54,7 +64,8 @@ def data_for_songs_list(request, search_string='', regex=False):
     songs_list = []
 
     if search_filters:
-        (queries, params, filter_actions) = get_filters_queries(search_filters, regex)
+        (queries, params, filter_actions) = get_filters_queries(
+            search_filters, regex)
         query_index = 0
         for query in queries:
             results = get_rows_as_dict(
@@ -76,8 +87,13 @@ def data_for_songs_list(request, search_string='', regex=False):
 def get_rows_as_dict(sql, params, lookup={}, regex=False):
     results = []
     cursor = DB_CONNECTION.cursor()
-    DB_CONNECTION.connection.enable_load_extension(True)
-    cursor.execute("SELECT load_extension('/usr/lib/sqlite3/pcre.so')")
+    if (regex):
+        # If sqlite3 extension is installed, uncomment the
+        # next two lines to use native regex functionality
+        # DB_CONNECTION.connection.enable_load_extension(True)
+        # cursor.execute("SELECT load_extension('/usr/lib/sqlite3/pcre.so')")
+        DB_CONNECTION.connection.create_function("REGEXP", 2, regexp)
+
     cursor.execute(sql, params)
     row_dict = _row_as_dict(cursor.fetchone())
     while row_dict is not None:
@@ -135,7 +151,7 @@ def get_filters_queries(search_filters, regex=False):
         search_params = []
         for filter_term in search_filter_terms:
             if regex:
-                search_params.extend([filter_term])
+                search_params.extend([filter_term] * 3)
             else:
                 search_params.extend(['%' + filter_term + '%'])
         ret_search_params.append(search_params)
