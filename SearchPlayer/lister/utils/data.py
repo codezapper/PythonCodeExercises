@@ -10,7 +10,7 @@ from django.http import JsonResponse
 
 
 INNER_SQL = '(search_key LIKE %s)'
-INNER_SQL_REGEX = '(search_key REGEX %s)'
+INNER_SQL_REGEX = '(lower(search_key) REGEXP %s)'
 SELECTING_TABLES = ['lister_song', 'lister_album', 'lister_artist']
 SELECTING_FIELDS = ['title', 'lister_album.description album',
                     'lister_artist.description artist', 'image_file',
@@ -54,11 +54,11 @@ def data_for_songs_list(request, search_string='', regex=False):
     songs_list = []
 
     if search_filters:
-        (queries, params, filter_actions) = get_filters_queries(search_filters)
+        (queries, params, filter_actions) = get_filters_queries(search_filters, regex)
         query_index = 0
         for query in queries:
             results = get_rows_as_dict(
-                query, params[query_index], results_lookup)
+                query, params[query_index], results_lookup, regex)
             if results:
                 if filter_actions[query_index]:
                     songs_list.extend(
@@ -73,9 +73,11 @@ def data_for_songs_list(request, search_string='', regex=False):
     })
 
 
-def get_rows_as_dict(sql, params, lookup={}):
+def get_rows_as_dict(sql, params, lookup={}, regex=False):
     results = []
     cursor = DB_CONNECTION.cursor()
+    DB_CONNECTION.connection.enable_load_extension(True)
+    cursor.execute("SELECT load_extension('/usr/lib/sqlite3/pcre.so')")
     cursor.execute(sql, params)
     row_dict = _row_as_dict(cursor.fetchone())
     while row_dict is not None:
@@ -132,7 +134,10 @@ def get_filters_queries(search_filters, regex=False):
     for search_filter_terms in search_filters:
         search_params = []
         for filter_term in search_filter_terms:
-            search_params.extend(['%' + filter_term + '%'])
+            if regex:
+                search_params.extend([filter_term])
+            else:
+                search_params.extend(['%' + filter_term + '%'])
         ret_search_params.append(search_params)
 
     return (single_statements, ret_search_params, filter_actions)
