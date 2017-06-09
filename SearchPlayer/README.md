@@ -3,7 +3,10 @@
 The purpose of this project is to provide a "power user" kind of interface for a desktop music player.
 The basic idea is that for power users, typing is faster than clicking.
 
-This project is still in development. At the moment it is usable, but glitches may occur.
+**NOTE**: This project is still in development. At the moment it is usable, but glitches may occur. Specifically, the interface is not responsive and works mostly for resolutions above 1024x768.
+It depends on the modules:
+  - `django-mathfilters`
+  - `glob2`
 
 ## Usage
 
@@ -55,4 +58,3 @@ The database is a sqlite3 file, so it can be redistributed easily as a demo.
 The "file_indexer.py" script will insert in the database the titles and paths of the music files.
 It can be configured so that it reads files from a specific directory, the default one is "Music/" from where the script is run.
 It works by reading the MP3 files metadata, so if some fields are missing, check that the metadata in the MP3 files is correct.
-
