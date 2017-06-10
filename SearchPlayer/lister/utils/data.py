@@ -14,8 +14,14 @@ SELECTING_TABLES = ['lister_song', 'lister_album', 'lister_artist']
 SELECTING_FIELDS = ['title', 'lister_album.description album',
                     'lister_artist.description artist', 'image_file',
                     'path', 'year', 'track_number', 'lister_song.id song_id']
-REGEX_FIELDS = ['title', 'lister_album.description',
-                'lister_artist.description']
+
+# By default, regex will search only in title.
+# This is not really for performance issues, but more for
+# making it so that the query results are more intuitive.
+# If you prefer a full search, use the commented line below.
+# REGEX_FIELDS = ['title', 'lister_album.description',
+#                 'lister_artist.description']
+REGEX_FIELDS = ['title']
 COMMON_CONDITIONS = ['lister_artist.artist_id = lister_song.artist_id',
                      'lister_album.album_id = lister_song.album_id']
 SORTING_FIELDS = ['artist', 'album', 'track_number']
@@ -151,7 +157,7 @@ def get_filters_queries(search_filters, regex=False):
         search_params = []
         for filter_term in search_filter_terms:
             if regex:
-                search_params.extend([filter_term] * 3)
+                search_params.extend([filter_term] * len(REGEX_FIELDS))
             else:
                 search_params.extend(['%' + filter_term + '%'])
         ret_search_params.append(search_params)
