@@ -3,8 +3,9 @@
 The purpose of this project is to provide a "power user" kind of interface for a desktop music player.
 The basic idea is that for power users, typing is faster than clicking.
 
-**DEPENDENCIES NOTE**: This project is still in development. At the moment it is usable, but glitches may occur. Specifically, the interface is not responsive and works mostly for resolutions above 1024x768.
-It depends on the modules:
+This project is still in development. At the moment it is usable, but glitches may occur. Specifically, the interface is not responsive and works mostly for resolutions above 1024x768.
+
+**DEPENDENCIES NOTE**: This project depends on the modules:
   - `django-mathfilters`
   - `glob2`
 
