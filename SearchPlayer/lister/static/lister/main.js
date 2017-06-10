@@ -87,6 +87,9 @@ function playTrack(track) {
     currentTitle.html(trackList[track].title);
     currentArtist.html(trackList[track].artist);
     playerElement.src = trackList[track].path;
+    if (playerElement.canPlayType('audio/mpeg') === '') {
+        playerElement.src = trackList[track].path.substr(0, trackList[track].path.lastIndexOf('.')) + '.ogg';
+    }
     playerElement.load();
     playerElement.play();
     playButton.removeClass('play-button');

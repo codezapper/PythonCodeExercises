@@ -3,10 +3,12 @@
 The purpose of this project is to provide a "power user" kind of interface for a desktop music player.
 The basic idea is that for power users, typing is faster than clicking.
 
-**NOTE**: This project is still in development. At the moment it is usable, but glitches may occur. Specifically, the interface is not responsive and works mostly for resolutions above 1024x768.
+**DEPENDENCIES NOTE**: This project is still in development. At the moment it is usable, but glitches may occur. Specifically, the interface is not responsive and works mostly for resolutions above 1024x768.
 It depends on the modules:
   - `django-mathfilters`
   - `glob2`
+
+**COMPATIBILITY NOTE**: To keep the player compatible cross-browser, the code will first check if the browser supports MP3 file playback. If it doesn't, it will look for a file with the same name, but extension '.ogg'
 
 ## Usage
 
