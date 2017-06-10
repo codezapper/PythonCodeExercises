@@ -10,6 +10,8 @@ It depends on the modules:
 
 ## Usage
 
+![main interface](https://raw.githubusercontent.com/codezapper/PythonCodeExercises/master/SearchPlayer/search_player_screenshot.png)
+
 A basic search will return results that include the search term in the artist name, album name or song title.
 When more search terms are used, the results include *ANY* of the terms.
 To filter the results using *ALL* of the terms, it's possible to combine multiple terms with a ":" (colon) separator.
