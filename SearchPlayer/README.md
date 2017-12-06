@@ -1,3 +1,5 @@
+# This is just a test for github projects
+
 # SearchPlayer
 
 The purpose of this project is to provide a "power user" kind of interface for a desktop music player.
