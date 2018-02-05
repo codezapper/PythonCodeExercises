@@ -1,7 +1,7 @@
 from app import app, db
 from app.forms import LoginForm, RegistrationForm
 from app.models import User
-from flask import flash, jsonify, redirect, render_template, request, session, url_for
+from flask import flash, g, jsonify, redirect, render_template, request, session, url_for
 from flask_login import current_user, login_user, login_required, logout_user
 from werkzeug.urls import url_parse
 from random import choice
@@ -72,35 +72,39 @@ def index():
 @app.route('/new_word')
 @login_required
 def new_word():
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
     possible_words = ['3dhubs', 'marvin',
                       'print', 'filament', 'order', 'layer']
     current_word = choice(possible_words)
     response = { 'word_size': len(current_word) }
     session['word'] = current_word
+    session.modified = True
     session['attempted_word'] = '_' * len(current_word)
+    session.modified = True
     return jsonify(response)
 
 
 @app.route('/character', methods=['GET', 'POST'])
 @login_required
 def character():
-    print session.get('word', '')
-    if session.get('attempted_word', '') == '':
+    print session['word']
+    if session.get('word', '') == '':
         new_word()
-    ch = request.args.get('c')
+    c = request.args.get('c')
     response = {}
-    if ch not in string.ascii_lowercase:
+    if c not in string.ascii_lowercase and c not in string.digits:
         response = {'error': 1, 'error_message': 'Invalid character'}
-    elif ch not in session['word']:
-        response = {'found': 0, 'word': session['attempted_word']}
+    elif c not in session['word']:
+        response = {'error': 0, 'error_message': 'OK', 'found': 0, 'word': session['attempted_word']}
     else:
-        response = {'found': 1, 'word': partial_unmask(session['word'], session['attempted_word'], ch)}
+        response = {'error': 0, 'error_message': 'OK', 'found': 1, 'word': partial_unmask(
+            session['word'], session['attempted_word'], c)}
 
     return jsonify(response)
 
 def partial_unmask(word, attempted_word, character):
+    if attempted_word == "":
+        attempted_word = '_' * len(word)
+
     new_attempt = ''
     for i in range(0, len(word)):
         if word[i] == character:

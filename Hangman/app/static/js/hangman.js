@@ -14,14 +14,13 @@ var player = new Player(80, 50);
 var maskedWord;
 
 function startGame() {
-    // fetch('http://localhost:5000/new_word')
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         maskedWord = new MaskedWord(Array(data.word_size).join("_"), 500, 50);
-    //         document.addEventListener("keypress", keyPressHandler, false);
-    //         drawAll();
-    //     });
-    drawAll();
+    fetch('http://127.0.0.1:5000/new_word', { credentials: 'include'  })
+        .then(response => response.json())
+        .then(data => {
+            maskedWord = new MaskedWord(Array(data.word_size).join("_"), 500, 50);
+            document.addEventListener("keypress", keyPressHandler, false);
+            drawAll();
+        });
 }
 
 function Score(value, initialX, initialY, initialDx, initialDy) {
@@ -143,23 +142,21 @@ function Player(scoreX, scoreY) {
 }
 
 function keyPressHandler(event) {
-    console.log(event);
-
     if ("abcdefghijklmnopqrstuvwxyz0123456789".indexOf(event.key) > -1) {
         var updatedWord = "";
         var found = false;
-        // fetch('http://localhost:5000/character?c=' + event.key)
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         console.log("request");
-        //         maskedWord = new MaskedWord(data.word, 500, 50);
-        //         drawAll();
-        //     });
-        // console.log(updatedWord);
-        // maskedWord = new MaskedWord(updatedWord, 500, 50);
-        // if (!found) {
-        //     drawMistake(currentMistakeIndex);
-        // }
+        fetch('http://127.0.0.1:5000/character?c=' + event.key, { credentials: 'include'  })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error === 0 ) {
+                    maskedWord = new MaskedWord(data.word, 500, 50);
+                    found = data.found;
+                    drawAll();
+                    if (!found) {
+                        drawMistake(currentMistakeIndex);
+                    }
+                }
+            });
     } else {
         // Handle invalid input
     }
