@@ -2,6 +2,8 @@
 <h1>Hi, {{ current_user.username }}!</h1>
 {% for highscore in highscores %}
 <div>
-    <p>{{ highscore.username }}: <b>{{ highscore.score }}</b></p>
+    {% for username, score in highscore.iteritems() %}
+        <p>{{ username }}: <b>{{ score }}</b></p>
+    {% endfor %}
 </div>
 {% endfor %} {% endblock %}

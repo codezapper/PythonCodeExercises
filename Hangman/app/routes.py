@@ -1,6 +1,6 @@
 from app import app, db
 from app.forms import LoginForm, RegistrationForm
-from app.models import User
+from app.models import User, Word
 from flask import flash, g, jsonify, redirect, render_template, request, session, url_for
 from flask_login import current_user, login_user, login_required, logout_user
 from werkzeug.urls import url_parse
@@ -48,7 +48,9 @@ def register():
 
 @app.route('/hangman')
 @login_required
-def main_game():
+def hangman():
+    # TODO: Move this to an app variable instead of a session variable
+    session['global_words'] = [ w.word for w in Word.query.all()]
     return render_template('hangman.html', title='Hangman')
 
 
@@ -56,37 +58,27 @@ def main_game():
 @app.route('/index')
 @login_required
 def index():
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        }
-    ]
-    return render_template('index.html', title='Home', posts=posts)
+    highscores = [ {u.username: u.highscore} for u in  User.query.all() ]
+    print highscores
+    return render_template('index.html', title='Home', highscores=highscores)
 
 
 @app.route('/new_word')
 @login_required
 def new_word():
-    possible_words = ['3dhubs', 'marvin',
-                      'print', 'filament', 'order', 'layer']
-    current_word = choice(possible_words)
-    response = { 'word_size': len(current_word) }
+    current_word = choice(session['global_words'])
+    response = { 'word_size': len(current_word), 'score': 60 }
     session['word'] = current_word
     session.modified = True
     session['attempted_word'] = '_' * len(current_word)
     session.modified = True
+    session['score'] = 60
     return jsonify(response)
 
 
 @app.route('/character', methods=['GET', 'POST'])
 @login_required
 def character():
-    print session['word']
     if session.get('word', '') == '':
         new_word()
     c = request.args.get('c')
@@ -94,10 +86,16 @@ def character():
     if c not in string.ascii_lowercase and c not in string.digits:
         response = {'error': 1, 'error_message': 'Invalid character'}
     elif c not in session['word']:
-        response = {'error': 0, 'error_message': 'OK', 'found': 0, 'word': session['attempted_word']}
+        session['score'] -= 10
+        response = {'error': 0, 'error_message': 'OK', 'found': 0, 'word': session['attempted_word'], 'score': session['score'], 'winner': 0}
     else:
-        response = {'error': 0, 'error_message': 'OK', 'found': 1, 'word': partial_unmask(
-            session['word'], session['attempted_word'], c)}
+        partial_unmasked_word = partial_unmask(
+            session['word'], session['attempted_word'], c)
+        if partial_unmasked_word == session['word']:
+            response = {'error': 0, 'error_message': 'OK', 'found': 1, 'word': partial_unmasked_word, 'score': session['score'], 'winner': 1}
+            save_score_if_higher(session['score'])
+        else:
+            response = {'error': 0, 'error_message': 'OK', 'found': 1, 'word': partial_unmasked_word, 'score': session['score'], 'winner': 0}
 
     return jsonify(response)
 
@@ -113,3 +111,10 @@ def partial_unmask(word, attempted_word, character):
             new_attempt += attempted_word[i]
     session['attempted_word'] = new_attempt
     return new_attempt
+
+def save_score_if_higher(score):
+    # You never know
+    if current_user.is_authenticated:
+        if current_user.highscore < score:
+            current_user.highscore = score
+            db.session.commit()

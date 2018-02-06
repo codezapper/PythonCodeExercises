@@ -3,6 +3,7 @@ var mainContext = mainCanvas.getContext("2d");
 var gameIsRunning = true;
 var animationId;
 var currentMistakeIndex = 0;
+var isGameOver = false;
 
 var SCREEN_WIDTH = 800;
 var SCREEN_HEIGHT = 480;
@@ -10,30 +11,39 @@ var X_MARGIN = 150;
 var Y_MARGIN = 60;
 
 var field = new Field();
-var player = new Player(80, 50);
+var score;
 var maskedWord;
 
 function startGame() {
+    mainContext.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     fetch('http://127.0.0.1:5000/new_word', { credentials: 'include'  })
         .then(response => response.json())
         .then(data => {
-            maskedWord = new MaskedWord(Array(data.word_size).join("_"), 500, 50);
+            maskedWord = new MaskedWord(Array(data.word_size + 1).join("_"), 500, 50);
+            score = new Score(data.score, 80, 50, 0, 0);
             document.addEventListener("keypress", keyPressHandler, false);
-            drawAll();
+            [field, score, maskedWord].forEach(function (gameObject, index) {
+                gameObject.draw();
+            });
         });
 }
 
-function Score(value, initialX, initialY, initialDx, initialDy) {
+function Score(value, x, y) {
     var thisScore = this;
     thisScore.value = value;
-    thisScore.x = initialX;
-    thisScore.y = initialY;
+    thisScore.x = x;
+    thisScore.y = y;
 
     thisScore.decrease = function() {
         thisScore.value--;
     }
 
     thisScore.draw = function() {
+        mainContext.beginPath();
+        mainContext.rect(0, 0, 200, 50);
+        mainContext.fillStyle = "#8599d5";
+        mainContext.fill();
+        mainContext.closePath();
         mainContext.font = "50px Courier";
         mainContext.lineWidth = "1";
         mainContext.fillStyle = "#FFFFFF";
@@ -47,6 +57,7 @@ function Field() {
     var theField = this;
 
     theField.draw = function() {
+        mainContext.beginPath();
         mainContext.rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         mainContext.fillStyle = "#8599d5";
         mainContext.strokeStyle = "#000000";
@@ -62,63 +73,68 @@ function Field() {
         mainContext.strokeStyle = "#FFFFFF";
         mainContext.fill();
         mainContext.stroke();
+        mainContext.closePath();
     }
 
     return theField;
 }
 
-function drawMistake() {
+function drawHead() {
     mainContext.lineWidth = 2;
-    switch (currentMistakeIndex) {
-        case 0:
-            // Head
-            mainContext.moveTo(X_MARGIN + 370, Y_MARGIN + 130);
-            mainContext.arc(X_MARGIN + 360, Y_MARGIN + 130, 10, 0, 2 * Math.PI);
-            mainContext.strokeStyle = "#FFFFFF";
-            mainContext.stroke();
-            break;
-        case 1:
-            // Body
-            mainContext.moveTo(X_MARGIN + 360, Y_MARGIN + 140);
-            mainContext.lineTo(X_MARGIN + 360, Y_MARGIN + 180);
-            mainContext.strokeStyle = "#FFFFFF";
-            mainContext.stroke();
-            break;
-        case 2:
-            // Left arm
-            mainContext.moveTo(X_MARGIN + 360, Y_MARGIN + 150);
-            mainContext.lineTo(X_MARGIN + 340, Y_MARGIN + 170);
-            mainContext.strokeStyle = "#FFFFFF";
-            mainContext.stroke();
-            break;
-        case 3:
-            // Right arm
-            mainContext.moveTo(X_MARGIN + 360, Y_MARGIN + 150);
-            mainContext.lineTo(X_MARGIN + 380, Y_MARGIN + 170);
-            mainContext.strokeStyle = "#FFFFFF";
-            mainContext.stroke();
-            break;
-        case 4:
-            // Left leg
-            mainContext.moveTo(X_MARGIN + 360, Y_MARGIN + 180);
-            mainContext.lineTo(X_MARGIN + 340, Y_MARGIN + 200);
-            mainContext.strokeStyle = "#FFFFFF";
-            mainContext.stroke();
-            break;
-        case 5:
-            // Right leg
-            mainContext.moveTo(X_MARGIN + 360, Y_MARGIN + 180);
-            mainContext.lineTo(X_MARGIN + 380, Y_MARGIN + 200);
-            mainContext.strokeStyle = "#FFFFFF";
-            mainContext.stroke();
-            break;
-    
-        default:
-            // The game is lost, this should not be reachable
-            break;
-    }
-    currentMistakeIndex++;
+    mainContext.moveTo(X_MARGIN + 370, Y_MARGIN + 130);
+    mainContext.arc(X_MARGIN + 360, Y_MARGIN + 130, 10, 0, 2 * Math.PI);
+    mainContext.strokeStyle = "#FFFFFF";
+    mainContext.stroke();
 }
+
+function drawBody() {
+    mainContext.lineWidth = 2;
+    mainContext.moveTo(X_MARGIN + 360, Y_MARGIN + 140);
+    mainContext.lineTo(X_MARGIN + 360, Y_MARGIN + 180);
+    mainContext.strokeStyle = "#FFFFFF";
+    mainContext.stroke();
+}
+
+function drawLeftArm() {
+    mainContext.lineWidth = 2;
+    mainContext.moveTo(X_MARGIN + 360, Y_MARGIN + 150);
+    mainContext.lineTo(X_MARGIN + 340, Y_MARGIN + 170);
+    mainContext.strokeStyle = "#FFFFFF";
+    mainContext.stroke();
+}
+
+function drawRightArm() {
+    mainContext.lineWidth = 2;
+    mainContext.moveTo(X_MARGIN + 360, Y_MARGIN + 150);
+    mainContext.lineTo(X_MARGIN + 380, Y_MARGIN + 170);
+    mainContext.strokeStyle = "#FFFFFF";
+    mainContext.stroke();
+}
+
+function drawLeftLeg() {
+    mainContext.lineWidth = 2;
+    mainContext.moveTo(X_MARGIN + 360, Y_MARGIN + 180);
+    mainContext.lineTo(X_MARGIN + 340, Y_MARGIN + 200);
+    mainContext.strokeStyle = "#FFFFFF";
+    mainContext.stroke();
+}
+
+function drawRightLeg() {
+    mainContext.lineWidth = 2;
+    mainContext.moveTo(X_MARGIN + 360, Y_MARGIN + 180);
+    mainContext.lineTo(X_MARGIN + 380, Y_MARGIN + 200);
+    mainContext.strokeStyle = "#FFFFFF";
+    mainContext.stroke();
+}
+
+var drawMistake = [
+    drawHead,
+    drawBody,
+    drawLeftArm,
+    drawRightArm,
+    drawLeftLeg,
+    drawRightLeg
+]
 
 function MaskedWord(word, x, y) {
     var thisMaskedWord = this;
@@ -137,40 +153,50 @@ function MaskedWord(word, x, y) {
     return thisMaskedWord;
 }
 
-function Player(scoreX, scoreY) {
-    this.score = new Score(0, scoreX, scoreY, 0, 0);
-}
-
 function keyPressHandler(event) {
-    if ("abcdefghijklmnopqrstuvwxyz0123456789".indexOf(event.key) > -1) {
-        var updatedWord = "";
-        var found = false;
-        fetch('http://127.0.0.1:5000/character?c=' + event.key, { credentials: 'include'  })
-            .then(response => response.json())
-            .then(data => {
-                if (data.error === 0 ) {
-                    maskedWord = new MaskedWord(data.word, 500, 50);
-                    found = data.found;
-                    drawAll();
-                    if (!found) {
-                        drawMistake(currentMistakeIndex);
-                    }
-                }
-            });
+    if (isGameOver) {
+        if (event.key == 'n') {
+            isGameOver = false;
+            startGame();
+        }
     } else {
-        // Handle invalid input
+        if ("abcdefghijklmnopqrstuvwxyz0123456789".indexOf(event.key) > -1) {
+            var updatedWord = "";
+            var found = false;
+            fetch('http://127.0.0.1:5000/character?c=' + event.key, { credentials: 'include'  })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error === 0 ) {
+                        maskedWord = new MaskedWord(data.word, 500, 50);
+                        found = data.found;
+                        maskedWord.draw();
+                        score.value = data.score;
+                        score.draw();
+                        if (!found) {
+                            mainContext.beginPath();
+                            drawMistake[currentMistakeIndex]();
+                            mainContext.closePath();
+
+                            currentMistakeIndex++;
+                            if (currentMistakeIndex >= drawMistake.length) {
+                                gameOver()
+                            }
+                        }
+                    }
+                });
+        } else {
+            // Handle invalid input
+        }
     }
-    drawAll();
 }
 
-function clearScreen() {
-    mainContext.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-}
-
-function drawAll() {
-    [field, player.score, maskedWord].forEach(function(gameObject, index) {
-        gameObject.draw();
-    });
+function gameOver() {
+    mainContext.font = "50px Courier";
+    mainContext.lineWidth = "1";
+    mainContext.fillStyle = "#FFFFFF";
+    mainContext.fillText("GAME OVER", 300, 100);
+    isGameOver = true;
+    currentMistakeIndex = 0;
 }
 
 document.addEventListener("DOMContentLoaded", function (event) {

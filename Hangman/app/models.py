@@ -24,3 +24,6 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+class Word(db.Model):
+    word = db.Column(db.String(64), primary_key=True)
