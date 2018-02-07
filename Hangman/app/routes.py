@@ -49,8 +49,7 @@ def register():
 @app.route('/hangman')
 @login_required
 def hangman():
-    # TODO: Move this to an app variable instead of a session variable
-    session['global_words'] = [ w.word for w in Word.query.all()]
+    session.modified = True
     return render_template('hangman.html', title='Hangman')
 
 
@@ -66,6 +65,11 @@ def index():
 @app.route('/new_word')
 @login_required
 def new_word():
+    # TODO: Move this to an app variable instead of a session variable
+    print session.get('global_words')
+    if session.get('global_words') == None:
+        session['global_words'] = [w.word for w in Word.query.all()]
+
     current_word = choice(session['global_words'])
     response = { 'word_size': len(current_word), 'score': 60 }
     session['word'] = current_word

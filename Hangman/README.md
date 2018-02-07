@@ -36,9 +36,27 @@ If you're running on Windows, it should still be able to run with the `flask run
 The game requires a login for you to be able to play, and that is true also for the API calls in case you want to build a different client for it (maybe with better graphics?).
 
 - `<server>/hangman/new_word`: This call will choose a new word and return a JSON containing the length of the word and the initial score. It is used to start a new game. The word will be the same for the duration of the session.
+
 Sample JSON output:
+```{
+  "score": 60, 
+  "word_size": 5
+}```
 
+- `<server>/hangman/character?c=<character>`: This call will match the character against the current chosen word. It will return a JSON with the partial unmasked word, a boolean indicating whether it was a successful match or not, the updated score, and a boolean indicating whether it's a win or not. Only letters and numbers are allowed, and in case of in invalid character, an error is set.
 
-- `<server>/hangman/character?c=<character>`: This call will match the character against the current chosen word. It will return a JSON with the partial unmasked word, a boolean indicating whether it was a successful match or not, the updated score, and a boolean indicating whether it game over or not.
-Sample JSON output:
+Sample JSON output for valid input:
+```{
+  "error": 0, 
+  "error_message": "OK", 
+  "found": 1, 
+  "score": 60, 
+  "winner": 0, 
+  "word": "_r__r"
+}```
 
+Sample JSON output for invalid input:
+```{
+  "error": 1, 
+  "error_message": "Invalid character"
+}```
