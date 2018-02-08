@@ -58,7 +58,6 @@ def hangman():
 @login_required
 def index():
     highscores = [ {u.username: u.highscore} for u in  User.query.all() ]
-    print highscores
     return render_template('index.html', title='Home', highscores=highscores)
 
 
@@ -66,7 +65,6 @@ def index():
 @login_required
 def new_word():
     # TODO: Move this to an app variable instead of a session variable
-    print session.get('global_words')
     if session.get('global_words') == None:
         session['global_words'] = [w.word for w in Word.query.all()]
 

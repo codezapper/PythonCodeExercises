@@ -40,8 +40,8 @@ function Score(value, x, y) {
 
     thisScore.draw = function() {
         mainContext.beginPath();
-        mainContext.rect(0, 0, 200, 50);
-        mainContext.fillStyle = "#8599d5";
+        mainContext.rect(5, 5, 200, 50);
+        mainContext.fillStyle = "#456";
         mainContext.fill();
         mainContext.closePath();
         mainContext.font = "50px Courier";
@@ -59,7 +59,7 @@ function Field() {
     theField.draw = function() {
         mainContext.beginPath();
         mainContext.rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        mainContext.fillStyle = "#8599d5";
+        mainContext.fillStyle = "#456";
         mainContext.strokeStyle = "#000000";
         mainContext.moveTo(0, 60);
         mainContext.lineTo(SCREEN_WIDTH, 60);
