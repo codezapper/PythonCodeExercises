@@ -23,7 +23,7 @@ body {
     padding: 0;
 }
 
-.hangman-container {
+.game-link-container {
   width: 245px;
   background: #28d;
   border-color: transparent;
@@ -36,14 +36,14 @@ body {
   padding: 1px;
 }
 
-.hangman-container a {
+.game-link-container a {
     text-decoration: none;
 }
 
-.hangman:hover {
+.game-link:hover {
   background: #17c;
 }
 
-.hangman:focus {
+.game-link:focus {
   border-color: #05a;
 }

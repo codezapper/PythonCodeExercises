@@ -12,7 +12,15 @@
     {% endfor %}
 </div>
 
-<div class="hangman-container">
-    <p class="hangman"><a href="{{ url_for('hangman') }}">Play Hangman</a></p>
+<div class="game-link-container">
+    <p class="game-link">
+        <a href="{{ url_for('hangman') }}">Play Hangman</a>
+    </p>
+</div>
+
+<div class="game-link-container">
+    <p class="game-link">
+        <a href="{{ url_for('pong') }}">Play Pong</a>
+    </p>
 </div>
 {% endblock %}

@@ -53,6 +53,13 @@ def hangman():
     return render_template('hangman.html', title='Hangman')
 
 
+@app.route('/pong')
+@login_required
+def pong():
+    session.modified = True
+    return render_template('pong.html', title='Pong')
+
+
 @app.route('/')
 @app.route('/index')
 @login_required
