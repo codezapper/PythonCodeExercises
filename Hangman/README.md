@@ -66,3 +66,10 @@ Sample JSON output for invalid input:
   "error_message": "Invalid character"
 }
 ```
+
+***Screenshots***
+
+![login](https://github.com/codezapper/Python/raw/master/Hangman/login.png)
+![register](https://github.com/codezapper/Python/raw/master/Hangman/register.png)
+![hangman](https://github.com/codezapper/Python/raw/master/Hangman/hangman.png)
+![pong](https://github.com/codezapper/Python/raw/master/Hangman/hangman.png)
