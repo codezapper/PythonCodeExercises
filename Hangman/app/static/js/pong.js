@@ -47,7 +47,7 @@ function Field() {
         mainContext.beginPath();
         mainContext.rect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         mainContext.fillStyle = "#456";
-        mainContext.strokeStyle = "#000000";
+        mainContext.strokeStyle = "#FFFFFF";
         mainContext.fill();
         mainContext.stroke();
         mainContext.closePath();
