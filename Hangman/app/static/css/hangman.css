@@ -5,9 +5,18 @@ body {
 }
 
 .explanation-container {
-
+  width: 420px;
+  background: #ebebeb;
+  padding: 12px;
+  border-radius: 5px;
+  align-content: center;
+  margin: auto;
+  color: #000;
 }
 
 .explanation {
-
+  position: relative;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }

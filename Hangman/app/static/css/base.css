@@ -7,3 +7,10 @@ body {
     text-decoration: none;
     color: #fff;
 }
+
+.header-line a {
+  background: #ebebeb;
+  color: #000;
+  padding: 4px;
+  border-radius: 5px;
+}
