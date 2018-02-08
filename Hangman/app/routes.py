@@ -64,7 +64,7 @@ def pong():
 @app.route('/index')
 @login_required
 def index():
-    highscores = [ {u.username: u.highscore} for u in  User.query.all() ]
+    highscores = [ {u.username: u.highscore} for u in  User.query.order_by(User.highscore.desc()).all() ]
     return render_template('index.html', title='Home', highscores=highscores)
 
 
