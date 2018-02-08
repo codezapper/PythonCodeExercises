@@ -68,7 +68,7 @@ def index():
     return render_template('index.html', title='Home', highscores=highscores)
 
 
-@app.route('/new_word')
+@app.route('/hangman/new_word')
 @login_required
 def new_word():
     # TODO: Move this to an app variable instead of a session variable
@@ -85,7 +85,7 @@ def new_word():
     return jsonify(response)
 
 
-@app.route('/character', methods=['GET', 'POST'])
+@app.route('/hangman/character', methods=['GET', 'POST'])
 @login_required
 def character():
     if session.get('word', '') == '':

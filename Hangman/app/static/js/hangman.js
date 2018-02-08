@@ -4,7 +4,7 @@ var gameIsRunning = true;
 var animationId;
 var currentMistakeIndex = 0;
 var isGameOver = false;
-
+var gameHost = "http://localhost:5000";
 var SCREEN_WIDTH = 800;
 var SCREEN_HEIGHT = 480;
 var X_MARGIN = 150;
@@ -16,7 +16,7 @@ var maskedWord;
 
 function startGame() {
     mainContext.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    fetch('http://localhost:5000/new_word', { credentials: 'include'  })
+    fetch(gameHost + "/hangman/new_word", { credentials: "include"  })
         .then(response => response.json())
         .then(data => {
             maskedWord = new MaskedWord(Array(data.word_size + 1).join("_"), 500, 50);
@@ -155,7 +155,7 @@ function MaskedWord(word, x, y) {
 
 function keyPressHandler(event) {
     if (isGameOver) {
-        if (event.key == 'n') {
+        if (event.key == "n") {
             isGameOver = false;
             startGame();
         }
@@ -163,7 +163,7 @@ function keyPressHandler(event) {
         if ("abcdefghijklmnopqrstuvwxyz0123456789".indexOf(event.key) > -1) {
             var updatedWord = "";
             var found = false;
-            fetch('http://localhost:5000/character?c=' + event.key, { credentials: 'include'  })
+            fetch(gameHost + "/hangman/character?c=" + event.key, { credentials: "include"  })
                 .then(response => response.json())
                 .then(data => {
                     if (data.error === 0 ) {
