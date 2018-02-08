@@ -16,7 +16,7 @@ var maskedWord;
 
 function startGame() {
     mainContext.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    fetch('http://127.0.0.1:5000/new_word', { credentials: 'include'  })
+    fetch('http://localhost:5000/new_word', { credentials: 'include'  })
         .then(response => response.json())
         .then(data => {
             maskedWord = new MaskedWord(Array(data.word_size + 1).join("_"), 500, 50);
@@ -163,7 +163,7 @@ function keyPressHandler(event) {
         if ("abcdefghijklmnopqrstuvwxyz0123456789".indexOf(event.key) > -1) {
             var updatedWord = "";
             var found = false;
-            fetch('http://127.0.0.1:5000/character?c=' + event.key, { credentials: 'include'  })
+            fetch('http://localhost:5000/character?c=' + event.key, { credentials: 'include'  })
                 .then(response => response.json())
                 .then(data => {
                     if (data.error === 0 ) {

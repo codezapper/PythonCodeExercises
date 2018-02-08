@@ -1,9 +1,18 @@
 {% extends "base.html" %} {% block content %}
-<h1>Hi, {{ current_user.username }}!</h1>
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/index.css') }}">
+<div class="highscores-container">
+<div class="greeting">Current Hangman highscores:</div>
 {% for highscore in highscores %}
-<div>
+    <ul class="highscores">
     {% for username, score in highscore.iteritems() %}
-        <p>{{ username }}: <b>{{ score }}</b></p>
+        <li class="username">{{ username }} : {{ score }}</li>
+    {% endfor %}
+    </ul>
     {% endfor %}
 </div>
-{% endfor %} {% endblock %}
+
+<div class="hangman-container">
+    <p class="hangman"><a href="{{ url_for('hangman') }}">Play Hangman</a></p>
+</div>
+{% endblock %}
