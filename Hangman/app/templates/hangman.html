@@ -1,6 +1,15 @@
 {% extends "base.html" %} {% block content %}
 
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/hangman.css') }}">
+
+<div class="explanation-container">
+    <ul>
+    <li><span class="explanation">Use your keyboard to guess the word.</span></li>
+    <li><span class="explanation">Every mistake will cost you 10 points.</span></li>
+    <li><span class="explanation">After six mistakes it's game over.</span></li>
+    <li><span class="explanation">On game over you can type 'n' to start a new game.</span></li>
+    </ul>
+</div>
 <canvas id="gameCanvas" width="800" height="480"></canvas>
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/hangman.js') }}">

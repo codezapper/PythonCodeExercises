@@ -167,19 +167,23 @@ function keyPressHandler(event) {
                 .then(response => response.json())
                 .then(data => {
                     if (data.error === 0 ) {
-                        maskedWord = new MaskedWord(data.word, 500, 50);
-                        found = data.found;
-                        maskedWord.draw();
-                        score.value = data.score;
-                        score.draw();
-                        if (!found) {
-                            mainContext.beginPath();
-                            drawMistake[currentMistakeIndex]();
-                            mainContext.closePath();
+                        if (data.winnner) {
+                            gameOver(true);
+                        } else {
+                            maskedWord = new MaskedWord(data.word, 500, 50);
+                            found = data.found;
+                            maskedWord.draw();
+                            score.value = data.score;
+                            score.draw();
+                            if (!found) {
+                                mainContext.beginPath();
+                                drawMistake[currentMistakeIndex]();
+                                mainContext.closePath();
 
-                            currentMistakeIndex++;
-                            if (currentMistakeIndex >= drawMistake.length) {
-                                gameOver()
+                                currentMistakeIndex++;
+                                if (currentMistakeIndex >= drawMistake.length) {
+                                    gameOver(false);
+                                }
                             }
                         }
                     }
@@ -190,11 +194,19 @@ function keyPressHandler(event) {
     }
 }
 
-function gameOver() {
+function win() {
+}
+
+function gameOver(isWinner) {
     mainContext.font = "50px Courier";
     mainContext.lineWidth = "1";
     mainContext.fillStyle = "#FFFFFF";
-    mainContext.fillText("GAME OVER", 300, 100);
+    if (isWinner) {
+        mainContext.fillText("YOU WIN!", 300, 100);
+    } else {
+        mainContext.fillText("YOU LOSE!", 300, 100);
+    }
+    mainContext.fillText("GAME OVER", 300, 300);
     isGameOver = true;
     currentMistakeIndex = 0;
 }
