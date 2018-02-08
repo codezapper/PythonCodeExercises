@@ -167,12 +167,12 @@ function keyPressHandler(event) {
                 .then(response => response.json())
                 .then(data => {
                     if (data.error === 0 ) {
-                        if (data.winnner) {
+                        maskedWord = new MaskedWord(data.word, 500, 50);
+                        maskedWord.draw();
+                        if (data.winner) {
                             gameOver(true);
                         } else {
-                            maskedWord = new MaskedWord(data.word, 500, 50);
                             found = data.found;
-                            maskedWord.draw();
                             score.value = data.score;
                             score.draw();
                             if (!found) {
