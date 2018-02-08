@@ -72,4 +72,4 @@ Sample JSON output for invalid input:
 ![login](https://github.com/codezapper/Python/raw/master/Hangman/login.png)
 ![register](https://github.com/codezapper/Python/raw/master/Hangman/register.png)
 ![hangman](https://github.com/codezapper/Python/raw/master/Hangman/hangman.png)
-![pong](https://github.com/codezapper/Python/raw/master/Hangman/hangman.png)
+![pong](https://github.com/codezapper/Python/raw/master/Hangman/pong.png)
