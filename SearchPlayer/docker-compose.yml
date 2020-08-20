@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  web:
+    build: .
+    command: gunicorn SearchPlayer.wsgi:application --bind 0.0.0.0:8000
+    expose:
+      - 8000
+    volumes:
+      - ./lister/static:/opt/app/searchplayer/lister/static
+
+  nginx:
+      image: nginx:latest
+      container_name: nginx_01
+      ports:
+         - "8000:8000"
+      volumes:
+         - ./:/app  # for syncing with django source code
+         - ./nginx:/etc/nginx/conf.d
+      depends_on:
+        - web
